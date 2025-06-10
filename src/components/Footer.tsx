@@ -1,6 +1,6 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { Brain, Instagram, Linkedin, Twitter, Mail, Phone } from 'lucide-react';
+import React from "react";
+import { motion } from "framer-motion";
+import { Brain, Instagram, Linkedin, Twitter, Mail, Phone } from "lucide-react";
 
 const Footer = () => {
   return (
@@ -21,26 +21,32 @@ const Footer = () => {
               </span>
             </div>
             <p className="text-gray-300 leading-relaxed">
-              Transforming the future with cutting-edge artificial intelligence technology. 
-              Unlock infinite possibilities with Cavora.
+              Transforming the future with cutting-edge artificial intelligence
+              technology. Unlock infinite possibilities with Cavora.
             </p>
             <div className="flex space-x-4">
               <motion.a
-                href="#"
+                href="https://www.instagram.com/ayushokaay"
+                target="_blank"
+                rel="noopener noreferrer"
                 whileHover={{ scale: 1.1, y: -2 }}
                 className="p-2 bg-gray-800 hover:bg-indigo-600 rounded-lg transition-colors"
               >
                 <Instagram className="h-5 w-5" />
               </motion.a>
               <motion.a
-                href="#"
+                href="https://www.linkedin.com/in/ayush-parwal-797a79255/"
+                target="_blank"
+                rel="noopener noreferrer"
                 whileHover={{ scale: 1.1, y: -2 }}
                 className="p-2 bg-gray-800 hover:bg-indigo-600 rounded-lg transition-colors"
               >
                 <Linkedin className="h-5 w-5" />
               </motion.a>
               <motion.a
-                href="#"
+                href="https://twitter.com/ayushparwal2004"
+                target="_blank"
+                rel="noopener noreferrer"
                 whileHover={{ scale: 1.1, y: -2 }}
                 className="p-2 bg-gray-800 hover:bg-indigo-600 rounded-lg transition-colors"
               >
@@ -55,13 +61,35 @@ const Footer = () => {
             transition={{ duration: 0.6, delay: 0.1 }}
             viewport={{ once: true }}
           >
-            <h3 className="text-lg font-semibold mb-4 text-cyan-400">Product</h3>
+            <h3 className="text-lg font-semibold mb-4 text-cyan-400">
+              Product
+            </h3>
             <ul className="space-y-3">
-              <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Features</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Pricing</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-white transition-colors">API Documentation</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Integrations</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Enterprise</a></li>
+              <li>
+                <a
+                  href="#"
+                  className="text-gray-300 hover:text-white transition-colors"
+                >
+                  Features
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  className="text-gray-300 hover:text-white transition-colors"
+                >
+                  Pricing
+                </a>
+              </li>
+
+              <li>
+                <a
+                  href="#"
+                  className="text-gray-300 hover:text-white transition-colors"
+                >
+                  Integrations
+                </a>
+              </li>
             </ul>
           </motion.div>
 
@@ -71,13 +99,36 @@ const Footer = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
             viewport={{ once: true }}
           >
-            <h3 className="text-lg font-semibold mb-4 text-cyan-400">Support</h3>
+            <h3 className="text-lg font-semibold mb-4 text-cyan-400">
+              Support
+            </h3>
             <ul className="space-y-3">
-              <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Help Center</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Community</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Tutorials</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Status</a></li>
-              <li><a href="#contact" className="text-gray-300 hover:text-white transition-colors">Contact Us</a></li>
+              <li>
+                <a
+                  href="#"
+                  className="text-gray-300 hover:text-white transition-colors"
+                >
+                  Help Center
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://github.com/Ayushparwal/Cavora"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-300 hover:text-white transition-colors"
+                >
+                  Community
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#contact"
+                  className="text-gray-300 hover:text-white transition-colors"
+                >
+                  Contact Us
+                </a>
+              </li>
             </ul>
           </motion.div>
 
@@ -87,7 +138,9 @@ const Footer = () => {
             transition={{ duration: 0.6, delay: 0.3 }}
             viewport={{ once: true }}
           >
-            <h3 className="text-lg font-semibold mb-4 text-cyan-400">Connect</h3>
+            <h3 className="text-lg font-semibold mb-4 text-cyan-400">
+              Connect
+            </h3>
             <div className="space-y-3">
               <div className="flex items-center space-x-2">
                 <Mail className="h-4 w-4 text-gray-400" />
@@ -126,9 +179,24 @@ const Footer = () => {
               © 2025 Cavora. All rights reserved.
             </div>
             <div className="flex space-x-6 text-sm">
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">Privacy Policy</a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">Terms of Service</a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">Cookie Policy</a>
+              <a
+                href="#"
+                className="text-gray-400 hover:text-white transition-colors"
+              >
+                Privacy Policy
+              </a>
+              <a
+                href="#"
+                className="text-gray-400 hover:text-white transition-colors"
+              >
+                Terms of Service
+              </a>
+              <a
+                href="#"
+                className="text-gray-400 hover:text-white transition-colors"
+              >
+                Cookie Policy
+              </a>
             </div>
           </div>
         </motion.div>

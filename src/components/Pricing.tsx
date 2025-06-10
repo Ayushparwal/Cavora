@@ -143,16 +143,7 @@ const Pricing = () => {
           viewport={{ once: true }}
           className="text-center mt-16"
         >
-          <p className="text-gray-600 dark:text-gray-300 mb-4">
-            Need a custom solution? We'd love to help.
-          </p>
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="px-8 py-3 bg-white dark:bg-gray-800 border-2 border-indigo-600 dark:border-cyan-400 text-indigo-600 dark:text-cyan-400 rounded-xl hover:bg-indigo-50 dark:hover:bg-gray-700 transition-all font-semibold"
-          >
-            Contact Sales
-          </motion.button>
+          
         </motion.div>
       </div>
     </section>
