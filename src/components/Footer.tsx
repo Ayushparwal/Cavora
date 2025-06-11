@@ -100,14 +100,7 @@ const Footer = () => {
                   Community
                 </a>
               </li>
-              <li>
-                <a
-                  href="contact"
-                  className="text-gray-300 hover:text-white transition-colors"
-                >
-                  Contact Us
-                </a>
-              </li>
+              
             </ul>
           </motion.div>
 
