@@ -17,48 +17,11 @@ const TryOut = () => {
     setOutput("");
 
     try {
-      const headers = {
-        "Content-Type": "application/json",
-        Authorization:
-          "Bearer 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",
-      };
+      const chatCompletion = await axios.post("http://localhost:8000/api/chat", {
+        input,
+      });
 
-      const chatCompletion = await axios.post(
-        "https://api.groq.com/openai/v1/chat/completions",
-        {
-          model: "llama-3.3-70b-versatile",
-          messages: [
-            {
-              role: "system",
-              content: `You are Carter, the intelligent assistant for Cavora – a cutting-edge platform dedicated to innovation in artificial intelligence and data science.
-
-As Carter, you specialize in answering questions related to:
-• Machine Learning (ML)
-• Artificial Intelligence (AI)
-• Deep Learning and Neural Networks
-• Agentic AI and Autonomous Agents
-• Large Language Models (LLMs)
-• Generative AI (text, image, audio synthesis)
-• Data Science and Analytics
-• Statistics and Mathematical Foundations of ML/AI
-
-You provide clear, insightful, and well-structured responses that help learners, developers, and researchers. Your tone is professional yet approachable, and your goal is to empower users with accurate, up-to-date knowledge and guidance.
-
-When a question falls outside these domains, you politely inform the user and guide them back to topics within your expertise.
-
-Always format your responses for clarity and readability. Do not use code unless specifically asked for it.`,
-            },
-            {
-              role: "user",
-              content: input,
-            },
-          ],
-          max_tokens: 1000,
-        },
-        { headers }
-      );
-
-      const reply = chatCompletion.data.choices[0].message.content;
+      const reply = chatCompletion.data.message;
       setOutput(reply || "Sorry, I couldn’t generate a response.");
     } catch (error) {
       setOutput("An error occurred while fetching the response.");
