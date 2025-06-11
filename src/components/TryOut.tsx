@@ -1,11 +1,10 @@
-import React, { useState } from "react";
-import { motion } from "framer-motion";
-import { Send, Sparkles, Copy, Check } from "lucide-react";
-import axios from "axios";
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
+import { Send, Sparkles, Copy, Check } from 'lucide-react';
 
 const TryOut = () => {
-  const [input, setInput] = useState("");
-  const [output, setOutput] = useState("");
+  const [input, setInput] = useState('');
+  const [output, setOutput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [copied, setCopied] = useState(false);
 
@@ -14,20 +13,12 @@ const TryOut = () => {
     if (!input.trim()) return;
 
     setIsLoading(true);
-    setOutput("");
-
-    try {
-      const chatCompletion = await axios.post("http://localhost:8000/api/chat", {
-        input,
-      });
-
-      const reply = chatCompletion.data.message;
-      setOutput(reply || "Sorry, I couldn’t generate a response.");
-    } catch (error) {
-      setOutput("An error occurred while fetching the response.");
-    }
-
-    setIsLoading(false);
+    
+    // Simulate AI response
+    setTimeout(() => {
+      setOutput(`Here's an AI-generated response to: "${input}"\n\nThis is a demonstration of Cosmos AI's capabilities. Our advanced neural networks can understand context, generate creative content, solve complex problems, and provide intelligent insights across multiple domains.\n\nKey features demonstrated:\n• Natural language understanding\n• Contextual awareness\n• Creative content generation\n• Problem-solving capabilities`);
+      setIsLoading(false);
+    }, 2000);
   };
 
   const copyToClipboard = () => {
@@ -48,7 +39,7 @@ const TryOut = () => {
         >
           <h2 className="text-3xl md:text-5xl font-bold mb-6">
             <span className="bg-gradient-to-r from-indigo-600 to-cyan-500 bg-clip-text text-transparent">
-              Try Cavora
+              Try Cosmos AI
             </span>
           </h2>
           <p className="text-xl text-gray-600 dark:text-gray-300">
@@ -69,7 +60,7 @@ const TryOut = () => {
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder="Ask Cavora anything..."
+                placeholder="Ask Cosmos AI anything..."
                 className="flex-1 px-6 py-4 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all"
               />
               <motion.button
@@ -100,7 +91,8 @@ const TryOut = () => {
               animate={{ opacity: 1, y: 0 }}
               className="bg-white dark:bg-gray-700 rounded-xl p-6 border border-gray-200 dark:border-gray-600"
             >
-              <div className="flex items-center justify-end mb-4">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">AI Response</h3>
                 <button
                   onClick={copyToClipboard}
                   className="p-2 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-lg transition-colors"
