@@ -16,6 +16,9 @@ import Signup from './components/Signup';
 import TermsOfService from './components/TermsOfService';
 import PrivacyPolicy from './components/PrivacyPolicy';
 import Integrations from './components/Integrations';
+import Cookies from './components/Cookie';
+
+
 
 const HomePage = () => (
   <>
@@ -41,6 +44,7 @@ function App() {
               <Route path="/terms" element={<TermsOfService />} />
               <Route path="/privacy" element={<PrivacyPolicy />} />
               <Route path="/integrations" element={<Integrations />} />
+              <Route path="/cookies" element={<Cookies />} />
               <Route path="/" element={<HomePage />} />
             </Routes>
           </div>

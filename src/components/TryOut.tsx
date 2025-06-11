@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Send, Sparkles, Copy, Check } from 'lucide-react';
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { Send, Sparkles, Copy, Check } from "lucide-react";
+import axios from "axios";
 
 const TryOut = () => {
-  const [input, setInput] = useState('');
-  const [output, setOutput] = useState('');
+  const [input, setInput] = useState("");
+  const [output, setOutput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [copied, setCopied] = useState(false);
 
@@ -13,12 +14,57 @@ const TryOut = () => {
     if (!input.trim()) return;
 
     setIsLoading(true);
-    
-    // Simulate AI response
-    setTimeout(() => {
-      setOutput(`Here's an AI-generated response to: "${input}"\n\nThis is a demonstration of Cavora AI's capabilities. Our advanced neural networks can understand context, generate creative content, solve complex problems, and provide intelligent insights across multiple domains.\n\nKey features demonstrated:\n• Natural language understanding\n• Contextual awareness\n• Creative content generation\n• Problem-solving capabilities`);
-      setIsLoading(false);
-    }, 2000);
+    setOutput("");
+
+    try {
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization:
+          "Bearer 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",
+      };
+
+      const chatCompletion = await axios.post(
+        "https://api.groq.com/openai/v1/chat/completions",
+        {
+          model: "llama-3.3-70b-versatile",
+          messages: [
+            {
+              role: "system",
+              content: `You are Carter, the intelligent assistant for Cavora – a cutting-edge platform dedicated to innovation in artificial intelligence and data science.
+
+As Carter, you specialize in answering questions related to:
+• Machine Learning (ML)
+• Artificial Intelligence (AI)
+• Deep Learning and Neural Networks
+• Agentic AI and Autonomous Agents
+• Large Language Models (LLMs)
+• Generative AI (text, image, audio synthesis)
+• Data Science and Analytics
+• Statistics and Mathematical Foundations of ML/AI
+
+You provide clear, insightful, and well-structured responses that help learners, developers, and researchers. Your tone is professional yet approachable, and your goal is to empower users with accurate, up-to-date knowledge and guidance.
+
+When a question falls outside these domains, you politely inform the user and guide them back to topics within your expertise.
+
+Always format your responses for clarity and readability. Do not use code unless specifically asked for it.`,
+            },
+            {
+              role: "user",
+              content: input,
+            },
+          ],
+          max_tokens: 1000,
+        },
+        { headers }
+      );
+
+      const reply = chatCompletion.data.choices[0].message.content;
+      setOutput(reply || "Sorry, I couldn’t generate a response.");
+    } catch (error) {
+      setOutput("An error occurred while fetching the response.");
+    }
+
+    setIsLoading(false);
   };
 
   const copyToClipboard = () => {
@@ -91,8 +137,7 @@ const TryOut = () => {
               animate={{ opacity: 1, y: 0 }}
               className="bg-white dark:bg-gray-700 rounded-xl p-6 border border-gray-200 dark:border-gray-600"
             >
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">AI Response</h3>
+              <div className="flex items-center justify-end mb-4">
                 <button
                   onClick={copyToClipboard}
                   className="p-2 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-lg transition-colors"
