@@ -1,5 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
+import { Link } from 'react-router-dom';
 import { Brain, Instagram, Linkedin, Twitter, Mail, Phone } from "lucide-react";
 
 const Footer = () => {
@@ -65,30 +66,15 @@ const Footer = () => {
               Product
             </h3>
             <ul className="space-y-3">
-              <li>
-                <a
-                  href="#"
-                  className="text-gray-300 hover:text-white transition-colors"
-                >
-                  Features
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-gray-300 hover:text-white transition-colors"
-                >
-                  Pricing
-                </a>
-              </li>
+              
 
               <li>
-                <a
-                  href="#"
+                <Link
+                  to="/integrations"
                   className="text-gray-300 hover:text-white transition-colors"
                 >
                   Integrations
-                </a>
+                </Link>
               </li>
             </ul>
           </motion.div>
@@ -103,14 +89,7 @@ const Footer = () => {
               Support
             </h3>
             <ul className="space-y-3">
-              <li>
-                <a
-                  href="#"
-                  className="text-gray-300 hover:text-white transition-colors"
-                >
-                  Help Center
-                </a>
-              </li>
+              
               <li>
                 <a
                   href="https://github.com/Ayushparwal/Cavora"
@@ -123,7 +102,7 @@ const Footer = () => {
               </li>
               <li>
                 <a
-                  href="#contact"
+                  href="contact"
                   className="text-gray-300 hover:text-white transition-colors"
                 >
                   Contact Us
