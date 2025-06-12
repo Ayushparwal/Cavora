@@ -21,6 +21,13 @@ import MlToolkit from './pages/aiml/MlToolkit';
 import NlpToolkit from './pages/nlp/NlpToolkit';
 import LlmToolkit from './pages/llms/LlmToolkit';
 
+
+import ArrayToolkit from "./pages/dsa/ArrayToolkit"; 
+  import SlidingWindow from "./pages/dsa/array/SlidingWindow";
+  import TwoPointers from './pages/dsa/array/TwoPointers';
+import StringToolkit from "./pages/dsa/StringToolkit";
+
+
 const HomePage = () => (
   <>
     <Hero />
@@ -47,6 +54,10 @@ function App() {
               
               {/* ✅ ALL Toolkit Route */}
               <Route path="/dsa" element={<DsaToolkit />} />
+                  <Route path="/dsa/array" element={<ArrayToolkit />} />
+                       <Route path="/dsa/array/slidingwindow" element={<SlidingWindow />} />
+                       <Route path="/dsa/array/twopointers" element={<TwoPointers />} />
+               <Route path="/dsa/string" element={<StringToolkit />} />
               <Route path="/aiml" element={<MlToolkit />} />
               <Route path="/nlp" element={<NlpToolkit />} />
               <Route path="/llm" element={<LlmToolkit />} />
@@ -60,3 +71,7 @@ function App() {
 }
 
 export default App;
+
+
+
+
