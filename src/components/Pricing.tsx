@@ -84,8 +84,8 @@ const Pricing = () => {
               viewport={{ once: true }}
               whileHover={{ y: -5 }}
               className={`relative bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all border-2 ${
-                plan.popular 
-                  ? 'border-indigo-500 dark:border-cyan-400' 
+                plan.popular
+                  ? 'border-indigo-500 dark:border-cyan-400'
                   : 'border-gray-200 dark:border-gray-700'
               }`}
             >
@@ -107,7 +107,7 @@ const Pricing = () => {
                 </p>
                 <div className="flex items-baseline justify-center">
                   <span className="text-5xl font-bold text-gray-900 dark:text-white">
-                    ${plan.price}
+                    ₹{plan.price}
                   </span>
                   <span className="text-gray-600 dark:text-gray-300 ml-2">
                     /{plan.period}
