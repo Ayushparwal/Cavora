@@ -124,7 +124,7 @@ const Hero = () => {
             transition={{ duration: 0.8, delay: 0.5 }}
             className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6"
           >
-            <Link to="/signup">
+            
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -133,7 +133,7 @@ const Hero = () => {
                 <span className="text-lg font-semibold">Get Started Free</span>
                 <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </motion.button>
-            </Link>
+          
           </motion.div>
 
           {/* Metrics Section */}
