@@ -8,17 +8,18 @@ import Hero from './components/Hero';
 import Features from './components/Features';
 import TryOut from './components/TryOut';
 import Pricing from './components/Pricing';
-import Contact from './components/Contact';
 import Footer from './components/Footer';
 
-import Login from './components/Login';
-import Signup from './components/Signup';
 import TermsOfService from './components/TermsOfService';
 import PrivacyPolicy from './components/PrivacyPolicy';
 import Integrations from './components/Integrations';
 import Cookies from './components/Cookie';
 
-
+// ✅ Import the DSA Toolkit page
+import DsaToolkit from './pages/dsa/DsaToolkit';
+import MlToolkit from './pages/aiml/MlToolkit';
+import NlpToolkit from './pages/nlp/NlpToolkit';
+import LlmToolkit from './pages/llms/LlmToolkit';
 
 const HomePage = () => (
   <>
@@ -26,7 +27,6 @@ const HomePage = () => (
     <Features />
     <TryOut />
     <Pricing />
-    <Contact />
     <Footer />
   </>
 );
@@ -39,13 +39,18 @@ function App() {
           <Navbar />
           <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors">
             <Routes>
-              <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<Signup />} />
+              <Route path="/" element={<HomePage />} />
               <Route path="/terms" element={<TermsOfService />} />
               <Route path="/privacy" element={<PrivacyPolicy />} />
               <Route path="/integrations" element={<Integrations />} />
               <Route path="/cookies" element={<Cookies />} />
-              <Route path="/" element={<HomePage />} />
+              
+              {/* ✅ ALL Toolkit Route */}
+              <Route path="/dsa" element={<DsaToolkit />} />
+              <Route path="/aiml" element={<MlToolkit />} />
+              <Route path="/nlp" element={<NlpToolkit />} />
+              <Route path="/llm" element={<LlmToolkit />} />
+
             </Routes>
           </div>
         </Router>

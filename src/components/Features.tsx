@@ -1,37 +1,43 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Brain, Zap, Shield, Cpu, Globe, Rocket } from 'lucide-react';
+import { BookOpen, FileText, Video, Lightbulb, FileDown, NotebookPen } from 'lucide-react';
 
 const features = [
   {
-    icon: Brain,
-    title: 'Advanced Neural Networks',
-    description: 'State-of-the-art deep learning models that understand context and deliver human-like responses.',
+    icon: BookOpen,
+    title: 'Interactive Learning Notes',
+    description: 'Dive deep into curated content with step-by-step explanations covering theory, intuition, and practicals for every AI/ML topic.'
+    
   },
   {
-    icon: Zap,
-    title: 'Lightning Fast Processing',
-    description: 'Process millions of data points in seconds with our optimized AI infrastructure.',
+    icon: FileText,
+    title: 'Research Papers Simplified',
+    description: 'We break down key academic papers into digestible insights, summaries, and visual flowcharts for quick understanding.'
+    
   },
   {
-    icon: Shield,
-    title: 'Enterprise Security',
-    description: 'Bank-level encryption and security protocols to protect your sensitive data.',
+    icon: Video,
+    title: 'Video Tutorials',
+    description: 'Watch short, focused video lessons that walk you through AI concepts, coding sessions, and deployment strategies.'
+    
   },
   {
-    icon: Cpu,
-    title: 'Scalable Computing',
-    description: 'Auto-scaling infrastructure that grows with your needs, from startup to enterprise.',
+    icon: Lightbulb,
+    title: 'Project Ideas & Starters',
+    description: 'Get inspired with real-world project blueprints across domains like NLP, Computer Vision, and Reinforcement Learning.'
+    
   },
   {
-    icon: Globe,
-    title: 'Global Deployment',
-    description: 'Deploy your AI models worldwide with our distributed cloud infrastructure.',
+    icon: FileDown,
+    title: 'Documentation & Guides',
+    description: 'Access in-depth documentation for APIs, datasets, and pre-trained models with practical usage examples.'
+    
   },
   {
-    icon: Rocket,
-    title: 'Easy Integration',
-    description: 'Simple APIs and SDKs that integrate seamlessly with your existing systems.',
+    icon: NotebookPen,
+    title: 'Assignments & Practice Sets',
+    description: 'Sharpen your skills with auto-evaluated quizzes, case studies, and hands-on coding labs designed for learners.'
+    
   },
 ];
 
@@ -48,11 +54,11 @@ const Features = () => {
         >
           <h2 className="text-3xl md:text-5xl font-bold mb-6">
             <span className="bg-gradient-to-r from-indigo-600 to-cyan-500 bg-clip-text text-transparent">
-              Powerful Features
+              Learn Seamlessly
             </span>
           </h2>
           <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-            Everything you need to build, deploy, and scale AI applications with confidence.
+            Explore high-quality resources designed to accelerate your AI journey — from theory to production.
           </p>
         </motion.div>
 
@@ -76,9 +82,10 @@ const Features = () => {
                 <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4 group-hover:text-indigo-600 dark:group-hover:text-cyan-400 transition-colors">
                   {feature.title}
                 </h3>
-                <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-4">
                   {feature.description}
                 </p>
+                
               </div>
             </motion.div>
           ))}

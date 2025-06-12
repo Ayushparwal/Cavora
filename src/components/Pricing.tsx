@@ -7,10 +7,11 @@ const plans = [
     name: 'Starter',
     price: 0,
     period: 'month',
-    description: 'Perfect for individuals and small projects',
+    description: 'Perfect for learners starting their AI journey',
     features: [
       '1,000 API calls/month',
       'Basic AI models',
+      'Access to 3 AI notes/PDFs',
       'Email support',
       'Community access',
       '1 project',
@@ -19,12 +20,13 @@ const plans = [
   },
   {
     name: 'Professional',
-    price: 49,
+    price: 199,
     period: 'month',
-    description: 'Ideal for growing businesses and teams',
+    description: 'Great for students, startups, and active learners',
     features: [
       '50,000 API calls/month',
       'Advanced AI models',
+      'Download 250+ AI notes/PDFs',
       'Priority support',
       'Custom integrations',
       '10 projects',
@@ -34,12 +36,13 @@ const plans = [
   },
   {
     name: 'Enterprise',
-    price: 199,
+    price: 499,
     period: 'month',
-    description: 'For large-scale applications and organizations',
+    description: 'Tailored for universities and research teams',
     features: [
       'Unlimited API calls',
-      'All AI models',
+      'Access to all AI models',
+      'Unlimited notes/PDF downloads',
       '24/7 dedicated support',
       'Custom model training',
       'Unlimited projects',
@@ -63,11 +66,11 @@ const Pricing = () => {
         >
           <h2 className="text-3xl md:text-5xl font-bold mb-6">
             <span className="bg-gradient-to-r from-indigo-600 to-cyan-500 bg-clip-text text-transparent">
-              Simple Pricing
+              Pricing
             </span>
           </h2>
           <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-            Choose the perfect plan for your needs. Start free and scale as you grow.
+            Choose a plan that fits your learning and scaling needs — from beginners to enterprise-grade AI teams.
           </p>
         </motion.div>
 
@@ -135,16 +138,6 @@ const Pricing = () => {
             </motion.div>
           ))}
         </div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          viewport={{ once: true }}
-          className="text-center mt-16"
-        >
-          
-        </motion.div>
       </div>
     </section>
   );
