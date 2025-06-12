@@ -16,7 +16,6 @@ const Footer = () => {
             className="space-y-4"
           >
             <div className="flex items-center space-x-2">
-              <Brain className="h-8 w-8 text-cyan-400" />
               <span className="text-2xl font-bold bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent">
                 Cavora
               </span>

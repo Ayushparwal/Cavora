@@ -25,7 +25,7 @@ const TermsOfService = () => {
             <div className="flex items-center justify-center space-x-2 mb-4">
               <Brain className="h-10 w-10 text-indigo-600 dark:text-cyan-400" />
               <span className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-cyan-500 bg-clip-text text-transparent">
-                Cosmos AI
+                Cavora AI
               </span>
             </div>
             
@@ -47,7 +47,7 @@ const TermsOfService = () => {
                   <h2 className="text-2xl font-bold text-gray-900 dark:text-white">1. Acceptance of Terms</h2>
                 </div>
                 <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-                  By accessing and using Cosmos AI's services, you accept and agree to be bound by the terms and provision of this agreement. If you do not agree to abide by the above, please do not use this service.
+                  By accessing and using Cavora AI's services, you accept and agree to be bound by the terms and provision of this agreement. If you do not agree to abide by the above, please do not use this service.
                 </p>
               </div>
 
@@ -57,12 +57,12 @@ const TermsOfService = () => {
                   <h2 className="text-2xl font-bold text-gray-900 dark:text-white">2. Use License</h2>
                 </div>
                 <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
-                  Permission is granted to temporarily access Cosmos AI services for personal, non-commercial transitory viewing only. This is the grant of a license, not a transfer of title, and under this license you may not:
+                  Permission is granted to temporarily access Cavora AI services for personal, non-commercial transitory viewing only. This is the grant of a license, not a transfer of title, and under this license you may not:
                 </p>
                 <ul className="list-disc list-inside text-gray-700 dark:text-gray-300 space-y-2 ml-4">
                   <li>modify or copy the materials</li>
                   <li>use the materials for any commercial purpose or for any public display (commercial or non-commercial)</li>
-                  <li>attempt to decompile or reverse engineer any software contained on Cosmos AI's services</li>
+                  <li>attempt to decompile or reverse engineer any software contained on Cavora AI's services</li>
                   <li>remove any copyright or other proprietary notations from the materials</li>
                 </ul>
               </div>
@@ -104,7 +104,7 @@ const TermsOfService = () => {
                   Our AI services are provided "as is" and are intended for general use. While we strive for accuracy, we cannot guarantee that all AI-generated content will be accurate, complete, or suitable for your specific needs.
                 </p>
                 <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-                  You are responsible for reviewing and verifying any AI-generated content before using it for any purpose. Cosmos AI is not liable for any decisions made based on AI-generated content.
+                  You are responsible for reviewing and verifying any AI-generated content before using it for any purpose. Cavora AI is not liable for any decisions made based on AI-generated content.
                 </p>
               </div>
 
@@ -125,7 +125,7 @@ const TermsOfService = () => {
               <div className="mb-8">
                 <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">8. Limitation of Liability</h2>
                 <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-                  In no event shall Cosmos AI, nor its directors, employees, partners, agents, suppliers, or affiliates, be liable for any indirect, incidental, special, consequential, or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses, resulting from your use of the Service.
+                  In no event shall Cavora AI, nor its directors, employees, partners, agents, suppliers, or affiliates, be liable for any indirect, incidental, special, consequential, or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses, resulting from your use of the Service.
                 </p>
               </div>
 
@@ -143,7 +143,7 @@ const TermsOfService = () => {
                 </p>
                 <div className="mt-4 p-4 bg-indigo-50 dark:bg-indigo-900/20 rounded-lg border border-indigo-200 dark:border-indigo-800">
                   <p className="text-gray-700 dark:text-gray-300">
-                    <strong>Email:</strong> legal@cosmosai.com<br />
+                    <strong>Email:</strong> legal@Cavora.com<br />
                     <strong>Address:</strong> 123 Innovation Drive, San Francisco, CA 94105<br />
                     <strong>Phone:</strong> +1 (555) 123-4567
                   </p>

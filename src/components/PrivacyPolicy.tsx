@@ -25,7 +25,7 @@ const PrivacyPolicy = () => {
             <div className="flex items-center justify-center space-x-2 mb-4">
               <Brain className="h-10 w-10 text-indigo-600 dark:text-cyan-400" />
               <span className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-cyan-500 bg-clip-text text-transparent">
-                Cosmos AI
+                Cavora AI
               </span>
             </div>
             
@@ -47,7 +47,7 @@ const PrivacyPolicy = () => {
                   <h2 className="text-2xl font-bold text-gray-900 dark:text-white">1. Introduction</h2>
                 </div>
                 <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-                  At Cosmos AI, we take your privacy seriously. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our artificial intelligence services and platform. Please read this privacy policy carefully.
+                  At Cavora AI, we take your privacy seriously. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our artificial intelligence services and platform. Please read this privacy policy carefully.
                 </p>
               </div>
 
@@ -209,10 +209,10 @@ const PrivacyPolicy = () => {
                 </p>
                 <div className="p-4 bg-indigo-50 dark:bg-indigo-900/20 rounded-lg border border-indigo-200 dark:border-indigo-800">
                   <p className="text-gray-700 dark:text-gray-300">
-                    <strong>Email:</strong> privacy@cosmosai.com<br />
+                    <strong>Email:</strong> privacy@Cavora.com<br />
                     <strong>Address:</strong> 123 Innovation Drive, San Francisco, CA 94105<br />
                     <strong>Phone:</strong> +1 (555) 123-4567<br />
-                    <strong>Data Protection Officer:</strong> dpo@cosmosai.com
+                    <strong>Data Protection Officer:</strong> dpo@Cavora.com
                   </p>
                 </div>
               </div>

@@ -25,7 +25,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   useEffect(() => {
     // Check for existing session
-    const savedUser = localStorage.getItem('cosmos_user');
+    const savedUser = localStorage.getItem('cavora_user');
     if (savedUser) {
       setUser(JSON.parse(savedUser));
     }
@@ -50,7 +50,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       };
       
       setUser(mockUser);
-      localStorage.setItem('cosmos_user', JSON.stringify(mockUser));
+      localStorage.setItem('cavora_user', JSON.stringify(mockUser));
     } catch (error) {
       throw new Error('Login failed');
     } finally {
@@ -72,7 +72,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       };
       
       setUser(mockUser);
-      localStorage.setItem('cosmos_user', JSON.stringify(mockUser));
+      localStorage.setItem('cavora_user', JSON.stringify(mockUser));
     } catch (error) {
       throw new Error('Google login failed');
     } finally {
@@ -103,7 +103,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       };
       
       setUser(mockUser);
-      localStorage.setItem('cosmos_user', JSON.stringify(mockUser));
+      localStorage.setItem('cavora_user', JSON.stringify(mockUser));
     } catch (error) {
       throw new Error('Signup failed');
     } finally {
@@ -125,7 +125,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       };
       
       setUser(mockUser);
-      localStorage.setItem('cosmos_user', JSON.stringify(mockUser));
+      localStorage.setItem('cavora_user', JSON.stringify(mockUser));
     } catch (error) {
       throw new Error('Google signup failed');
     } finally {
@@ -135,7 +135,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const logout = () => {
     setUser(null);
-    localStorage.removeItem('cosmos_user');
+    localStorage.removeItem('cavora_user');
   };
 
   return (

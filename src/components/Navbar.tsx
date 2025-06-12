@@ -40,9 +40,8 @@ const Navbar = () => {
             whileHover={{ scale: 1.05 }}
             onClick={() => navigate('/')}
           >
-            <Brain className="h-8 w-8 text-indigo-600 dark:text-cyan-400" />
             <span className="text-xl font-bold bg-gradient-to-r from-indigo-600 to-cyan-500 bg-clip-text text-transparent">
-              Cosmos AI
+              Cavora AI
             </span>
           </motion.div>
 
@@ -55,10 +54,10 @@ const Navbar = () => {
               Home
             </button>
             <button
-              onClick={() => scrollToSection('privacy')}
+              onClick={() => scrollToSection('pricing')}
               className="text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-cyan-400 transition-colors"
             >
-              Privacy
+              Pricing
             </button>
             <motion.button
               whileHover={{ scale: 1.05 }}
@@ -66,7 +65,7 @@ const Navbar = () => {
               onClick={() => scrollToSection('tryout')}
               className="px-5 py-2 bg-gradient-to-r from-cyan-500 to-indigo-600 text-white rounded-lg hover:from-cyan-600 hover:to-indigo-700 transition-all"
             >
-              Try Cosmos
+              Try Cavora
             </motion.button>
             <button
               onClick={toggleTheme}
@@ -101,7 +100,7 @@ const Navbar = () => {
             <button onClick={() => scrollToSection('home')} className="block text-gray-700 dark:text-gray-300">Home</button>
             <button onClick={() => scrollToSection('privacy')} className="block text-gray-700 dark:text-gray-300">Privacy</button>
             <button onClick={() => scrollToSection('tryout')} className="block text-white bg-gradient-to-r from-cyan-500 to-indigo-600 px-4 py-2 rounded-lg hover:from-cyan-600 hover:to-indigo-700">
-              Try Cosmos
+              Try Cavora
             </button>
             <button
               onClick={toggleTheme}

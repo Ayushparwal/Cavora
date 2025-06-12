@@ -16,7 +16,7 @@ const TryOut = () => {
     
     // Simulate AI response
     setTimeout(() => {
-      setOutput(`Here's an AI-generated response to: "${input}"\n\nThis is a demonstration of Cosmos AI's capabilities. Our advanced neural networks can understand context, generate creative content, solve complex problems, and provide intelligent insights across multiple domains.\n\nKey features demonstrated:\n• Natural language understanding\n• Contextual awareness\n• Creative content generation\n• Problem-solving capabilities`);
+      setOutput(`Here's an AI-generated response to: "${input}"\n\nThis is a demonstration of Cavora AI's capabilities. Our advanced neural networks can understand context, generate creative content, solve complex problems, and provide intelligent insights across multiple domains.\n\nKey features demonstrated:\n• Natural language understanding\n• Contextual awareness\n• Creative content generation\n• Problem-solving capabilities`);
       setIsLoading(false);
     }, 2000);
   };
@@ -39,7 +39,7 @@ const TryOut = () => {
         >
           <h2 className="text-3xl md:text-5xl font-bold mb-6">
             <span className="bg-gradient-to-r from-indigo-600 to-cyan-500 bg-clip-text text-transparent">
-              Try Cosmos AI
+              Try Cavora AI
             </span>
           </h2>
           <p className="text-xl text-gray-600 dark:text-gray-300">
@@ -60,7 +60,7 @@ const TryOut = () => {
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder="Ask Cosmos AI anything..."
+                placeholder="Ask Cavora AI anything..."
                 className="flex-1 px-6 py-4 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all"
               />
               <motion.button

@@ -41,7 +41,7 @@ const Cookies = () => {
           <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-8 shadow-lg border border-gray-200 dark:border-gray-700">
             <div className="prose prose-lg dark:prose-invert max-w-none">
               <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-6">
-                Cosmos AI uses cookies and similar technologies to improve your experience, analyze performance, and deliver personalized content. This Cookie Policy explains what cookies are, how we use them, and your choices regarding cookies.
+                Cavora AI uses cookies and similar technologies to improve your experience, analyze performance, and deliver personalized content. This Cookie Policy explains what cookies are, how we use them, and your choices regarding cookies.
               </p>
 
               <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">1. What are cookies?</h2>
@@ -78,7 +78,7 @@ const Cookies = () => {
               </p>
               <div className="p-4 mt-4 bg-indigo-50 dark:bg-indigo-900/20 rounded-lg border border-indigo-200 dark:border-indigo-800">
                 <p className="text-gray-700 dark:text-gray-300">
-                  <strong>Email:</strong> privacy@cosmosai.com
+                  <strong>Email:</strong> privacy@Cavora.com
                 </p>
               </div>
             </div>
