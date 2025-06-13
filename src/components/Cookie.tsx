@@ -92,12 +92,7 @@ const Cookies = () => {
             >
               View Privacy Policy
             </Link>
-            <Link
-              to="/signup"
-              className="px-6 py-3 bg-gradient-to-r from-indigo-600 to-cyan-500 text-white rounded-xl hover:from-indigo-700 hover:to-cyan-600 transition-all"
-            >
-              Back to Sign Up
-            </Link>
+            
           </div>
         </motion.div>
       </div>
