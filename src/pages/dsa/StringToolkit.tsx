@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { FileText } from "lucide-react";
+import { FileText, Search } from "lucide-react";
 import { motion } from "framer-motion";
+
 
 const stringSubtopics = [
   { title: "String Matching - KMP", path: "/dsa/string/kmp" },
@@ -28,16 +29,35 @@ const stringSubtopics = [
   { title: "Palindrome Check", path: "/dsa/string/palindromecheck" }
 ];
 
-
 const StringToolkit = () => {
+  const [search, setSearch] = useState("");
+
+  const filteredSubtopics = stringSubtopics.filter((sub) =>
+    sub.title.toLowerCase().includes(search.toLowerCase())
+  );
+
   return (
     <section className="min-h-screen py-16 px-6 sm:px-12 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-900 dark:to-gray-950">
       <div className="max-w-6xl mx-auto">
-        <h2 className="text-4xl font-extrabold mb-12 text-center text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-cyan-400 dark:to-blue-400">
+        <h2 className="text-4xl font-extrabold mb-8 text-center text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-cyan-400 dark:to-blue-400">
           String Subtopics
         </h2>
+
+        {/* Search Input */}
+        <div className="relative max-w-md mx-auto mb-12">
+          <Search className="absolute left-4 top-3.5 h-5 w-5 text-gray-500 dark:text-gray-400" />
+          <input
+            type="text"
+            placeholder="Search KMP, LCS, Anagram..."
+            className="w-full pl-12 pr-4 py-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+        </div>
+
+        {/* Subtopic Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
-          {stringSubtopics.map((sub, idx) => (
+          {filteredSubtopics.map((sub, idx) => (
             <motion.div
               key={idx}
               whileHover={{ scale: 1.05, rotate: 1 }}

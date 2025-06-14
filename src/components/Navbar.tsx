@@ -40,9 +40,7 @@ const Navbar = () => {
             whileHover={{ scale: 1.05 }}
             onClick={() => navigate('/')}
           >
-            <span className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-cyan-500 bg-clip-text text-transparent">
-              Cavora
-            </span>
+            
           </motion.div>
 
           {/* Desktop Links */}
