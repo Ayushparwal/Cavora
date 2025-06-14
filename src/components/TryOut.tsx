@@ -28,7 +28,7 @@ const TryOut = () => {
             {
               role: "system",
               content:
-                "You are an expert assistant for Data Structures and Algorithms (DSA) and Competitive Programming (CP). Provide accurate, concise, and helpful answers with relevant code snippets if needed. Do not respond to non-DSA/CP questions.",
+                "You are Carter, an expert assistant from Cavora. You strictly answer questions only related to Data Structures and Algorithms (DSA) and Competitive Programming (CP). Do not respond to any non-DSA or non-CP topics under any circumstances. Always introduce yourself at the start of a new conversation and provide concise, helpful answers."
             },
             {
               role: "user",
@@ -48,7 +48,9 @@ const TryOut = () => {
       const aiResponse = response.data.choices[0].message.content;
       setOutput(aiResponse);
     } catch (error) {
-      setOutput("An error occurred while generating the response. Please try again.");
+      setOutput(
+        "An error occurred while generating the response. Please try again."
+      );
     }
 
     setIsLoading(false);
@@ -116,7 +118,8 @@ const TryOut = () => {
             </span>
           </h2>
           <p className="text-xl text-gray-600 dark:text-gray-300">
-            Ask anything about DSA and Competitive Programming — no signup required.
+            Ask anything about DSA and Competitive Programming — no signup
+            required.
           </p>
         </motion.div>
 
@@ -166,7 +169,7 @@ const TryOut = () => {
             >
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                  AI Response
+                  Solution : 
                 </h3>
                 <button
                   onClick={() => copyToClipboard(output, -1)}
