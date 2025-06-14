@@ -1,30 +1,103 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Send, Sparkles, Copy, Check } from 'lucide-react';
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { Send, Sparkles, Copy, Check } from "lucide-react";
+import axios from "axios";
+import ReactMarkdown from "react-markdown";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 const TryOut = () => {
-  const [input, setInput] = useState('');
-  const [output, setOutput] = useState('');
+  const [input, setInput] = useState("");
+  const [output, setOutput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [copied, setCopied] = useState(false);
+  const [copiedBlock, setCopiedBlock] = useState<number | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim()) return;
 
     setIsLoading(true);
-    
-    // Simulate AI response
-    setTimeout(() => {
-      setOutput(`Here's an AI-generated response to: "${input}"\n\nThis is a demonstration of Cavora AI's capabilities. Our advanced neural networks can understand context, generate creative content, solve complex problems, and provide intelligent insights across multiple domains.\n\nKey features demonstrated:\n• Natural language understanding\n• Contextual awareness\n• Creative content generation\n• Problem-solving capabilities`);
-      setIsLoading(false);
-    }, 2000);
+    setOutput("");
+
+    try {
+      const response = await axios.post(
+        "https://api.groq.com/openai/v1/chat/completions",
+        {
+          model: "llama-3.3-70b-versatile",
+          messages: [
+            {
+              role: "system",
+              content:
+                "You are an expert assistant for Data Structures and Algorithms (DSA) and Competitive Programming (CP). Provide accurate, concise, and helpful answers with relevant code snippets if needed. Do not respond to non-DSA/CP questions.",
+            },
+            {
+              role: "user",
+              content: input,
+            },
+          ],
+          max_tokens: 1000,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${import.meta.env.VITE_GROQ_API}`,
+          },
+        }
+      );
+
+      const aiResponse = response.data.choices[0].message.content;
+      setOutput(aiResponse);
+    } catch (error) {
+      setOutput("An error occurred while generating the response. Please try again.");
+    }
+
+    setIsLoading(false);
   };
 
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(output);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+  const copyToClipboard = (text: string, index: number) => {
+    navigator.clipboard.writeText(text);
+    setCopiedBlock(index);
+    setTimeout(() => setCopiedBlock(null), 2000);
+  };
+
+  const renderers = {
+    code({
+      className,
+      children,
+      ...props
+    }: {
+      className?: string;
+      children?: React.ReactNode;
+    }) {
+      const match = /language-(\w+)/.exec(className || "");
+      const codeContent = String(children).trim();
+      const index = codeContent.length + Math.random();
+
+      return (
+        <div className="relative group">
+          <SyntaxHighlighter
+            {...props}
+            language={match?.[1] || "text"}
+            style={oneDark}
+            PreTag="div"
+            customStyle={{
+              borderRadius: "0.5rem",
+              padding: "1rem",
+              fontSize: "0.9rem",
+              marginBottom: "1.5rem",
+            }}
+          >
+            {codeContent}
+          </SyntaxHighlighter>
+          <button
+            onClick={() => copyToClipboard(codeContent, index)}
+            className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded bg-gray-700 text-white"
+          >
+            {copiedBlock === index ? <Check size={16} /> : <Copy size={16} />}
+          </button>
+        </div>
+      );
+    },
   };
 
   return (
@@ -43,7 +116,7 @@ const TryOut = () => {
             </span>
           </h2>
           <p className="text-xl text-gray-600 dark:text-gray-300">
-            Experience the power of our AI technology right now. No signup required.
+            Ask anything about DSA and Competitive Programming — no signup required.
           </p>
         </motion.div>
 
@@ -60,7 +133,7 @@ const TryOut = () => {
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder="Ask Cavora AI anything..."
+                placeholder="Ask Cavora AI anything about DSA or CP..."
                 className="flex-1 px-6 py-4 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all"
               />
               <motion.button
@@ -92,21 +165,24 @@ const TryOut = () => {
               className="bg-white dark:bg-gray-700 rounded-xl p-6 border border-gray-200 dark:border-gray-600"
             >
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">AI Response</h3>
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                  AI Response
+                </h3>
                 <button
-                  onClick={copyToClipboard}
+                  onClick={() => copyToClipboard(output, -1)}
                   className="p-2 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-lg transition-colors"
                 >
-                  {copied ? (
+                  {copiedBlock === -1 ? (
                     <Check className="h-5 w-5 text-green-500" />
                   ) : (
                     <Copy className="h-5 w-5 text-gray-500 dark:text-gray-400" />
                   )}
                 </button>
               </div>
-              <pre className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap leading-relaxed">
-                {output}
-              </pre>
+
+              <div className="prose dark:prose-invert max-w-none text-gray-700 dark:text-gray-300">
+                <ReactMarkdown components={renderers}>{output}</ReactMarkdown>
+              </div>
             </motion.div>
           )}
         </motion.div>

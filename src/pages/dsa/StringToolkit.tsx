@@ -11,7 +11,23 @@ const stringSubtopics = [
   { title: "Anagram Check", path: "/dsa/string/anagramcheck" },
   { title: "Substring Search", path: "/dsa/string/substringsearch" },
   { title: "Manacher’s Algorithm", path: "/dsa/string/manacher" },
+  { title: "Longest Common Subsequence", path: "/dsa/string/lcs" },
+  { title: "Longest Common Substring", path: "/dsa/string/lcsubstr" },
+  { title: "Edit Distance", path: "/dsa/string/editdistance" },
+  { title: "Minimum Insertions/Deletions to Make Palindrome", path: "/dsa/string/mininsertdelete" },
+  { title: "Group Anagrams", path: "/dsa/string/groupanagrams" },
+  { title: "Check Isomorphic Strings", path: "/dsa/string/isomorphic" },
+  { title: "Valid Parentheses", path: "/dsa/string/validparentheses" },
+  { title: "Remove Duplicate Characters", path: "/dsa/string/removeduplicates" },
+  { title: "Lexicographical Order", path: "/dsa/string/lexicographical" },
+  { title: "Longest Prefix Suffix (LPS)", path: "/dsa/string/lps" },
+  { title: "Permutations of a String", path: "/dsa/string/permutations" },
+  { title: "Minimum Window Substring", path: "/dsa/string/minimumwindow" },
+  { title: "Run Length Encoding", path: "/dsa/string/runlengthencoding" },
+  { title: "String Compression", path: "/dsa/string/compression" },
+  { title: "Palindrome Check", path: "/dsa/string/palindromecheck" }
 ];
+
 
 const StringToolkit = () => {
   return (

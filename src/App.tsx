@@ -24,6 +24,8 @@ import ArrayToolkit from "./pages/dsa/ArrayToolkit";
   import SlidingWindow from "./pages/dsa/array/SlidingWindow";
   import TwoPointers from './pages/dsa/array/TwoPointers';
 import StringToolkit from "./pages/dsa/StringToolkit";
+import QueueToolkit from "./pages/dsa/QueueToolkit";
+import HashtableToolkit from "./pages/dsa/HashtableToolkit";
 
 
 
@@ -59,6 +61,8 @@ function App() {
 
                        
                <Route path="/dsa/string" element={<StringToolkit />} />
+               <Route path="/dsa/queue" element={<QueueToolkit />} />
+               <Route path="/dsa/hashtable" element={<HashtableToolkit />} />
 
 
 

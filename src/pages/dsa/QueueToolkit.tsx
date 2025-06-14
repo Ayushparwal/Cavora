@@ -3,44 +3,37 @@ import { Link } from "react-router-dom";
 import { FileText } from "lucide-react";
 import { motion } from "framer-motion";
 
-const arraySubtopics = [
-  { title: "Sliding Window", path: "/dsa/array/slidingwindow" },
-  { title: "Two Pointers", path: "/dsa/array/twopointers" },
-  { title: "Prefix Sum", path: "/dsa/array/prefixsum" },
-  { title: "Kadane's Algorithm", path: "/dsa/array/kadane" },
-  { title: "Merge Intervals", path: "/dsa/array/mergeintervals" },
-  { title: "Matrix Traversals", path: "/dsa/array/matrixtraversals" },
-  { title: "Difference Array", path: "/dsa/array/differencearray" },
-  { title: "Binary Search on Answer", path: "/dsa/array/binarysearchonanswer" },
-  { title: "Maximum Subarray Sum", path: "/dsa/array/maxsubarraysum" },
-  { title: "Product of Array Except Self", path: "/dsa/array/productexceptself" },
-  { title: "Dutch National Flag (3-way Partition)", path: "/dsa/array/dutchnationalflag" },
-  { title: "Cyclic Sort", path: "/dsa/array/cyclicsort" },
-  { title: "Rotate Array", path: "/dsa/array/rotate" },
-  { title: "Spiral Order Traversal", path: "/dsa/array/spiraltraversal" },
-  { title: "Set Matrix Zeroes", path: "/dsa/array/setmatrixzeroes" },
-  { title: "Pascal's Triangle", path: "/dsa/array/pascaltriangle" },
-  { title: "Subarrays with Given Sum", path: "/dsa/array/subarraysum" },
-  { title: "Prefix XOR", path: "/dsa/array/prefixxor" },
-  { title: "Count Inversions", path: "/dsa/array/countinversions" },
-  { title: "Next Greater Element", path: "/dsa/array/nextgreaterelement" }
+const queueSubtopics = [
+  { title: "Queue Basics (FIFO)", path: "/dsa/queue/basics" },
+  { title: "Circular Queue", path: "/dsa/queue/circularqueue" },
+  { title: "Priority Queue", path: "/dsa/queue/priorityqueue" },
+  { title: "Deque (Double-Ended Queue)", path: "/dsa/queue/deque" },
+  { title: "Implement Queue using Stacks", path: "/dsa/queue/queueusingstack" },
+  { title: "Implement Stack using Queues", path: "/dsa/queue/stackusingqueue" },
+  { title: "Sliding Window Maximum (Monotonic Queue)", path: "/dsa/queue/slidingwindowmax" },
+  { title: "Rotting Oranges (BFS)", path: "/dsa/queue/rottingoranges" },
+  { title: "Walls and Gates", path: "/dsa/queue/wallsandgates" },
+  { title: "Number of Islands (BFS)", path: "/dsa/queue/numberofislands" },
+  { title: "Level Order Traversal", path: "/dsa/queue/levelordertraversal" },
+  { title: "Course Schedule (Topological Sort - Kahn's Algorithm)", path: "/dsa/queue/courseschedule" },
+  { title: "Shortest Path in Binary Matrix", path: "/dsa/queue/shortestpathbinarymatrix" },
+  { title: "Minimum Time to Inform All Employees", path: "/dsa/queue/informemployees" }
 ];
 
-
-const ArrayToolkit = () => {
+const QueueToolkit = () => {
   return (
     <section className="min-h-screen py-16 px-6 sm:px-12 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-900 dark:to-gray-950">
       <div className="max-w-6xl mx-auto">
         <h2 className="text-4xl font-extrabold mb-12 text-center text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-cyan-400 dark:to-blue-400">
-          Array Subtopics
+          Queue Subtopics
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
-          {arraySubtopics.map((sub, idx) => (
+          {queueSubtopics.map((sub, idx) => (
             <motion.div
               key={idx}
               whileHover={{ scale: 1.05, rotate: 1 }}
               whileTap={{ scale: 0.98 }}
-              transition={{ type: "spring", stiffness: 180 }}
+              transition={{ type: "spring", stiffness: 200 }}
             >
               <Link
                 to={sub.path}
@@ -63,7 +56,7 @@ const ArrayToolkit = () => {
                   </h3>
                 </div>
                 <p className="mt-4 text-gray-600 dark:text-gray-300 text-sm z-10 relative">
-                  Master the {sub.title} technique with notes and problems.
+                  Learn and visualize {sub.title} with examples and guides.
                 </p>
               </Link>
             </motion.div>
@@ -74,4 +67,4 @@ const ArrayToolkit = () => {
   );
 };
 
-export default ArrayToolkit;
+export default QueueToolkit;
