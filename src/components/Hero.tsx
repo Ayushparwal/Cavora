@@ -6,6 +6,8 @@ import {
   BookOpenCheck,
   BrainCircuit,
   BotMessageSquare,
+  Camera,
+  ScrollText,
 } from "lucide-react";
 
 const toolkits = [
@@ -30,6 +32,30 @@ const toolkits = [
     description:
       "Explore cutting-edge AI and Machine Learning algorithms with guided projects and notes.",
     icon: <BotMessageSquare className="h-8 w-8 text-indigo-600 dark:text-cyan-400" />,
+    link: "#",
+    comingSoon: true,
+  },
+   {
+    title: "Natural Language Processing",
+    description:
+      "Delve into NLP with hands-on projects on sentiment analysis, summarization, and more.",
+    icon: <ArrowRight className="h-8 w-8 text-indigo-600 dark:text-cyan-400" />,
+    link: "#",
+    comingSoon: true,
+  },
+  {
+    title: "Computer Vision",
+    description:
+      "Understand how machines interpret images using projects on detection, recognition, and segmentation.",
+    icon: <Camera className="h-8 w-8 text-indigo-600 dark:text-cyan-400" />,
+    link: "#",
+    comingSoon: true,
+  },
+  {
+    title: "Large Language Models",
+    description:
+      "Learn to work with state-of-the-art LLMs like GPT and LLaMA for powerful AI applications.",
+    icon: <ScrollText className="h-8 w-8 text-indigo-600 dark:text-cyan-400" />,
     link: "#",
     comingSoon: true,
   },
