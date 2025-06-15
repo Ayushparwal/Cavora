@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
@@ -8,6 +8,7 @@ import {
   BotMessageSquare,
   Camera,
   ScrollText,
+  Search,
 } from "lucide-react";
 
 const toolkits = [
@@ -35,7 +36,7 @@ const toolkits = [
     link: "#",
     comingSoon: true,
   },
-   {
+  {
     title: "Natural Language Processing",
     description:
       "Delve into NLP with hands-on projects on sentiment analysis, summarization, and more.",
@@ -62,12 +63,20 @@ const toolkits = [
 ];
 
 const Hero = () => {
+  const [search, setSearch] = useState("");
+
+  const filteredToolkits = toolkits.filter(
+    (kit) =>
+      kit.title.toLowerCase().includes(search.toLowerCase()) ||
+      kit.description.toLowerCase().includes(search.toLowerCase())
+  );
+
   return (
     <section
       id="home"
       className="min-h-screen flex flex-col items-center justify-center relative overflow-hidden"
     >
-      <div className="absolute inset-0 bg-gradient-to-br from-indigo-900/20 via-purple-900/10 to-cyan-900/20 dark:from-indigo-900/40 dark:via-purple-900/20 dark:to-cyan-900/40"></div>
+      <div className="absolute inset-0 bg-gradient-to-br from-indigo-900/20 via-purple-900/10 to-cyan-900/20 dark:from-indigo-900/40 dark:via-purple-900/20 dark:to-cyan-900/40" />
 
       <div className="absolute inset-0">
         {[...Array(20)].map((_, i) => (
@@ -108,11 +117,26 @@ const Hero = () => {
             transition={{ duration: 1, delay: 0.4 }}
             className="mt-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10"
           >
-            <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-gray-900 dark:text-white">
+            <h2 className="text-3xl md:text-4xl font-bold text-center mb-8 text-gray-900 dark:text-white">
               Explore Our Learning Toolkits
             </h2>
+
+            {/* Search bar below heading */}
+            <div className="flex justify-center mb-10">
+              <div className="flex items-center space-x-2 bg-white dark:bg-gray-800 px-3 py-2 rounded-lg shadow border border-gray-300 dark:border-gray-700 w-full max-w-xs">
+                <Search className="w-5 h-5 text-gray-500 dark:text-gray-300" />
+                <input
+                  type="text"
+                  placeholder="Search toolkits..."
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  className="bg-transparent focus:outline-none text-sm text-gray-700 dark:text-gray-200 w-full"
+                />
+              </div>
+            </div>
+
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-              {toolkits.map((kit, i) => (
+              {filteredToolkits.map((kit, i) => (
                 <motion.div
                   key={i}
                   whileHover={{ scale: 1.05, rotate: 1 }}

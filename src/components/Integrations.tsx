@@ -1,37 +1,50 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { Zap, Slack, Chrome, Github, Server, Database } from "lucide-react";
+import {
+  Zap,
+  Slack,
+  Chrome,
+  Github,
+  Server,
+  Database,
+} from "lucide-react";
 
 const integrations = [
   {
-    icon: Slack,
-    title: "Slack",
-    description: "Get real-time AI insights directly in your Slack channels.",
-  },
-  {
-    icon: Zap,
-    title: "Zapier",
-    description: "Automate workflows with AI-powered Zapier integrations.",
-  },
-  {
     icon: Chrome,
     title: "Chrome Extension",
-    description: "Bring AI assistance to your browser with one click.",
+    description:
+      "Solve problems on LeetCode, GFG, and HackerRank with Cavora AI overlays.",
   },
   {
     icon: Github,
-    title: "GitHub",
-    description: "Generate and review code with seamless GitHub AI integration.",
+    title: "GitHub Gist",
+    description:
+      "Save your DSA solutions and share them directly from Cavora.",
+  },
+  {
+    icon: Zap,
+    title: "VS Code Extension",
+    description:
+      "Code with Cavora’s AI hints directly in your VS Code editor.",
   },
   {
     icon: Server,
-    title: "API Access",
-    description: "Integrate AI into any system via our powerful API.",
+    title: "API Access (Pro)",
+    description:
+      "Use Cavora’s API for custom AI models or integration with your student portal.",
   },
   {
     icon: Database,
-    title: "Database Sync",
-    description: "Connect and query your databases intelligently with AI.",
+    title: "Google Sheets Sync",
+    description:
+      "Track your DSA progress and history in a personal spreadsheet.",
+  },
+  {
+    icon: Slack,
+    title: "Cavora Discord",
+    description:
+      "Join our community of 5,000+ learners, ask doubts, and compete.",
   },
 ];
 
@@ -48,11 +61,11 @@ const Integrations = () => {
         >
           <h2 className="text-3xl md:text-5xl font-bold mb-6">
             <span className="bg-gradient-to-r from-cyan-500 to-blue-600 bg-clip-text text-transparent">
-              Seamless Integrations
+              Learner Integrations
             </span>
           </h2>
           <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-            Connect Cavora AI with the tools you already use and love.
+            Connect Cavora to your favorite tools for a smarter learning workflow.
           </p>
         </motion.div>
 

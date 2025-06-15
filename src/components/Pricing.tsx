@@ -4,52 +4,33 @@ import { Check, Star } from 'lucide-react';
 
 const plans = [
   {
-    name: 'Starter',
+    name: 'Basic',
     price: 0,
     period: 'month',
-    description: 'Perfect for learners starting their AI journey',
+    description: 'Perfect for beginners to explore DSA fundamentals',
     features: [
-      '1,000 API calls/month',
-      'Basic AI models',
-      'Access to 3 AI notes/PDFs',
-      'Email support',
-      'Community access',
-      '1 project',
+      'Access to core DSA topics',
+      '10 curated questions/day',
+      'Basic progress tracking',
+      'Roadmap and blog access',
     ],
     popular: false,
   },
   {
-    name: 'Professional',
-    price: 199,
+    name: 'Pro',
+    price: 399,
     period: 'month',
-    description: 'Great for students, startups, and active learners',
+    description: 'Best for students preparing for top tech placements',
     features: [
-      '50,000 API calls/month',
-      'Advanced AI models',
-      'Download 250+ AI notes/PDFs',
-      'Priority support',
-      'Custom integrations',
-      '10 projects',
-      'Analytics dashboard',
+      'Access to all DSA topics',
+      'Unlimited questions and practice',
+      'AI-personalized learning roadmap',
+      'Company-specific problem sets',
+      'Weekly contests & leaderboards',
+      'Mock test series',
+      'Cheat sheets & PDF notes',
     ],
     popular: true,
-  },
-  {
-    name: 'Enterprise',
-    price: 499,
-    period: 'month',
-    description: 'Tailored for universities and research teams',
-    features: [
-      'Unlimited API calls',
-      'Access to all AI models',
-      'Unlimited notes/PDF downloads',
-      '24/7 dedicated support',
-      'Custom model training',
-      'Unlimited projects',
-      'Advanced analytics',
-      'SLA guarantee',
-    ],
-    popular: false,
   },
 ];
 
@@ -70,11 +51,11 @@ const Pricing = () => {
             </span>
           </h2>
           <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-            Choose a plan that fits your learning and scaling needs — from beginners to enterprise-grade AI teams.
+            Learn smarter with plans built for every stage — whether you're just starting out or preparing for interviews.
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {plans.map((plan, index) => (
             <motion.div
               key={index}
@@ -133,7 +114,7 @@ const Pricing = () => {
                     : 'bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-600'
                 }`}
               >
-                {plan.price === 0 ? 'Start Free' : 'Get Started'}
+                {plan.price === 0 ? 'Start Free' : 'Get Pro'}
               </motion.button>
             </motion.div>
           ))}

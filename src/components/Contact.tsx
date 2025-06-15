@@ -1,22 +1,24 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Mail, Phone, MapPin, Send } from 'lucide-react';
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { Mail, Phone, MapPin, Send } from "lucide-react";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: '',
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
   });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Handle form submission
-    console.log('Form submitted:', formData);
+    console.log("Form submitted:", formData);
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
@@ -39,7 +41,8 @@ const Contact = () => {
             </span>
           </h2>
           <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-            Ready to transform your business with AI? Let's discuss how Cavora can help you achieve your goals.
+            Ready to transform your business with AI? Let's discuss how Cavora
+            can help you achieve your goals.
           </p>
         </motion.div>
 
@@ -61,8 +64,12 @@ const Contact = () => {
                     <Mail className="h-6 w-6 text-white" />
                   </div>
                   <div>
-                    <p className="text-gray-900 dark:text-white font-semibold">Email</p>
-                    <p className="text-gray-600 dark:text-gray-300">hello@cavora.com</p>
+                    <p className="text-gray-900 dark:text-white font-semibold">
+                      Email
+                    </p>
+                    <p className="text-gray-600 dark:text-gray-300">
+                      hello@cavora.com
+                    </p>
                   </div>
                 </div>
                 <div className="flex items-center space-x-4">
@@ -70,8 +77,12 @@ const Contact = () => {
                     <Phone className="h-6 w-6 text-white" />
                   </div>
                   <div>
-                    <p className="text-gray-900 dark:text-white font-semibold">Phone</p>
-                    <p className="text-gray-600 dark:text-gray-300">+91 XXXXX-XXXXX</p>
+                    <p className="text-gray-900 dark:text-white font-semibold">
+                      Phone
+                    </p>
+                    <p className="text-gray-600 dark:text-gray-300">
+                      +91 XXXXX-XXXXX
+                    </p>
                   </div>
                 </div>
                 <div className="flex items-center space-x-4">
@@ -79,9 +90,12 @@ const Contact = () => {
                     <MapPin className="h-6 w-6 text-white" />
                   </div>
                   <div>
-                    <p className="text-gray-900 dark:text-white font-semibold">Address</p>
+                    <p className="text-gray-900 dark:text-white font-semibold">
+                      Address
+                    </p>
                     <p className="text-gray-600 dark:text-gray-300">
-                      123 Innovation Drive<br />
+                      123 Innovation Drive
+                      <br />
                       San Francisco, CA 94105
                     </p>
                   </div>
@@ -94,10 +108,10 @@ const Contact = () => {
                 Why Choose Cavora?
               </h4>
               <ul className="space-y-2 text-gray-600 dark:text-gray-300">
-                <li>• Industry-leading AI technology</li>
-                <li>• 24/7 expert support</li>
-                <li>• Scalable enterprise solutions</li>
-                <li>• Proven track record with 50K+ customers</li>
+                <li>• Personalized DSA roadmap with AI assistance</li>
+                <li>• Curated content based on real interview questions</li>
+                <li>• Beginner-friendly + deep dive advanced topics</li>
+                <li>• Practice with mock tests and company-wise sets</li>
               </ul>
             </div>
           </motion.div>
@@ -108,7 +122,10 @@ const Contact = () => {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <form onSubmit={handleSubmit} className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-8 shadow-lg border border-gray-200 dark:border-gray-700">
+            <form
+              onSubmit={handleSubmit}
+              className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-8 shadow-lg border border-gray-200 dark:border-gray-700"
+            >
               <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
                 Send us a message
               </h3>

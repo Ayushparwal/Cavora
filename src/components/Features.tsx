@@ -58,7 +58,7 @@ const Features = () => {
             </span>
           </h2>
           <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-            Explore high-quality resources designed to accelerate your AI journey — from theory to production.
+            Explore high-quality resources designed to accelerate your AI and Development journey — from theory to production.
           </p>
         </motion.div>
 

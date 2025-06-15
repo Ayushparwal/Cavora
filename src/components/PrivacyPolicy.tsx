@@ -1,7 +1,25 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
-import { Brain, ArrowLeft, Shield, Eye, Database, Lock, Users, Globe } from 'lucide-react';
+import React from "react";
+import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
+import {
+  Brain,
+  ArrowLeft,
+  Shield,
+  Eye,
+  Database,
+  Lock,
+  Users,
+  Globe,
+} from "lucide-react";
+
+const SectionHeader = ({ icon: Icon, title }: { icon: React.ElementType; title: string }) => (
+  <div className="flex items-center gap-3 mb-4">
+    <div className="shrink-0 flex items-center justify-center p-1.5 bg-indigo-100 dark:bg-cyan-950 rounded-full">
+      <Icon className="h-5 w-5 text-indigo-600 dark:text-cyan-400" />
+    </div>
+    <h2 className="text-2xl font-bold text-gray-900 dark:text-white">{title}</h2>
+  </div>
+);
 
 const PrivacyPolicy = () => {
   return (
@@ -21,42 +39,28 @@ const PrivacyPolicy = () => {
               <ArrowLeft className="h-4 w-4" />
               <span>Back to Home</span>
             </Link>
-            
-            <div className="flex items-center justify-center space-x-2 mb-4">
-              <Brain className="h-10 w-10 text-indigo-600 dark:text-cyan-400" />
-              <span className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-cyan-500 bg-clip-text text-transparent">
-                Cavora AI
-              </span>
-            </div>
-            
             <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
               Privacy Policy
             </h1>
             <p className="text-gray-600 dark:text-gray-300 text-lg">
-              Last updated: January 15, 2025
+              Last updated: June 15, 2025
             </p>
           </div>
 
           {/* Content */}
           <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-8 shadow-lg border border-gray-200 dark:border-gray-700">
             <div className="prose prose-lg dark:prose-invert max-w-none">
-              
+              {/* Sections */}
+
               <div className="mb-8">
-                <div className="flex items-center space-x-2 mb-4">
-                  <Shield className="h-6 w-6 text-indigo-600 dark:text-cyan-400" />
-                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white">1. Introduction</h2>
-                </div>
+                <SectionHeader icon={Shield} title="1. Introduction" />
                 <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
                   At Cavora AI, we take your privacy seriously. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our artificial intelligence services and platform. Please read this privacy policy carefully.
                 </p>
               </div>
 
               <div className="mb-8">
-                <div className="flex items-center space-x-2 mb-4">
-                  <Database className="h-6 w-6 text-indigo-600 dark:text-cyan-400" />
-                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white">2. Information We Collect</h2>
-                </div>
-                
+                <SectionHeader icon={Database} title="2. Information We Collect" />
                 <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">Personal Information</h3>
                 <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
                   We may collect personal information that you voluntarily provide to us when you:
@@ -83,10 +87,7 @@ const PrivacyPolicy = () => {
               </div>
 
               <div className="mb-8">
-                <div className="flex items-center space-x-2 mb-4">
-                  <Eye className="h-6 w-6 text-indigo-600 dark:text-cyan-400" />
-                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white">3. How We Use Your Information</h2>
-                </div>
+                <SectionHeader icon={Eye} title="3. How We Use Your Information" />
                 <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
                   We use the information we collect for various purposes, including:
                 </p>
@@ -102,10 +103,7 @@ const PrivacyPolicy = () => {
               </div>
 
               <div className="mb-8">
-                <div className="flex items-center space-x-2 mb-4">
-                  <Users className="h-6 w-6 text-indigo-600 dark:text-cyan-400" />
-                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white">4. Information Sharing</h2>
-                </div>
+                <SectionHeader icon={Users} title="4. Information Sharing" />
                 <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
                   We do not sell, trade, or otherwise transfer your personal information to third parties except in the following circumstances:
                 </p>
@@ -118,10 +116,7 @@ const PrivacyPolicy = () => {
               </div>
 
               <div className="mb-8">
-                <div className="flex items-center space-x-2 mb-4">
-                  <Lock className="h-6 w-6 text-indigo-600 dark:text-cyan-400" />
-                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white">5. Data Security</h2>
-                </div>
+                <SectionHeader icon={Lock} title="5. Data Security" />
                 <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
                   We implement appropriate technical and organizational security measures to protect your personal information, including:
                 </p>
@@ -135,10 +130,7 @@ const PrivacyPolicy = () => {
               </div>
 
               <div className="mb-8">
-                <div className="flex items-center space-x-2 mb-4">
-                  <Globe className="h-6 w-6 text-indigo-600 dark:text-cyan-400" />
-                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white">6. AI Data Processing</h2>
-                </div>
+                <SectionHeader icon={Globe} title="6. AI Data Processing" />
                 <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
                   When you use our AI services:
                 </p>
@@ -216,7 +208,6 @@ const PrivacyPolicy = () => {
                   </p>
                 </div>
               </div>
-
             </div>
           </div>
 
@@ -228,7 +219,6 @@ const PrivacyPolicy = () => {
             >
               View Terms of Service
             </Link>
-            
           </div>
         </motion.div>
       </div>
