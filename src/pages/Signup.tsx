@@ -100,20 +100,29 @@ const Signup = () => {
         <div className="my-6 text-center text-gray-500 dark:text-gray-400 text-sm">or continue with</div>
 
         <div className="flex gap-4">
-          <button
+          <motion.button
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
             onClick={handleGoogleSignup}
-            className="flex-1 flex items-center justify-center bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg py-2 hover:shadow-md transition-all"
+            className="flex-1 flex items-center justify-center gap-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg py-2 px-4 shadow-sm hover:shadow-lg transition-all"
           >
-            <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" className="h-5 w-5 mr-2 dark:invert" />
-            Google
-          </button>
-          <button
+            <img
+              src="https://www.svgrepo.com/show/475656/google-color.svg"
+              alt="Google"
+              className="h-5 w-5"
+            />
+            <span className="text-sm font-medium text-gray-700 dark:text-gray-200">Google</span>
+          </motion.button>
+
+          <motion.button
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
             onClick={handleGithubSignup}
-            className="flex-1 flex items-center justify-center bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg py-2 hover:shadow-md transition-all"
+            className="flex-1 flex items-center justify-center gap-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg py-2 px-4 shadow-sm hover:shadow-lg transition-all"
           >
-            <Github className="h-5 w-5 mr-2" />
-            GitHub
-          </button>
+            <Github className="h-5 w-5 text-gray-800 dark:text-white" />
+            <span className="text-sm font-medium text-gray-700 dark:text-gray-200">GitHub</span>
+          </motion.button>
         </div>
 
         <p className="text-center text-sm mt-6 text-gray-600 dark:text-gray-400">
