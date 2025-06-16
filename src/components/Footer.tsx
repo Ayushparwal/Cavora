@@ -26,7 +26,7 @@ const Footer = () => {
             </p>
             <div className="flex space-x-4">
               <motion.a
-                href="https://www.instagram.com/ayushokaay"
+                href="https://www.instagram.com/cavora64/"
                 target="_blank"
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.1, y: -2 }}
@@ -35,7 +35,7 @@ const Footer = () => {
                 <Instagram className="h-5 w-5" />
               </motion.a>
               <motion.a
-                href="https://www.linkedin.com/in/ayush-parwal-797a79255/"
+                href="https://www.linkedin.com/company/cavora-ai/"
                 target="_blank"
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.1, y: -2 }}
