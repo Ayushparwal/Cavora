@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { Brain, Code, FlaskConical, Sparkles } from "lucide-react";
+import { Brain, Code, FlaskConical, Sparkles, Search } from "lucide-react";
 
 const Dashboard = () => {
   const navigate = useNavigate();
+  const [search, setSearch] = useState("");
 
   const sections = [
     {
@@ -33,20 +34,39 @@ const Dashboard = () => {
     },
   ];
 
+  const filteredSections = sections.filter(
+    ({ title, description }) =>
+      title.toLowerCase().includes(search.toLowerCase()) ||
+      description.toLowerCase().includes(search.toLowerCase())
+  );
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-100 to-blue-100 dark:from-gray-900 dark:to-gray-800 p-8 text-gray-900 dark:text-white">
       <motion.h1
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6 }}
-        className="text-4xl font-bold text-center mb-12"
+        className="text-4xl font-bold text-center mb-6"
       >
-        <br/>
+        <br />
         AI & Code Dashboard
       </motion.h1>
 
+      <div className="flex items-center justify-center mb-10">
+        <div className="relative w-full max-w-md">
+          <Search className="absolute left-3 top-2.5 text-gray-500 dark:text-gray-400" size={20} />
+          <input
+            type="text"
+            placeholder="Search tools..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="w-full pl-10 pr-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+      </div>
+
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
-        {sections.map(({ title, description, icon, path }) => (
+        {filteredSections.map(({ title, description, icon, path }) => (
           <motion.div
             key={title}
             whileHover={{ scale: 1.05 }}
@@ -65,6 +85,11 @@ const Dashboard = () => {
             </p>
           </motion.div>
         ))}
+        {filteredSections.length === 0 && (
+          <div className="col-span-full text-center text-gray-500 dark:text-gray-400 mt-10">
+            No tools match your search.
+          </div>
+        )}
       </div>
     </div>
   );

@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Github, Mail, User, Eye, EyeOff } from 'lucide-react';
+import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
+import { auth, googleProvider, githubProvider } from '../firebase';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -12,19 +14,41 @@ const Login = () => {
   const handleLogin = async () => {
     if (!email || !password) return alert('Please fill in all fields');
     try {
-      console.log('Logging in with:', email, password);
-      setTimeout(() => navigate('/dashboard'), 1000);
+      await signInWithEmailAndPassword(auth, email, password);
+      navigate('/dashboard');
     } catch (error) {
-      alert('Login failed.');
+      if (error instanceof Error) {
+        alert('Login failed. ' + error.message);
+      } else {
+        alert('Login failed. Unknown error.');
+      }
     }
   };
 
-  const handleGoogleLogin = () => {
-    alert('Google login not implemented yet');
+  const handleGoogleLogin = async () => {
+    try {
+      await signInWithPopup(auth, googleProvider);
+      navigate('/dashboard');
+    } catch (error) {
+      if (error instanceof Error) {
+        alert('Google login failed. ' + error.message);
+      } else {
+        alert('Google login failed. Unknown error.');
+      }
+    }
   };
 
-  const handleGithubLogin = () => {
-    alert('GitHub login not implemented yet');
+  const handleGithubLogin = async () => {
+    try {
+      await signInWithPopup(auth, githubProvider);
+      navigate('/dashboard');
+    } catch (error) {
+      if (error instanceof Error) {
+        alert('GitHub login failed. ' + error.message);
+      } else {
+        alert('GitHub login failed. Unknown error.');
+      }
+    }
   };
 
   return (

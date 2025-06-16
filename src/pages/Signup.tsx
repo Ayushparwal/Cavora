@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Mail, Lock, User, Github, Eye, EyeOff } from 'lucide-react';
+import { createUserWithEmailAndPassword, updateProfile, signInWithPopup } from 'firebase/auth';
+import { auth, googleProvider, githubProvider } from '../firebase';
 
 const Signup = () => {
   const [name, setName] = useState('');
@@ -13,19 +15,33 @@ const Signup = () => {
   const handleSignup = async () => {
     if (!name || !email || !password) return alert('Please fill all fields');
     try {
-      console.log('Signing up:', { name, email, password });
-      setTimeout(() => navigate('/dashboard'), 1000);
-    } catch (error) {
-      alert('Signup failed.');
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      await updateProfile(userCredential.user, { displayName: name });
+      alert('Signup successful! Please log in to continue.');
+      navigate('/login');
+    } catch (error: any) {
+      alert(error.message || 'Signup failed.');
     }
   };
 
-  const handleGoogleSignup = () => {
-    alert('Google signup not implemented yet');
+  const handleGoogleSignup = async () => {
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      alert(`Welcome ${result.user.displayName}`);
+      navigate('/dashboard');
+    } catch (error: any) {
+      alert(error.message || 'Google sign-in failed');
+    }
   };
 
-  const handleGithubSignup = () => {
-    alert('GitHub signup not implemented yet');
+  const handleGithubSignup = async () => {
+    try {
+      const result = await signInWithPopup(auth, githubProvider);
+      alert(`Welcome ${result.user.displayName}`);
+      navigate('/dashboard');
+    } catch (error: any) {
+      alert(error.message || 'GitHub sign-in failed');
+    }
   };
 
   return (
