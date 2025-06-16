@@ -117,9 +117,14 @@ const Hero = () => {
             transition={{ duration: 1, delay: 0.4 }}
             className="mt-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10"
           >
-            <h2 className="text-3xl md:text-4xl font-bold text-center mb-8 text-gray-900 dark:text-white">
-              Explore Our Learning Toolkits
-            </h2>
+            
+            <br />
+            <br />
+            <br />
+            
+<h2 className="text-3xl md:text-4xl font-bold text-center mb-8 text-gray-900 dark:text-white">
+  Explore Our Learning Toolkits
+</h2>
 
             {/* Search bar below heading */}
             <div className="flex justify-center mb-10">

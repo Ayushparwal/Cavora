@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Brain, Menu, X, Sun, Moon } from 'lucide-react';
+import { Menu, X, Sun, Moon } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 import { useNavigate } from 'react-router-dom';
 
@@ -57,6 +57,12 @@ const Navbar = () => {
             >
               Pricing
             </button>
+            <button
+              onClick={() => navigate('/login')}
+              className="text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-cyan-400 transition-colors"
+            >
+              Log In
+            </button>
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -97,6 +103,15 @@ const Navbar = () => {
           >
             <button onClick={() => scrollToSection('home')} className="block text-gray-700 dark:text-gray-300">Home</button>
             <button onClick={() => scrollToSection('privacy')} className="block text-gray-700 dark:text-gray-300">Privacy</button>
+            <button
+              onClick={() => {
+                navigate('/login');
+                setIsOpen(false);
+              }}
+              className="block text-gray-700 dark:text-gray-300"
+            >
+              Log In
+            </button>
             <button onClick={() => scrollToSection('tryout')} className="block text-white bg-gradient-to-r from-cyan-500 to-indigo-600 px-4 py-2 rounded-lg hover:from-cyan-600 hover:to-indigo-700">
               Try Cavora
             </button>

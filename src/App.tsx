@@ -10,6 +10,11 @@ import TryOut from './components/TryOut';
 import Pricing from './components/Pricing';
 import Footer from './components/Footer';
 
+import Login from './pages/Login';
+import Signup from './pages/Signup';
+import Dashboard from './pages/Dashboard';
+
+
 import TermsOfService from './components/TermsOfService';
 import PrivacyPolicy from './components/PrivacyPolicy';
 import Integrations from './components/Integrations';
@@ -26,6 +31,7 @@ import ArrayToolkit from "./pages/dsa/ArrayToolkit";
 import StringToolkit from "./pages/dsa/StringToolkit";
 import QueueToolkit from "./pages/dsa/QueueToolkit";
 import HashtableToolkit from "./pages/dsa/HashtableToolkit";
+
 
 
 
@@ -64,7 +70,10 @@ function App() {
                <Route path="/dsa/queue" element={<QueueToolkit />} />
                <Route path="/dsa/hashtable" element={<HashtableToolkit />} />
 
-
+              { /*login route*/}
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/dashboard" element={<Dashboard />} />
 
               
 

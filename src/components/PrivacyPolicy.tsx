@@ -2,17 +2,21 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
-  Brain,
-  ArrowLeft,
   Shield,
   Eye,
   Database,
   Lock,
   Users,
   Globe,
+  ArrowLeft,
 } from "lucide-react";
 
-const SectionHeader = ({ icon: Icon, title }: { icon: React.ElementType; title: string }) => (
+interface SectionHeaderProps {
+  icon: React.ElementType;
+  title: string;
+}
+
+const SectionHeader: React.FC<SectionHeaderProps> = ({ icon: Icon, title }) => (
   <div className="flex items-center gap-3 mb-4">
     <div className="shrink-0 flex items-center justify-center p-1.5 bg-indigo-100 dark:bg-cyan-950 rounded-full">
       <Icon className="h-5 w-5 text-indigo-600 dark:text-cyan-400" />
@@ -21,7 +25,7 @@ const SectionHeader = ({ icon: Icon, title }: { icon: React.ElementType; title: 
   </div>
 );
 
-const PrivacyPolicy = () => {
+const PrivacyPolicy: React.FC = () => {
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -51,11 +55,10 @@ const PrivacyPolicy = () => {
           <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-8 shadow-lg border border-gray-200 dark:border-gray-700">
             <div className="prose prose-lg dark:prose-invert max-w-none">
               {/* Sections */}
-
               <div className="mb-8">
                 <SectionHeader icon={Shield} title="1. Introduction" />
                 <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-                  At Cavora AI, we take your privacy seriously. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our artificial intelligence services and platform. Please read this privacy policy carefully.
+                  At Cavora AI, we take your privacy seriously. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our artificial intelligence services and platform.
                 </p>
               </div>
 
@@ -201,10 +204,10 @@ const PrivacyPolicy = () => {
                 </p>
                 <div className="p-4 bg-indigo-50 dark:bg-indigo-900/20 rounded-lg border border-indigo-200 dark:border-indigo-800">
                   <p className="text-gray-700 dark:text-gray-300">
-                    <strong>Email:</strong> privacy@Cavora.com<br />
+                    <strong>Email:</strong> privacy@cavora.com<br />
                     <strong>Address:</strong> 123 Innovation Drive, San Francisco, CA 94105<br />
                     <strong>Phone:</strong> +1 (555) 123-4567<br />
-                    <strong>Data Protection Officer:</strong> dpo@Cavora.com
+                    <strong>Data Protection Officer:</strong> dpo@cavora.com
                   </p>
                 </div>
               </div>
