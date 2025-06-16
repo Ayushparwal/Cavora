@@ -13,6 +13,7 @@ import Footer from './components/Footer';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
+import Runcode from "./pages/Runcode";
 
 
 import TermsOfService from './components/TermsOfService';
@@ -74,6 +75,8 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/run-code" element={<Runcode />} />
+
 
               
 
