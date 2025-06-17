@@ -1,8 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Mail, Lock, User, Github, Eye, EyeOff } from 'lucide-react';
-import { createUserWithEmailAndPassword, updateProfile, signInWithPopup } from 'firebase/auth';
+import { Eye, EyeOff, Github } from 'lucide-react';
+import {
+  createUserWithEmailAndPassword,
+  updateProfile,
+  signInWithPopup,
+  onAuthStateChanged,
+} from 'firebase/auth';
 import { auth, googleProvider, githubProvider } from '../firebase';
 
 const Signup = () => {
@@ -10,39 +15,59 @@ const Signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [hasInitialized, setHasInitialized] = useState(false);
+  const [message, setMessage] = useState('');
+  const [isSuccess, setIsSuccess] = useState(false);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) navigate('/');
+      setHasInitialized(true);
+    });
+    return () => unsubscribe();
+  }, [navigate]);
+
   const handleSignup = async () => {
-    if (!name || !email || !password) return alert('Please fill all fields');
+    setMessage('');
+    if (!name || !email || !password) {
+      setIsSuccess(false);
+      return setMessage('Please fill all fields');
+    }
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       await updateProfile(userCredential.user, { displayName: name });
-      alert('Signup successful! Please log in to continue.');
-      navigate('/login');
+      await auth.signOut();
+      setIsSuccess(true);
+      setMessage('Signup successful! Redirecting to login...');
+      navigate('/login'); 
     } catch (error: any) {
-      alert(error.message || 'Signup failed.');
+      setIsSuccess(false);
+      setMessage(error.message || 'Signup failed.');
     }
   };
 
   const handleGoogleSignup = async () => {
     try {
       const result = await signInWithPopup(auth, googleProvider);
-      alert(`Welcome ${result.user.displayName}`);
       navigate('/dashboard');
     } catch (error: any) {
-      alert(error.message || 'Google sign-in failed');
+      setIsSuccess(false);
+      setMessage(error.message || 'Google sign-in failed');
     }
   };
 
   const handleGithubSignup = async () => {
     try {
       const result = await signInWithPopup(auth, githubProvider);
-      alert(`Welcome ${result.user.displayName}`);
       navigate('/dashboard');
     } catch (error: any) {
-      alert(error.message || 'GitHub sign-in failed');
+      setIsSuccess(false);
+      setMessage(error.message || 'GitHub sign-in failed');
     }
   };
+
+  if (!hasInitialized) return null;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-100 via-pink-100 to-red-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex items-center justify-center px-4">
@@ -63,27 +88,21 @@ const Signup = () => {
         </motion.div>
 
         <div className="space-y-4">
-          <div className="relative">
-            <input
-              type="text"
-              placeholder="Full Name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="w-full px-4 py-3 pl-11 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            />
-            <User className="absolute top-3 left-3 h-5 w-5 text-gray-500 dark:text-gray-400" />
-          </div>
+          <input
+            type="text"
+            placeholder="Full Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="w-full px-4 py-3 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          />
 
-          <div className="relative">
-            <input
-              type="email"
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-3 pl-11 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            />
-            <Mail className="absolute top-3 left-3 h-5 w-5 text-gray-500 dark:text-gray-400" />
-          </div>
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full px-4 py-3 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          />
 
           <div className="relative">
             <input
@@ -91,9 +110,8 @@ const Signup = () => {
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-3 pl-11 pr-11 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full px-4 py-3 pr-11 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500"
             />
-            <Lock className="absolute top-3 left-3 h-5 w-5 text-gray-500 dark:text-gray-400" />
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
@@ -102,6 +120,12 @@ const Signup = () => {
               {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
             </button>
           </div>
+
+          {message && (
+            <div className={`text-sm font-medium ${isSuccess ? 'text-green-600' : 'text-red-500'} text-center`}>
+              {message}
+            </div>
+          )}
 
           <motion.button
             whileHover={{ scale: 1.03 }}
