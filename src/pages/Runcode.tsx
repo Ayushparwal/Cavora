@@ -16,7 +16,7 @@ const monacoLanguageMap: Record<string, string> = {
   java: "java",
   javascript: "javascript",
 };
-const apiKey = import.meta.env.VITE_JUDGE0_KEY;
+const apiKey = import.meta.env.VITE_JUDGE0;
 
 const Runcode = () => {
   const [language, setLanguage] = useState("python");
