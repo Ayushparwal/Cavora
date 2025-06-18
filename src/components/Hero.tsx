@@ -1,22 +1,25 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   ArrowRight,
   BookOpenCheck,
   BrainCircuit,
-  BotMessageSquare,
   Camera,
+  FlaskConical,
   ScrollText,
   Search,
 } from "lucide-react";
+import { Typewriter } from "react-simple-typewriter";
 
 const toolkits = [
   {
     title: "DSA Toolkit",
     description:
       "Master Data Structures and Algorithms with visual aids and curated practice sets.",
-    icon: <BookOpenCheck className="h-8 w-8 text-indigo-600 dark:text-cyan-400" />,
+    icon: (
+      <BookOpenCheck className="h-8 w-8 text-indigo-600 dark:text-cyan-400" />
+    ),
     link: "/dsa",
     comingSoon: false,
   },
@@ -24,15 +27,19 @@ const toolkits = [
     title: "CP Toolkit",
     description:
       "Sharpen your problem-solving skills and excel in Competitive Programming contests.",
-    icon: <BrainCircuit className="h-8 w-8 text-indigo-600 dark:text-cyan-400" />,
+    icon: (
+      <BrainCircuit className="h-8 w-8 text-indigo-600 dark:text-cyan-400" />
+    ),
     link: "#",
     comingSoon: true,
   },
   {
     title: "AI/ML Toolkit",
     description:
-      "Explore cutting-edge AI and Machine Learning algorithms with guided projects and notes.",
-    icon: <BotMessageSquare className="h-8 w-8 text-indigo-600 dark:text-cyan-400" />,
+      "Master AI and ML with hands-on projects on neural networks, agents, generative AI, supervised, unsupervised, and reinforcement learning.",
+    icon: (
+      <BrainCircuit className="h-8 w-8 text-indigo-600 dark:text-cyan-400" />
+    ),
     link: "#",
     comingSoon: true,
   },
@@ -64,6 +71,7 @@ const toolkits = [
 
 const Hero = () => {
   const [search, setSearch] = useState("");
+  const navigate = useNavigate();
 
   const filteredToolkits = toolkits.filter(
     (kit) =>
@@ -108,8 +116,28 @@ const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="text-4xl md:text-6xl lg:text-7xl font-bold"
-          ></motion.h1>
+            className="text-2xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white"
+          >
+            <br />
+            <br />
+            <br />
+            Cavora empowers you to{" "}
+            <span className="bg-gradient-to-r from-indigo-600 to-cyan-500 bg-clip-text text-transparent">
+              <Typewriter
+                words={[
+                  "master DSA effortlessly!",
+                  "build smart ML models!",
+                  "code smarter with AI!",
+                ]}
+                loop={0}
+                cursor
+                cursorStyle="|"
+                typeSpeed={80}
+                deleteSpeed={50}
+                delaySpeed={1500}
+              />
+            </span>
+          </motion.h1>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -117,16 +145,10 @@ const Hero = () => {
             transition={{ duration: 1, delay: 0.4 }}
             className="mt-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10"
           >
-            
             <br />
             <br />
             <br />
-            
-<h2 className="text-3xl md:text-4xl font-bold text-center mb-8 text-gray-900 dark:text-white">
-  Explore Our Learning Toolkits
-</h2>
 
-            {/* Search bar below heading */}
             <div className="flex justify-center mb-10">
               <div className="flex items-center space-x-2 bg-white dark:bg-gray-800 px-3 py-2 rounded-lg shadow border border-gray-300 dark:border-gray-700 w-full max-w-xs">
                 <Search className="w-5 h-5 text-gray-500 dark:text-gray-300" />
@@ -193,6 +215,7 @@ const Hero = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="group px-8 py-4 bg-gradient-to-r from-indigo-600 to-cyan-500 text-white rounded-xl hover:from-indigo-700 hover:to-cyan-600 transition-all flex items-center space-x-2 shadow-lg"
+              onClick={() => navigate("/signup")}
             >
               <span className="text-lg font-semibold">Get Started Free</span>
               <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />

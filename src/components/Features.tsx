@@ -1,44 +1,53 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { BookOpen, FileText, Video, Lightbulb, FileDown, NotebookPen } from 'lucide-react';
+import { BookOpen, FileText, Video, Lightbulb, FileDown, NotebookPen, Sparkles, BrainCircuit, Code2 } from 'lucide-react';
 
 const features = [
   {
     icon: BookOpen,
     title: 'Interactive Learning Notes',
     description: 'Dive deep into curated content with step-by-step explanations covering theory, intuition, and practicals for every AI/ML topic.'
-    
   },
   {
     icon: FileText,
     title: 'Research Papers Simplified',
     description: 'We break down key academic papers into digestible insights, summaries, and visual flowcharts for quick understanding.'
-    
   },
   {
     icon: Video,
     title: 'Video Tutorials',
     description: 'Watch short, focused video lessons that walk you through AI concepts, coding sessions, and deployment strategies.'
-    
   },
   {
     icon: Lightbulb,
     title: 'Project Ideas & Starters',
     description: 'Get inspired with real-world project blueprints across domains like NLP, Computer Vision, and Reinforcement Learning.'
-    
   },
   {
     icon: FileDown,
     title: 'Documentation & Guides',
     description: 'Access in-depth documentation for APIs, datasets, and pre-trained models with practical usage examples.'
-    
   },
   {
     icon: NotebookPen,
     title: 'Assignments & Practice Sets',
     description: 'Sharpen your skills with auto-evaluated quizzes, case studies, and hands-on coding labs designed for learners.'
-    
   },
+  {
+    icon: Sparkles,
+    title: 'AI-Powered Code Generator',
+    description: 'Generate complex code snippets and full solutions for DSA, ML, and system design problems instantly.'
+  },
+  {
+    icon: BrainCircuit,
+    title: 'DSA + ML Chatbot',
+    description: 'Ask Cavora anything about algorithms, ML models, or code debugging. Get precise, contextual responses powered by LLMs.'
+  },
+  {
+    icon: Code2,
+    title: 'Live Code Execution (Coming Soon)',
+    description: 'Run your Python, C++, and Java code directly in-browser with real-time output and error handling.'
+  }
 ];
 
 const Features = () => {
@@ -85,7 +94,6 @@ const Features = () => {
                 <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-4">
                   {feature.description}
                 </p>
-                
               </div>
             </motion.div>
           ))}
