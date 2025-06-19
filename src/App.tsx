@@ -9,6 +9,12 @@ import Features from './components/Features';
 import TryOut from './components/TryOut';
 import Pricing from './components/Pricing';
 import Footer from './components/Footer';
+import TermsOfService from './components/TermsOfService';
+import PrivacyPolicy from './components/PrivacyPolicy';
+import Integrations from './components/Integrations';
+import Cookies from './components/Cookie';
+
+
 
 import Login from './pages/Login';
 import Signup from './pages/Signup';
@@ -16,22 +22,12 @@ import Dashboard from './pages/Dashboard';
 import Runcode from "./pages/Runcode";
 
 
-import TermsOfService from './components/TermsOfService';
-import PrivacyPolicy from './components/PrivacyPolicy';
-import Integrations from './components/Integrations';
-import Cookies from './components/Cookie';
+
 
 // ✅ Import the DSA Toolkit page
 import DsaToolkit from './pages/dsa/DsaToolkit';
 
 
-
-import ArrayToolkit from "./pages/dsa/ArrayToolkit"; 
-  import SlidingWindow from "./pages/dsa/array/SlidingWindow";
-  import TwoPointers from './pages/dsa/array/TwoPointers';
-import StringToolkit from "./pages/dsa/StringToolkit";
-import QueueToolkit from "./pages/dsa/QueueToolkit";
-import HashtableToolkit from "./pages/dsa/HashtableToolkit";
 
 
 
@@ -62,14 +58,7 @@ function App() {
               
               {/* ✅ ALL Toolkit Route */}
               <Route path="/dsa" element={<DsaToolkit />} />
-                  <Route path="/dsa/array" element={<ArrayToolkit />} />
-                       <Route path="/dsa/array/slidingwindow" element={<SlidingWindow />} />
-                       <Route path="/dsa/array/twopointers" element={<TwoPointers />} />
-
-                       
-               <Route path="/dsa/string" element={<StringToolkit />} />
-               <Route path="/dsa/queue" element={<QueueToolkit />} />
-               <Route path="/dsa/hashtable" element={<HashtableToolkit />} />
+                  
 
               { /*login route*/}
               <Route path="/login" element={<Login />} />

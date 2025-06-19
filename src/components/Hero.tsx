@@ -36,34 +36,10 @@ const toolkits = [
   {
     title: "AI/ML Toolkit",
     description:
-      "Master AI and ML with hands-on projects on neural networks, agents, generative AI, supervised, unsupervised, and reinforcement learning.",
+      "Build and apply AI/ML models with hands-on tools and real-world datasets.",
     icon: (
       <BrainCircuit className="h-8 w-8 text-indigo-600 dark:text-cyan-400" />
     ),
-    link: "#",
-    comingSoon: true,
-  },
-  {
-    title: "Natural Language Processing",
-    description:
-      "Delve into NLP with hands-on projects on sentiment analysis, summarization, and more.",
-    icon: <ArrowRight className="h-8 w-8 text-indigo-600 dark:text-cyan-400" />,
-    link: "#",
-    comingSoon: true,
-  },
-  {
-    title: "Computer Vision",
-    description:
-      "Understand how machines interpret images using projects on detection, recognition, and segmentation.",
-    icon: <Camera className="h-8 w-8 text-indigo-600 dark:text-cyan-400" />,
-    link: "#",
-    comingSoon: true,
-  },
-  {
-    title: "Large Language Models",
-    description:
-      "Learn to work with state-of-the-art LLMs like GPT and LLaMA for powerful AI applications.",
-    icon: <ScrollText className="h-8 w-8 text-indigo-600 dark:text-cyan-400" />,
     link: "#",
     comingSoon: true,
   },
@@ -115,27 +91,33 @@ const Hero = () => {
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="text-2xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white"
+            transition={{ duration: 1, delay: 0.3 }}
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight text-gray-900 dark:text-white"
           >
             <br />
             <br />
+            Cavora empowers you to
             <br />
-            Cavora empowers you to{" "}
-            <span className="bg-gradient-to-r from-indigo-600 to-cyan-500 bg-clip-text text-transparent">
-              <Typewriter
-                words={[
-                  "master DSA effortlessly!",
-                  "build smart ML models!",
-                  "code smarter with AI!",
-                ]}
-                loop={0}
-                cursor
-                cursorStyle="|"
-                typeSpeed={80}
-                deleteSpeed={50}
-                delaySpeed={1500}
-              />
+            <span className="relative inline-block mt-4">
+              <span className="absolute inset-0 blur-md opacity-20 bg-gradient-to-r from-indigo-600 to-cyan-500 rounded-lg z-0" />
+              <span className="relative z-10 bg-gradient-to-r from-indigo-600 to-cyan-500 bg-clip-text text-transparent font-bold">
+                <Typewriter
+                  words={[
+                    "crack DSA like a pro!",
+                    "master Competitive Programming!",
+                    "build intelligent AI applications!",
+                    "accelerate your coding journey!",
+                    "learn by solving real-world problems!",
+                    "become a confident tech creator!",
+                  ]}
+                  loop
+                  cursor
+                  cursorStyle="|"
+                  typeSpeed={80}
+                  deleteSpeed={50}
+                  delaySpeed={1500}
+                />
+              </span>
             </span>
           </motion.h1>
 

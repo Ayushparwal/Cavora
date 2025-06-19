@@ -18,6 +18,7 @@
     "framer-motion": "^10.18.0",
     "lucide-react": "^0.344.0",
     "marked": "^15.0.12",
+    "p5": "^2.0.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-markdown": "^10.1.0",
