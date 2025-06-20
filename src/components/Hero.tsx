@@ -1,59 +1,12 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { Link, useNavigate } from "react-router-dom";
-import {
-  ArrowRight,
-  BookOpenCheck,
-  BrainCircuit,
-  Camera,
-  FlaskConical,
-  ScrollText,
-  Search,
-} from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { ArrowRight, Search } from "lucide-react";
 import { Typewriter } from "react-simple-typewriter";
-
-const toolkits = [
-  {
-    title: "DSA Toolkit",
-    description:
-      "Master Data Structures and Algorithms with visual aids and curated practice sets.",
-    icon: (
-      <BookOpenCheck className="h-8 w-8 text-indigo-600 dark:text-cyan-400" />
-    ),
-    link: "/dsa",
-    comingSoon: false,
-  },
-  {
-    title: "CP Toolkit",
-    description:
-      "Sharpen your problem-solving skills and excel in Competitive Programming contests.",
-    icon: (
-      <BrainCircuit className="h-8 w-8 text-indigo-600 dark:text-cyan-400" />
-    ),
-    link: "#",
-    comingSoon: true,
-  },
-  {
-    title: "AI/ML Toolkit",
-    description:
-      "Build and apply AI/ML models with hands-on tools and real-world datasets.",
-    icon: (
-      <BrainCircuit className="h-8 w-8 text-indigo-600 dark:text-cyan-400" />
-    ),
-    link: "#",
-    comingSoon: true,
-  },
-];
 
 const Hero = () => {
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
-
-  const filteredToolkits = toolkits.filter(
-    (kit) =>
-      kit.title.toLowerCase().includes(search.toLowerCase()) ||
-      kit.description.toLowerCase().includes(search.toLowerCase())
-  );
 
   return (
     <section
@@ -103,12 +56,12 @@ const Hero = () => {
               <span className="relative z-10 bg-gradient-to-r from-indigo-600 to-cyan-500 bg-clip-text text-transparent font-bold">
                 <Typewriter
                   words={[
-                    "crack DSA like a pro!",
-                    "master Competitive Programming!",
-                    "build intelligent AI applications!",
-                    "accelerate your coding journey!",
-                    "learn by solving real-world problems!",
-                    "become a confident tech creator!",
+                    "train AI models faster!",
+                    "scale ML workloads efficiently!",
+                    "reduce training costs intelligently!",
+                    "optimize GPU usage!",
+                    "accelerate experimentation cycles!",
+                    "build powerful LLM apps!",
                   ]}
                   loop
                   cursor
@@ -121,71 +74,16 @@ const Hero = () => {
             </span>
           </motion.h1>
 
-          <motion.div
+          <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.4 }}
-            className="mt-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10"
+            className="max-w-3xl mx-auto text-lg text-gray-700 dark:text-gray-300"
           >
-            <br />
-            <br />
-            <br />
-
-            <div className="flex justify-center mb-10">
-              <div className="flex items-center space-x-2 bg-white dark:bg-gray-800 px-3 py-2 rounded-lg shadow border border-gray-300 dark:border-gray-700 w-full max-w-xs">
-                <Search className="w-5 h-5 text-gray-500 dark:text-gray-300" />
-                <input
-                  type="text"
-                  placeholder="Search toolkits..."
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  className="bg-transparent focus:outline-none text-sm text-gray-700 dark:text-gray-200 w-full"
-                />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-              {filteredToolkits.map((kit, i) => (
-                <motion.div
-                  key={i}
-                  whileHover={{ scale: 1.05, rotate: 1 }}
-                  transition={{ type: "spring", stiffness: 300 }}
-                  className={kit.comingSoon ? "opacity-70 relative" : ""}
-                >
-                  <Link
-                    to={kit.link}
-                    className="block h-full cursor-pointer"
-                    onClick={(e) => kit.comingSoon && e.preventDefault()}
-                  >
-                    <div className="h-full p-6 bg-white/10 dark:bg-gray-900/10 backdrop-blur-xl border border-white/20 dark:border-gray-700/20 rounded-2xl text-center shadow-md hover:shadow-xl transition-all relative overflow-hidden group">
-                      <div className="absolute inset-0 bg-gradient-to-br from-indigo-100/10 to-cyan-100/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl z-0" />
-                      {kit.comingSoon && (
-                        <motion.div
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          transition={{ delay: 0.2 }}
-                          className="absolute top-2 right-2 text-xs bg-yellow-500 text-white px-2 py-1 rounded shadow-lg animate-pulse"
-                        >
-                          Coming Soon
-                        </motion.div>
-                      )}
-                      <div className="relative z-10 flex flex-col items-center justify-center text-center space-y-4 h-full">
-                        <div className="p-3 bg-indigo-50 dark:bg-cyan-900 rounded-full">
-                          {kit.icon}
-                        </div>
-                        <h3 className="text-xl font-semibold text-indigo-600 dark:text-cyan-400">
-                          {kit.title}
-                        </h3>
-                        <p className="text-gray-700 dark:text-gray-300 text-sm">
-                          {kit.description}
-                        </p>
-                      </div>
-                    </div>
-                  </Link>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
+            Cavora is a next-gen platform built to accelerate AI model training
+            through optimized infrastructure, intelligent scheduling, and
+            hardware-aware fine-tuning.
+          </motion.p>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -219,7 +117,7 @@ const Hero = () => {
                       500+
                     </div>
                     <div className="text-gray-600 dark:text-gray-300">
-                      Students Empowered
+                      Engineers Accelerated
                     </div>
                   </div>
                   <div className="text-center">
@@ -227,7 +125,7 @@ const Hero = () => {
                       100+
                     </div>
                     <div className="text-gray-600 dark:text-gray-300">
-                      Projects Completed
+                      Experiments Optimized
                     </div>
                   </div>
                   <div className="text-center">
@@ -235,7 +133,7 @@ const Hero = () => {
                       98%
                     </div>
                     <div className="text-gray-600 dark:text-gray-300">
-                      Positive Feedback
+                      Feedback Satisfaction
                     </div>
                   </div>
                 </div>

@@ -15,21 +15,10 @@ import Integrations from './components/Integrations';
 import Cookies from './components/Cookie';
 
 
-
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
 import Runcode from "./pages/Runcode";
-
-
-
-
-// ✅ Import the DSA Toolkit page
-import DsaToolkit from './pages/dsa/DsaToolkit';
-
-
-
-
 
 
 const HomePage = () => (
@@ -56,8 +45,7 @@ function App() {
               <Route path="/integrations" element={<Integrations />} />
               <Route path="/cookies" element={<Cookies />} />
               
-              {/* ✅ ALL Toolkit Route */}
-              <Route path="/dsa" element={<DsaToolkit />} />
+              
                   
 
               { /*login route*/}

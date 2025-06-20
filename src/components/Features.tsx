@@ -1,41 +1,49 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { BookOpen, FileText, Video, Lightbulb, FileDown, NotebookPen, Sparkles, BrainCircuit, Code2 } from 'lucide-react';
+import {
+  Cpu,
+  Timer,
+  GaugeCircle,
+  BrainCog,
+  Zap,
+  Rocket,
+  BarChart3,
+  CloudLightning,
+  ShieldCheck
+} from 'lucide-react';
 
 const features = [
   {
-    icon: BookOpen,
-    title: 'Interactive DSA Notes',
-    description: 'Master data structures and algorithms with in-depth explanations, visual aids, and real coding patterns.'
+    icon: Cpu,
+    title: 'Optimized Infrastructure',
+    description: 'Leverage hardware-aware scheduling and resource allocation for peak performance on GPUs and TPUs.'
   },
   {
-    icon: NotebookPen,
-    title: 'Practice Sheets',
-    description: 'Sharpen your DSA and CP skills with curated problem sets categorized by difficulty and technique.'
+    icon: Rocket,
+    title: 'Lightning-Fast Training',
+    description: 'Accelerate training cycles using mixed-precision, LoRA, and cutting-edge optimization techniques.'
   },
   {
-    icon: FileText,
-    title: 'Coding Tests',
-    description: 'Simulate real coding interviews with timed challenges and track your progress with detailed feedback.'
+    icon: BarChart3,
+    title: 'Training Analytics',
+    description: 'Visualize training time, resource usage, model metrics, and performance bottlenecks in real time.'
   },
   {
-    icon: Sparkles,
-    title: 'AI-Powered Code Generator',
-    description: 'Instantly generate solutions for DSA problems, competitive questions, and edge-case test scenarios.'
+    icon: Zap,
+    title: 'Smart Scheduling Engine',
+    description: 'Auto-queue, prioritize, and parallelize multiple model runs with intelligent job orchestration.'
   },
   {
-    icon: BrainCircuit,
-    title: 'DSA Chat Assistant',
-    description: 'Ask Cavora about any algorithm, time complexity, or code logic — get fast, contextual answers with examples.'
+    icon: CloudLightning,
+    title: 'Multi-Cloud Compatible',
+    description: 'Deploy training jobs across AWS, GCP, Azure, or on-premise with zero manual overhead.'
   },
   {
-    icon: Lightbulb,
-    title: 'Performance Analytics',
-    description: 'Visualize your strengths, weaknesses, and coding speed with smart analytics from past quizzes and challenges.'
+    icon: ShieldCheck,
+    title: 'Reliable Checkpointing',
+    description: 'Auto-save progress and resume model training without losing experiments or hyperparameters.'
   }
 ];
-
-
 
 const Features = () => {
   return (
@@ -50,11 +58,11 @@ const Features = () => {
         >
           <h2 className="text-3xl md:text-5xl font-bold mb-6">
             <span className="bg-gradient-to-r from-indigo-600 to-cyan-500 bg-clip-text text-transparent">
-              Learn Seamlessly
+              Accelerate Model Training
             </span>
           </h2>
           <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-            Explore high-quality resources designed to accelerate your AI and Development journey — from theory to production.
+            Cavora delivers everything you need to train, optimize, and deploy AI models faster — from compute to control.
           </p>
         </motion.div>
 

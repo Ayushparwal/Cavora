@@ -7,30 +7,42 @@ const plans = [
     name: 'Basic',
     price: 0,
     period: 'month',
-    description: 'Perfect for beginners to explore DSA fundamentals',
+    description: 'Get started with Cavora and explore essential training workflows.',
     features: [
-      'Access to core DSA topics',
-      '10 curated questions/day',
-      'Basic progress tracking',
-      'Roadmap and blog access',
+      'Single-GPU training support',
+      'Basic monitoring dashboard',
+      'Access to public models',
+      'Community support',
     ],
     popular: false,
   },
   {
     name: 'Pro',
-    price: 399,
+    price: 599,
     period: 'month',
-    description: 'Best for students preparing for top tech placements',
+    description: 'Built for ML engineers and students running daily training jobs.',
     features: [
-      'Access to all DSA topics',
-      'Unlimited questions and practice',
-      'AI-personalized learning roadmap',
-      'Company-specific problem sets',
-      'Weekly contests & leaderboards',
-      'Mock test series',
-      'Cheat sheets & PDF notes',
+      'Multi-GPU & mixed-precision training',
+      'Advanced experiment tracking',
+      'Custom model deployment pipeline',
+      'AI-powered tuning suggestions',
+      'Priority support',
     ],
     popular: true,
+  },
+  {
+    name: 'Premium',
+    price: 1299,
+    period: 'month',
+    description: 'For teams and researchers scaling model training at production level.',
+    features: [
+      'Distributed training & autoscaling',
+      'LoRA, FlashAttention, DeepSpeed support',
+      'Private cloud & hardware integration',
+      'Dedicated inference API access',
+      'Slack & email-based priority support',
+    ],
+    popular: false,
   },
 ];
 
@@ -51,11 +63,11 @@ const Pricing = () => {
             </span>
           </h2>
           <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-            Learn smarter with plans built for every stage — whether you're just starting out or preparing for interviews.
+            Train, tune, and deploy models at scale — pick a plan that grows with your ambitions.
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {plans.map((plan, index) => (
             <motion.div
               key={index}
@@ -83,9 +95,7 @@ const Pricing = () => {
                 <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
                   {plan.name}
                 </h3>
-                <p className="text-gray-600 dark:text-gray-300 mb-4">
-                  {plan.description}
-                </p>
+                <p className="text-gray-600 dark:text-gray-300 mb-4">{plan.description}</p>
                 <div className="flex items-baseline justify-center">
                   <span className="text-5xl font-bold text-gray-900 dark:text-white">
                     ₹{plan.price}
@@ -114,7 +124,7 @@ const Pricing = () => {
                     : 'bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-600'
                 }`}
               >
-                {plan.price === 0 ? 'Start Free' : 'Get Pro'}
+                {plan.price === 0 ? 'Start Free' : 'Choose Plan'}
               </motion.button>
             </motion.div>
           ))}
