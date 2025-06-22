@@ -35,8 +35,12 @@ const Navbar = () => {
   };
 
   const scrollToSection = (id: string) => {
-    const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
+    if (window.location.pathname !== '/') {
+      navigate(`/?scrollTo=${id}`);
+    } else {
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    }
     setIsOpen(false);
   };
 
@@ -58,6 +62,7 @@ const Navbar = () => {
             onClick={() => navigate('/')}
           >
             {/* Optional logo goes here */}
+            <span className="text-xl font-bold text-gray-800 dark:text-white">Cavora</span>
           </motion.div>
 
           <div className="hidden md:flex items-center space-x-6">
@@ -132,7 +137,7 @@ const Navbar = () => {
             className="md:hidden bg-white/90 dark:bg-gray-900/90 backdrop-blur-md rounded-lg mt-2 p-4 space-y-4"
           >
             <button onClick={() => scrollToSection('home')} className="block text-gray-700 dark:text-gray-300">Home</button>
-            <button onClick={() => scrollToSection('privacy')} className="block text-gray-700 dark:text-gray-300">Privacy</button>
+            <button onClick={() => navigate('/privacy')} className="block text-gray-700 dark:text-gray-300">Privacy</button>
 
             {hasInitialized && (!user ? (
               <button

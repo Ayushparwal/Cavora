@@ -1,5 +1,5 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { AuthProvider } from './contexts/AuthContext';
 
@@ -14,22 +14,39 @@ import PrivacyPolicy from './components/PrivacyPolicy';
 import Integrations from './components/Integrations';
 import Cookies from './components/Cookie';
 
-
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
-import Runcode from "./pages/Runcode";
+import Runcode from './pages/Runcode';
+import ProjectPage from './pages/ProjectPage';
 
+// Scroll handler inside HomePage
+const HomePage = () => {
+  const location = useLocation();
 
-const HomePage = () => (
-  <>
-    <Hero />
-    <Features />
-    <TryOut />
-    <Pricing />
-    <Footer />
-  </>
-);
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const scrollTo = params.get('scrollTo');
+    if (scrollTo) {
+      setTimeout(() => {
+        const el = document.getElementById(scrollTo);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
+    }
+  }, [location]);
+
+  return (
+    <>
+      <section id="home"><Hero /></section>
+      <section id="features"><Features /></section>
+      <section id="tryout"><TryOut /></section>
+      <section id="pricing"><Pricing /></section>
+      <Footer />
+    </>
+  );
+};
 
 function App() {
   return (
@@ -44,19 +61,11 @@ function App() {
               <Route path="/privacy" element={<PrivacyPolicy />} />
               <Route path="/integrations" element={<Integrations />} />
               <Route path="/cookies" element={<Cookies />} />
-              
-              
-                  
-
-              { /*login route*/}
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/run-code" element={<Runcode />} />
-
-
-              
-
+              <Route path="/project/:projectName" element={<ProjectPage />} />
             </Routes>
           </div>
         </Router>
@@ -66,7 +75,3 @@ function App() {
 }
 
 export default App;
-
-
-
-

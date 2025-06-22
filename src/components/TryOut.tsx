@@ -28,7 +28,8 @@ const TryOut = () => {
             {
               role: "system",
               content:
-                "You are Carter, an expert assistant from Cavora. You strictly answer questions only related to Data Structures and Algorithms (DSA) and Competitive Programming (CP). Do not respond to any non-DSA or non-CP topics under any circumstances. Always introduce yourself at the start of a new conversation and provide concise, helpful answers.",
+                "You are Carter, an expert assistant from Cavora. You strictly answer questions only related to Artificial Intelligence, Machine Learning, NLP, Generative AI, and Large Language Models (LLMs) including fine-tuning techniques. Do not respond to unrelated topics under any circumstances. Always introduce yourself at the start of a new conversation and provide concise, helpful, and up-to-date answers.",
+
             },
             {
               role: "user",
@@ -118,8 +119,8 @@ const TryOut = () => {
             </span>
           </h2>
           <p className="text-xl text-gray-600 dark:text-gray-300">
-            Ask anything about DSA and Competitive Programming.
-          </p>
+  Ask anything related to AI, ML, NLP, Generative AI, or fine-tuning LLMs.
+</p>
         </motion.div>
 
         <motion.div
@@ -140,7 +141,8 @@ const TryOut = () => {
           handleSubmit(e);
         }
       }}
-      placeholder="Ask Cavora AI anything about DSA or CP..."
+      placeholder="Ask Cavora AI anything about AI, ML, NLP, Generative AI, or LLMs..."
+
       className="flex-1 px-6 py-4 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all resize-none min-h-[56px] md:min-h-[100px]"
       rows={3}
     />
