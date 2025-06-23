@@ -49,6 +49,8 @@ const Dashboard = () => {
         transition={{ duration: 0.6 }}
         className="text-4xl font-bold text-center mb-10"
       >
+        <br/>
+      
         {user?.displayName
           ? `${user.displayName}'s Dashboard`
           : user?.email
