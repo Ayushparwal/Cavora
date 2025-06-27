@@ -8,10 +8,10 @@ pnpm-debug.log*
 lerna-debug.log*
 
 # Dependencies
-node_modules
-.bolt
-backend/__pycache__
-backend/logs.log
+node_modules/
+.bolt/
+/backend/__pycache__
+/backend/logs.log
 
 # Environment variables
 .env

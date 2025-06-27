@@ -10,6 +10,7 @@ const ProjectPage = () => {
   const [file, setFile] = useState<File | null>(null);
   const [problemType, setProblemType] = useState<string>("");
   const [targetColumn, setTargetColumn] = useState<string>("");
+  const [automlFramework, setAutomlFramework] = useState<string>("");
   const [columnNames, setColumnNames] = useState<string[]>([]);
   const [dataPreview, setDataPreview] = useState<RowType[]>([]);
   const [dataInfo, setDataInfo] = useState<{
@@ -31,9 +32,7 @@ const ProjectPage = () => {
         const rows = results.data;
         if (rows.length === 0) return alert("Empty file.");
 
-        const shape = `${rows.length} rows × ${
-          Object.keys(rows[0]).length
-        } columns`;
+        const shape = `${rows.length} rows × ${Object.keys(rows[0]).length} columns`;
         const size = rows.length * Object.keys(rows[0]).length;
 
         setColumnNames(Object.keys(rows[0]));
@@ -48,10 +47,8 @@ const ProjectPage = () => {
   };
 
   const handleStartAnalysis = async () => {
-    if (!file || !problemType || !targetColumn) {
-      alert(
-        "Please parse the file first, then select the problem type and target column."
-      );
+    if (!file || !problemType || !targetColumn || !automlFramework) {
+      alert("Please complete all fields before starting analysis.");
       return;
     }
 
@@ -59,6 +56,7 @@ const ProjectPage = () => {
     formData.append("file", file);
     formData.append("problem_type", problemType);
     formData.append("target_column", targetColumn);
+    formData.append("automl_framework", automlFramework);
 
     try {
       const res = await fetch("http://localhost:8000/train", {
@@ -72,7 +70,6 @@ const ProjectPage = () => {
       alert(
         `Best model: ${result.best_model}\nMetric: ${result["Accuracy/Metric"]}`
       );
-      // TODO: Display result on UI nicely
     } catch (error) {
       console.error("❌ Error in analysis:", error);
       alert("Something went wrong during analysis.");
@@ -102,7 +99,6 @@ const ProjectPage = () => {
               <FileText size={18} /> {file.name}
             </div>
           )}
-
           {file && (
             <button
               onClick={handleParseFile}
@@ -113,10 +109,10 @@ const ProjectPage = () => {
           )}
         </div>
 
-        {/* Show dropdown only after file is parsed */}
+        {/* Show options only after file is parsed */}
         {columnNames.length > 0 && (
           <>
-            {/* Problem Type Selector */}
+            {/* Problem Type */}
             <div>
               <label className="block text-sm font-semibold mb-1">
                 What kind of ML problem is this?
@@ -133,7 +129,7 @@ const ProjectPage = () => {
               </select>
             </div>
 
-            {/* Target Column Selector */}
+            {/* Target Column */}
             <div>
               <label className="block text-sm font-semibold mb-1">
                 Select the target column
@@ -151,10 +147,29 @@ const ProjectPage = () => {
                 ))}
               </select>
             </div>
+
+            {/* AutoML Framework */}
+            <div>
+              <label className="block text-sm font-semibold mb-1">
+                Select AutoML Framework
+              </label>
+              <select
+                value={automlFramework}
+                onChange={(e) => setAutomlFramework(e.target.value)}
+                className="w-full px-4 py-2 border rounded-md bg-gray-50 dark:bg-gray-800 border-gray-300 dark:border-gray-600"
+              >
+                <option value="">Select AutoML Framework</option>
+                <option value="pycaret">PyCaret</option>
+                <option value="evalml">EvalML</option>
+                <option value="h2o">H2O.ai</option>
+                <option value="flaml">FLAML</option>
+                <option value="autosklearn">Auto-sklearn</option>
+              </select>
+            </div>
           </>
         )}
 
-        {/* Final CTA */}
+        {/* Start Analysis Button */}
         <button
           onClick={handleStartAnalysis}
           className="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-md transition"
@@ -163,7 +178,7 @@ const ProjectPage = () => {
           Start Analysis
         </button>
 
-        {/* Info */}
+        {/* Data Info */}
         {dataInfo && (
           <div className="bg-gray-100 dark:bg-gray-800 p-4 rounded-md mt-4 space-y-2 text-sm">
             {targetColumn && (

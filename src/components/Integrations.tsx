@@ -2,49 +2,49 @@ import React from "react";
 import { motion } from "framer-motion";
 import {
   Zap,
-  Slack,
-  Chrome,
-  Github,
-  Server,
-  Database,
+  Brain,
+  Cpu,
+  Workflow,
+  LineChart,
+  BarChart3,
 } from "lucide-react";
 
 const integrations = [
   {
-    icon: Chrome,
-    title: "Chrome Extension",
+    icon: Brain,
+    title: "PyCaret",
     description:
-      "Solve problems on LeetCode, GFG, and HackerRank with Cavora AI overlays.",
+      "An open-source low-code ML library for Python, ideal for quick experiments and comparisons.",
   },
   {
-    icon: Github,
-    title: "GitHub Gist",
+    icon: Workflow,
+    title: "EvalML",
     description:
-      "Save your DSA solutions and share them directly from Cavora.",
+      "Automated ML engine from Alteryx for classification and regression with model explainability.",
+  },
+  {
+    icon: Cpu,
+    title: "H2O.ai",
+    description:
+      "Enterprise-grade open-source AutoML with leaderboard, visualizations, and model explainers.",
   },
   {
     icon: Zap,
-    title: "VS Code Extension",
+    title: "FLAML",
     description:
-      "Code with Cavora’s AI hints directly in your VS Code editor.",
+      "A fast and lightweight AutoML library developed by Microsoft for efficient search and tuning.",
   },
   {
-    icon: Server,
-    title: "API Access (Pro)",
+    icon: LineChart,
+    title: "Auto-sklearn",
     description:
-      "Use Cavora’s API for custom AI models or integration with your student portal.",
+      "Built on scikit-learn, it uses Bayesian optimization for model selection and tuning.",
   },
   {
-    icon: Database,
-    title: "Google Sheets Sync",
+    icon: BarChart3,
+    title: "MLJAR",
     description:
-      "Track your DSA progress and history in a personal spreadsheet.",
-  },
-  {
-    icon: Slack,
-    title: "Cavora Discord",
-    description:
-      "Join our community of 5,000+ learners, ask doubts, and compete.",
+      "Full-stack AutoML for humans—generates reports and can be used with no coding.",
   },
 ];
 

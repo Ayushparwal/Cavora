@@ -1,20 +1,44 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import {
-  Instagram,
-  Linkedin,
-  Twitter,
-  Mail,
-  Phone,
-} from "lucide-react";
+import { Instagram, Linkedin, Twitter, Mail, Phone } from "lucide-react";
 
 const Footer = () => {
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState("");
+
+  const handleSubscribe = async () => {
+    if (!email) {
+      setStatus("❌ Please enter your email.");
+      return;
+    }
+
+    try {
+      const response = await fetch("https://formspree.io/f/xnnvljyq", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      if (response.ok) {
+        setStatus("✅ You have been subscribed!");
+        setEmail("");
+      } else {
+        setStatus("❌ Subscription failed. Try again later.");
+      }
+    } catch {
+      setStatus("❌ An error occurred. Please try again.");
+    }
+  };
+
   return (
     <footer className="bg-gray-950 text-white py-16">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
-          {/* Brand + Socials */}
+          {/* Brand */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -29,18 +53,9 @@ const Footer = () => {
             </p>
             <div className="flex space-x-4 mt-6">
               {[
-                {
-                  icon: Instagram,
-                  href: "https://www.instagram.com/cavora64/",
-                },
-                {
-                  icon: Linkedin,
-                  href: "https://www.linkedin.com/company/cavora-ai/",
-                },
-                {
-                  icon: Twitter,
-                  href: "https://twitter.com/ayushparwal2004",
-                },
+                { icon: Instagram, href: "https://www.instagram.com/cavora64/" },
+                { icon: Linkedin, href: "https://www.linkedin.com/company/cavora-ai/" },
+                { icon: Twitter, href: "https://twitter.com/ayushparwal2004" },
               ].map(({ icon: Icon, href }, i) => (
                 <motion.a
                   key={i}
@@ -83,19 +98,14 @@ const Footer = () => {
             <h3 className="text-lg font-semibold text-cyan-400 mb-4">Support</h3>
             <ul className="space-y-3 text-sm text-gray-300">
               <li>
-                <a
-                  href="https://github.com/Ayushparwal/Cavora"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-white transition"
-                >
+                <Link to="/community" className="hover:text-white transition">
                   Community
-                </a>
+                </Link>
               </li>
             </ul>
           </motion.div>
 
-          {/* Contact + Newsletter */}
+          {/* Contact + Subscribe */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -106,25 +116,35 @@ const Footer = () => {
             <div className="space-y-3 text-sm text-gray-300">
               <div className="flex items-center gap-2">
                 <Mail className="h-4 w-4 text-cyan-400" />
-                <span>hello@cavora.com</span>
+                <span>hello@cavora.tech</span>
               </div>
               <div className="flex items-center gap-2">
                 <Phone className="h-4 w-4 text-cyan-400" />
                 <span>+91 XXXXX-XXXXX</span>
               </div>
             </div>
+
+            {/* Subscription Box */}
             <div className="mt-6">
               <h4 className="font-semibold mb-2 text-white">Subscribe to updates</h4>
               <div className="flex">
                 <input
                   type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   placeholder="Your email"
                   className="flex-1 px-3 py-2 bg-gray-800 border border-gray-700 rounded-l-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 />
-                <button className="px-4 py-2 bg-gradient-to-r from-indigo-600 to-cyan-500 text-white rounded-r-lg hover:from-indigo-700 hover:to-cyan-600 transition-all">
+                <button
+                  onClick={handleSubscribe}
+                  className="px-4 py-2 bg-gradient-to-r from-indigo-600 to-cyan-500 text-white rounded-r-lg hover:from-indigo-700 hover:to-cyan-600 transition-all"
+                >
                   Subscribe
                 </button>
               </div>
+              {status && (
+                <p className="mt-2 text-sm text-gray-300">{status}</p>
+              )}
             </div>
           </motion.div>
         </div>

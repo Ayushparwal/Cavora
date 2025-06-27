@@ -1,29 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import {
-  Shield,
-  Eye,
-  Database,
-  Lock,
-  Users,
-  Globe,
-  ArrowLeft,
-} from "lucide-react";
-
-interface SectionHeaderProps {
-  icon: React.ElementType;
-  title: string;
-}
-
-const SectionHeader: React.FC<SectionHeaderProps> = ({ icon: Icon, title }) => (
-  <div className="flex items-center gap-3 mb-4">
-    <div className="shrink-0 flex items-center justify-center p-1.5 bg-indigo-100 dark:bg-cyan-950 rounded-full">
-      <Icon className="h-5 w-5 text-indigo-600 dark:text-cyan-400" />
-    </div>
-    <h2 className="text-2xl font-bold text-gray-900 dark:text-white">{title}</h2>
-  </div>
-);
 
 const PrivacyPolicy: React.FC = () => {
   return (
@@ -36,37 +13,27 @@ const PrivacyPolicy: React.FC = () => {
         >
           {/* Header */}
           <div className="text-center mb-12">
-            <Link
-              to="/"
-              className="inline-flex items-center space-x-2 text-indigo-600 dark:text-cyan-400 hover:underline mb-6"
-            >
-              <ArrowLeft className="h-4 w-4" />
-              <span>Back to Home</span>
-            </Link>
+            <br />
             <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
               Privacy Policy
             </h1>
-            <p className="text-gray-600 dark:text-gray-300 text-lg">
-              Last updated: June 15, 2025
-            </p>
           </div>
 
           {/* Content */}
           <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-8 shadow-lg border border-gray-200 dark:border-gray-700">
             <div className="prose prose-lg dark:prose-invert max-w-none">
-              {/* Sections */}
               <div className="mb-8">
-                <SectionHeader icon={Shield} title="1. Introduction" />
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">1. Introduction</h2>
                 <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-                  At Cavora AI, we take your privacy seriously. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our artificial intelligence services and platform.
+                  At <strong>Cavora AI</strong>, we take your privacy seriously. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our artificial intelligence services and platform.
                 </p>
               </div>
 
               <div className="mb-8">
-                <SectionHeader icon={Database} title="2. Information We Collect" />
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">2. Information We Collect</h2>
                 <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">Personal Information</h3>
                 <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
-                  We may collect personal information that you voluntarily provide to us when you:
+                  We may collect <strong>personal information</strong> that you voluntarily provide to us when you:
                 </p>
                 <ul className="list-disc list-inside text-gray-700 dark:text-gray-300 space-y-2 ml-4 mb-6">
                   <li>Register for an account</li>
@@ -75,10 +42,9 @@ const PrivacyPolicy: React.FC = () => {
                   <li>Subscribe to our newsletter</li>
                   <li>Participate in surveys or promotions</li>
                 </ul>
-
                 <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">Usage Data</h3>
                 <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
-                  We automatically collect certain information when you use our services, including:
+                  We automatically collect certain <strong>usage information</strong> when you use our services, including:
                 </p>
                 <ul className="list-disc list-inside text-gray-700 dark:text-gray-300 space-y-2 ml-4">
                   <li>IP address and device information</li>
@@ -90,14 +56,14 @@ const PrivacyPolicy: React.FC = () => {
               </div>
 
               <div className="mb-8">
-                <SectionHeader icon={Eye} title="3. How We Use Your Information" />
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">3. How We Use Your Information</h2>
                 <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
                   We use the information we collect for various purposes, including:
                 </p>
                 <ul className="list-disc list-inside text-gray-700 dark:text-gray-300 space-y-2 ml-4">
-                  <li>Providing and maintaining our AI services</li>
-                  <li>Improving and personalizing user experience</li>
-                  <li>Processing transactions and billing</li>
+                  <li><strong>Providing</strong> and maintaining our AI services</li>
+                  <li><strong>Improving</strong> and personalizing user experience</li>
+                  <li><strong>Processing transactions</strong> and billing</li>
                   <li>Sending administrative and promotional communications</li>
                   <li>Analyzing usage patterns and service performance</li>
                   <li>Detecting and preventing fraud or abuse</li>
@@ -106,9 +72,9 @@ const PrivacyPolicy: React.FC = () => {
               </div>
 
               <div className="mb-8">
-                <SectionHeader icon={Users} title="4. Information Sharing" />
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">4. Information Sharing</h2>
                 <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
-                  We do not sell, trade, or otherwise transfer your personal information to third parties except in the following circumstances:
+                  We do <strong>not sell</strong>, trade, or otherwise transfer your personal information to third parties except in the following circumstances:
                 </p>
                 <ul className="list-disc list-inside text-gray-700 dark:text-gray-300 space-y-2 ml-4">
                   <li><strong>Service Providers:</strong> Trusted third parties who assist in operating our services</li>
@@ -119,9 +85,9 @@ const PrivacyPolicy: React.FC = () => {
               </div>
 
               <div className="mb-8">
-                <SectionHeader icon={Lock} title="5. Data Security" />
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">5. Data Security</h2>
                 <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
-                  We implement appropriate technical and organizational security measures to protect your personal information, including:
+                  We implement <strong>appropriate technical and organizational security measures</strong> to protect your personal information, including:
                 </p>
                 <ul className="list-disc list-inside text-gray-700 dark:text-gray-300 space-y-2 ml-4">
                   <li>Encryption of data in transit and at rest</li>
@@ -133,15 +99,15 @@ const PrivacyPolicy: React.FC = () => {
               </div>
 
               <div className="mb-8">
-                <SectionHeader icon={Globe} title="6. AI Data Processing" />
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">6. AI Data Processing</h2>
                 <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
                   When you use our AI services:
                 </p>
                 <ul className="list-disc list-inside text-gray-700 dark:text-gray-300 space-y-2 ml-4">
-                  <li>Your queries may be processed to improve our AI models</li>
-                  <li>We may retain conversation logs for service improvement</li>
-                  <li>Personal information in queries is handled with strict confidentiality</li>
-                  <li>You can request deletion of your AI interaction data</li>
+                  <li>Your queries may be processed to <strong>improve our AI models</strong></li>
+                  <li>We may retain conversation logs for <strong>service improvement</strong></li>
+                  <li>Personal information in queries is handled with <strong>strict confidentiality</strong></li>
+                  <li>You can <strong>request deletion</strong> of your AI interaction data</li>
                 </ul>
               </div>
 
@@ -179,14 +145,14 @@ const PrivacyPolicy: React.FC = () => {
               <div className="mb-8">
                 <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">9. Children's Privacy</h2>
                 <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-                  Our services are not intended for children under 13 years of age. We do not knowingly collect personal information from children under 13. If you are a parent or guardian and believe your child has provided us with personal information, please contact us.
+                  Our services are <strong>not intended for children under 13 years of age</strong>. We do not knowingly collect personal information from children under 13. If you are a parent or guardian and believe your child has provided us with personal information, please contact us.
                 </p>
               </div>
 
               <div className="mb-8">
                 <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">10. International Transfers</h2>
                 <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-                  Your information may be transferred to and processed in countries other than your own. We ensure appropriate safeguards are in place to protect your information in accordance with this privacy policy.
+                  Your information may be <strong>transferred to and processed in countries</strong> other than your own. We ensure appropriate safeguards are in place to protect your information in accordance with this privacy policy.
                 </p>
               </div>
 
@@ -204,10 +170,10 @@ const PrivacyPolicy: React.FC = () => {
                 </p>
                 <div className="p-4 bg-indigo-50 dark:bg-indigo-900/20 rounded-lg border border-indigo-200 dark:border-indigo-800">
                   <p className="text-gray-700 dark:text-gray-300">
-                    <strong>Email:</strong> privacy@cavora.com<br />
+                    <strong>Email:</strong> privacy@cavora.tech<br />
                     <strong>Address:</strong> 123 Innovation Drive, San Francisco, CA 94105<br />
                     <strong>Phone:</strong> +1 (555) 123-4567<br />
-                    <strong>Data Protection Officer:</strong> dpo@cavora.com
+                    <strong>Data Protection Officer:</strong> dpo@cavora.tech
                   </p>
                 </div>
               </div>

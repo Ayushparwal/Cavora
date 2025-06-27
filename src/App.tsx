@@ -13,11 +13,12 @@ import TermsOfService from './components/TermsOfService';
 import PrivacyPolicy from './components/PrivacyPolicy';
 import Integrations from './components/Integrations';
 import Cookies from './components/Cookie';
+import Community from "./components/Community"; // or wherever it's located
+
 
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
-import Runcode from './pages/Runcode';
 import ProjectPage from './pages/ProjectPage';
 
 // Scroll handler inside HomePage
@@ -60,11 +61,11 @@ function App() {
               <Route path="/terms" element={<TermsOfService />} />
               <Route path="/privacy" element={<PrivacyPolicy />} />
               <Route path="/integrations" element={<Integrations />} />
+              <Route path="/community" element={<Community />} />
               <Route path="/cookies" element={<Cookies />} />
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/run-code" element={<Runcode />} />
               <Route path="/project/:projectName" element={<ProjectPage />} />
             </Routes>
           </div>
