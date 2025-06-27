@@ -13,8 +13,7 @@ import TermsOfService from './components/TermsOfService';
 import PrivacyPolicy from './components/PrivacyPolicy';
 import Integrations from './components/Integrations';
 import Cookies from './components/Cookie';
-import Community from "./components/Community"; // or wherever it's located
-
+import Community from "./components/Community"; 
 
 import Login from './pages/Login';
 import Signup from './pages/Signup';

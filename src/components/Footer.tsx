@@ -35,7 +35,7 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-gray-950 text-white py-16">
+    <footer className="bg-white dark:bg-gray-950 text-gray-900 dark:text-white py-16 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
           {/* Brand */}
@@ -48,7 +48,7 @@ const Footer = () => {
             <h2 className="text-3xl font-extrabold bg-gradient-to-r from-indigo-500 to-cyan-400 bg-clip-text text-transparent mb-4">
               Cavora
             </h2>
-            <p className="text-gray-400 leading-relaxed text-sm">
+            <p className="text-gray-600 dark:text-gray-400 leading-relaxed text-sm">
               Transforming the future with AI-driven learning. Unlock your coding superpowers with Cavora.
             </p>
             <div className="flex space-x-4 mt-6">
@@ -63,9 +63,9 @@ const Footer = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   whileHover={{ scale: 1.1, y: -2 }}
-                  className="p-2 bg-gray-800 hover:bg-indigo-600 rounded-lg transition"
+                  className="p-2 bg-gray-200 dark:bg-gray-800 hover:bg-indigo-600 dark:hover:bg-indigo-600 rounded-lg transition"
                 >
-                  <Icon className="h-5 w-5" />
+                  <Icon className="h-5 w-5 text-gray-800 dark:text-white" />
                 </motion.a>
               ))}
             </div>
@@ -78,10 +78,10 @@ const Footer = () => {
             transition={{ duration: 0.6, delay: 0.1 }}
             viewport={{ once: true }}
           >
-            <h3 className="text-lg font-semibold text-cyan-400 mb-4">Product</h3>
-            <ul className="space-y-3 text-sm text-gray-300">
+            <h3 className="text-lg font-semibold text-cyan-600 dark:text-cyan-400 mb-4">Product</h3>
+            <ul className="space-y-3 text-sm text-gray-700 dark:text-gray-300">
               <li>
-                <Link to="/integrations" className="hover:text-white transition">
+                <Link to="/integrations" className="hover:text-indigo-600 dark:hover:text-white transition">
                   Integrations
                 </Link>
               </li>
@@ -95,10 +95,10 @@ const Footer = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
             viewport={{ once: true }}
           >
-            <h3 className="text-lg font-semibold text-cyan-400 mb-4">Support</h3>
-            <ul className="space-y-3 text-sm text-gray-300">
+            <h3 className="text-lg font-semibold text-cyan-600 dark:text-cyan-400 mb-4">Support</h3>
+            <ul className="space-y-3 text-sm text-gray-700 dark:text-gray-300">
               <li>
-                <Link to="/community" className="hover:text-white transition">
+                <Link to="/community" className="hover:text-indigo-600 dark:hover:text-white transition">
                   Community
                 </Link>
               </li>
@@ -112,28 +112,27 @@ const Footer = () => {
             transition={{ duration: 0.6, delay: 0.3 }}
             viewport={{ once: true }}
           >
-            <h3 className="text-lg font-semibold text-cyan-400 mb-4">Connect</h3>
-            <div className="space-y-3 text-sm text-gray-300">
+            <h3 className="text-lg font-semibold text-cyan-600 dark:text-cyan-400 mb-4">Connect</h3>
+            <div className="space-y-3 text-sm text-gray-700 dark:text-gray-300">
               <div className="flex items-center gap-2">
-                <Mail className="h-4 w-4 text-cyan-400" />
+                <Mail className="h-4 w-4 text-cyan-500" />
                 <span>hello@cavora.tech</span>
               </div>
               <div className="flex items-center gap-2">
-                <Phone className="h-4 w-4 text-cyan-400" />
+                <Phone className="h-4 w-4 text-cyan-500" />
                 <span>+91 XXXXX-XXXXX</span>
               </div>
             </div>
 
-            {/* Subscription Box */}
             <div className="mt-6">
-              <h4 className="font-semibold mb-2 text-white">Subscribe to updates</h4>
+              <h4 className="font-semibold mb-2 text-gray-900 dark:text-white">Subscribe to updates</h4>
               <div className="flex">
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Your email"
-                  className="flex-1 px-3 py-2 bg-gray-800 border border-gray-700 rounded-l-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="flex-1 px-3 py-2 bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-l-lg text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 />
                 <button
                   onClick={handleSubscribe}
@@ -142,9 +141,7 @@ const Footer = () => {
                   Subscribe
                 </button>
               </div>
-              {status && (
-                <p className="mt-2 text-sm text-gray-300">{status}</p>
-              )}
+              {status && <p className="mt-2 text-sm text-gray-600 dark:text-gray-300">{status}</p>}
             </div>
           </motion.div>
         </div>
@@ -155,18 +152,18 @@ const Footer = () => {
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.4 }}
           viewport={{ once: true }}
-          className="border-t border-gray-800 pt-8"
+          className="border-t border-gray-300 dark:border-gray-800 pt-8"
         >
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-600 dark:text-gray-500">
             <span>© {new Date().getFullYear()} Cavora. All rights reserved.</span>
             <div className="flex space-x-6">
-              <Link to="/privacy" className="hover:text-white">
+              <Link to="/privacy" className="hover:text-indigo-600 dark:hover:text-white">
                 Privacy Policy
               </Link>
-              <Link to="/terms" className="hover:text-white">
+              <Link to="/terms" className="hover:text-indigo-600 dark:hover:text-white">
                 Terms
               </Link>
-              <Link to="/cookies" className="hover:text-white">
+              <Link to="/cookies" className="hover:text-indigo-600 dark:hover:text-white">
                 Cookies
               </Link>
             </div>

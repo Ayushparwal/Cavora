@@ -36,7 +36,7 @@ const team = [
 
 const Community = () => {
   return (
-    <section className="min-h-screen bg-gray-950 text-white py-20 px-6 lg:px-20">
+    <section className="min-h-screen bg-gray-50 dark:bg-gray-950 text-gray-800 dark:text-gray-100 py-20 px-6 lg:px-20 transition-colors duration-300">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -44,16 +44,15 @@ const Community = () => {
         viewport={{ once: true }}
         className="max-w-6xl mx-auto"
       >
-        <h1 className="text-4xl font-extrabold bg-gradient-to-r from-indigo-500 to-cyan-400 bg-clip-text text-transparent mb-14 text-center">
+        <h1 className="text-4xl font-extrabold bg-gradient-to-r from-indigo-600 to-cyan-400 bg-clip-text text-transparent mb-14 text-center">
           Meet the Team Behind Cavora
         </h1>
 
-        {/* Team Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8 mb-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-10 mb-16">
           {team.map((member, idx) => (
             <motion.div
               key={idx}
-              className="flex flex-col items-center bg-gray-900 border border-gray-800 rounded-2xl p-6 shadow-lg"
+              className="flex flex-col items-center bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-6 shadow-md dark:shadow-lg transition-colors"
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 * idx }}
@@ -64,15 +63,20 @@ const Community = () => {
                 alt={member.name}
                 className="w-28 h-28 rounded-full border-2 border-cyan-500 mb-4 object-cover"
               />
-              <h2 className="text-xl font-bold text-center">{member.name}</h2>
-              <p className="text-cyan-400 mb-2">{member.role}</p>
-              <p className="text-gray-400 text-sm text-center">{member.bio}</p>
+              <h2 className="text-xl font-bold text-center text-gray-900 dark:text-white">
+                {member.name}
+              </h2>
+              <p className="text-indigo-500 dark:text-cyan-400 mb-2 font-medium">
+                {member.role}
+              </p>
+              <p className="text-gray-600 dark:text-gray-300 text-sm text-center">
+                {member.bio}
+              </p>
             </motion.div>
           ))}
         </div>
 
-        {/* Mission */}
-        <div className="space-y-6 text-gray-300 text-lg leading-relaxed">
+        <div className="space-y-6 text-gray-700 dark:text-gray-300 text-lg leading-relaxed">
           <motion.p
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -110,9 +114,9 @@ const Community = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
             viewport={{ once: true }}
-            className="italic text-cyan-400"
+            className="italic text-cyan-600 dark:text-cyan-400"
           >
-         Build smarter AI—faster and more efficiently—with Cavora.
+            Build smarter AI—faster and more efficiently—with Cavora.
           </motion.p>
         </div>
       </motion.div>
