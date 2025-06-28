@@ -17,6 +17,7 @@ const ProjectPage = () => {
     shape: string;
     size: number;
   } | null>(null);
+  const [isParsing, setIsParsing] = useState<boolean>(false);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) setFile(e.target.files[0]);
@@ -25,12 +26,18 @@ const ProjectPage = () => {
   const handleParseFile = () => {
     if (!file) return alert("Please upload a file first.");
 
+    setIsParsing(true);
+
     Papa.parse<RowType>(file, {
       header: true,
       skipEmptyLines: true,
       complete: (results: ParseResult<RowType>) => {
         const rows = results.data;
-        if (rows.length === 0) return alert("Empty file.");
+        if (rows.length === 0) {
+          alert("Empty file.");
+          setIsParsing(false);
+          return;
+        }
 
         const shape = `${rows.length} rows × ${Object.keys(rows[0]).length} columns`;
         const size = rows.length * Object.keys(rows[0]).length;
@@ -38,10 +45,12 @@ const ProjectPage = () => {
         setColumnNames(Object.keys(rows[0]));
         setDataPreview(rows.slice(0, 5));
         setDataInfo({ shape, size });
+        setIsParsing(false);
       },
       error: (err: Papa.ParseError) => {
         alert("Failed to parse CSV.");
         console.error(err);
+        setIsParsing(false);
       },
     });
   };
@@ -100,12 +109,40 @@ const ProjectPage = () => {
             </div>
           )}
           {file && (
-            <button
-              onClick={handleParseFile}
-              className="mt-3 w-full py-2 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-md transition"
-            >
-              Parse File
-            </button>
+            <div className="mt-3 w-full">
+              {isParsing ? (
+                <div className="flex justify-center items-center py-2">
+                  <svg
+                    className="animate-spin h-6 w-6 text-indigo-600"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    />
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8v8H4z"
+                    />
+                  </svg>
+                  <span className="ml-2 text-sm text-gray-700 dark:text-gray-300">Parsing...</span>
+                </div>
+              ) : (
+                <button
+                  onClick={handleParseFile}
+                  className="w-full py-2 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-md transition"
+                >
+                  Parse File
+                </button>
+              )}
+            </div>
           )}
         </div>
 
