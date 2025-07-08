@@ -1,6 +1,0 @@
-fastapi
-uvicorn
-pycaret[full]
-pandas
-python-multipart
-scikit-learn>=1.0

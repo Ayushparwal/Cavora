@@ -6,32 +6,17 @@ const team = [
     img: "https://avatars.githubusercontent.com/u/100942934?v=4",
     name: "Ayush Parwal",
     role: "Founder & AI Engineer",
-    bio: "CSE Undergrad at IIIT Nagpur | AI/ML Intern at @PathBreakers | Ex - Research Intern @ISRO | Passionate about AutoML, NLP, LLMs and scalable neural net solutions.",
+    bio: "MLE Intern @Stealth AI | Ex-AI/ML Intern @PathBreakers | Ex-Research Intern @ISRO |  AutoMLs, NLP, LLM.",
   },
-  {
-    img: "https://randomuser.me/api/portraits/men/32.jpg",
-    name: "Rohan Malhotra",
-    role: "Co-Founder & Full Stack Web Dev",
-    bio: "Expert in building robust and scalable web platforms using React, Node.js, and TypeScript. Leads Cavora's engineering and deployment efforts.",
-  },
+  
   {
     img: "https://randomuser.me/api/portraits/men/37.jpg",
     name: "Muhammed Fazl Omar",
     role: "Co-Founder & Full Stack Web Dev",
     bio: "Full Stack Developer with a focus on performance and user experience. Passionate about building clean, maintainable, and impactful digital solutions.",
   },
-  {
-    img: "https://randomuser.me/api/portraits/women/44.jpg",
-    name: "Priya Sharma",
-    role: "UI/UX Designer",
-    bio: "Designs intuitive and elegant user interfaces. Passionate about user-centric design and improving product accessibility and interaction.",
-  },
-  {
-    img: "https://randomuser.me/api/portraits/men/85.jpg",
-    name: "Arjun Mehta",
-    role: "Machine Learning Engineer",
-    bio: "Works on ML pipelines, AutoML tuning, and data preprocessing. Loves building end-to-end AI systems that actually solve real-world problems.",
-  },
+  
+  
 ];
 
 const Community = () => {

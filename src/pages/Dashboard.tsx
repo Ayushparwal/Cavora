@@ -49,19 +49,26 @@ const Dashboard = () => {
         transition={{ duration: 0.6 }}
         className="text-4xl font-bold text-center mb-10"
       >
-        <br/>
-      
-        {user?.displayName
-          ? `${user.displayName}'s Dashboard`
-          : user?.email
-          ? `${user.email.split("@")[0]}'s Dashboard`
-          : "Your Dashboard"}
+        <br />
+
+        <>
+          {user?.displayName ? (
+            `${user.displayName}'s Dashboard`
+          ) : user?.email ? (
+            <>{`${user.email.split("@")[0]}'s Dashboard`}</>
+          ) : (
+            "Your Dashboard"
+          )}
+        </>
       </motion.h1>
 
       {/* Search */}
       <div className="flex justify-center mb-10">
         <div className="relative w-full max-w-md">
-          <Search className="absolute left-3 top-2.5 text-gray-500 dark:text-gray-400" size={20} />
+          <Search
+            className="absolute left-3 top-2.5 text-gray-500 dark:text-gray-400"
+            size={20}
+          />
           <input
             type="text"
             placeholder="Search your projects..."
@@ -107,10 +114,14 @@ const Dashboard = () => {
               exit={{ scale: 0.9 }}
               className="bg-white dark:bg-gray-900 p-6 rounded-2xl w-[90%] max-w-md shadow-xl space-y-4"
             >
-              <h2 className="text-xl font-bold mb-2 text-center">Create New Project</h2>
+              <h2 className="text-xl font-bold mb-2 text-center">
+                Create New Project
+              </h2>
 
               <div>
-                <label className="block mb-1 text-sm font-medium">Project Name</label>
+                <label className="block mb-1 text-sm font-medium">
+                  Project Name
+                </label>
                 <input
                   type="text"
                   value={projectName}
@@ -121,7 +132,9 @@ const Dashboard = () => {
               </div>
 
               <div>
-                <label className="block mb-1 text-sm font-medium">Project Purpose</label>
+                <label className="block mb-1 text-sm font-medium">
+                  Project Purpose
+                </label>
                 <textarea
                   value={projectPurpose}
                   onChange={(e) => setProjectPurpose(e.target.value)}
@@ -132,7 +145,9 @@ const Dashboard = () => {
               </div>
 
               <div>
-                <label className="block mb-1 text-sm font-medium">College / Institution</label>
+                <label className="block mb-1 text-sm font-medium">
+                  College / Institution
+                </label>
                 <input
                   type="text"
                   value={collegeName}
@@ -143,7 +158,9 @@ const Dashboard = () => {
               </div>
 
               <div>
-                <label className="block mb-1 text-sm font-medium">Location</label>
+                <label className="block mb-1 text-sm font-medium">
+                  Location
+                </label>
                 <input
                   type="text"
                   value={location}

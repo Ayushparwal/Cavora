@@ -18,7 +18,7 @@ const plans = [
   },
   {
     name: 'Pro',
-    price: 599,
+    price: 399,
     period: 'month',
     description: 'Built for ML engineers and students running daily training jobs.',
     features: [
@@ -32,7 +32,7 @@ const plans = [
   },
   {
     name: 'Premium',
-    price: 1299,
+    price: 699,
     period: 'month',
     description: 'For teams and researchers scaling model training at production level.',
     features: [
