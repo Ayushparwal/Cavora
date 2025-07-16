@@ -72,12 +72,7 @@ const Navbar = () => {
             >
               Home
             </button>
-            <button
-              onClick={() => scrollToSection('pricing')}
-              className="text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-cyan-400 transition-colors"
-            >
-              Pricing
-            </button>
+            
 
             {hasInitialized && (!user ? (
               <button

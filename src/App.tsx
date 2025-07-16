@@ -7,7 +7,7 @@ import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Features from './components/Features';
 import TryOut from './components/TryOut';
-import Pricing from './components/Pricing';
+// import Pricing from './components/Pricing';
 import Footer from './components/Footer';
 import TermsOfService from './components/TermsOfService';
 import PrivacyPolicy from './components/PrivacyPolicy';
@@ -42,7 +42,7 @@ const HomePage = () => {
       <section id="home"><Hero /></section>
       <section id="features"><Features /></section>
       <section id="tryout"><TryOut /></section>
-      <section id="pricing"><Pricing /></section>
+      {/* <section id="pricing"><Pricing /></section> */}
       <Footer />
     </>
   );

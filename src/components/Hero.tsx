@@ -13,10 +13,10 @@ const Hero = () => {
   return (
     <section
       id="home"
-      className="min-h-screen flex flex-col items-center justify-center relative overflow-hidden"
+      className="min-h-screen flex flex-col items-center justify-center relative overflow-hidden bg-white dark:bg-gray-900 transition-colors"
     >
       {/* BACKGROUND GRADIENT OVERLAY */}
-      <div className="absolute inset-0 bg-gradient-to-br from-indigo-900/30 via-purple-900/20 to-cyan-900/30 dark:from-indigo-900/50 dark:via-purple-900/30 dark:to-cyan-900/50 z-0" />
+      <div className="absolute inset-0 bg-gradient-to-br from-white via-white to-white dark:from-gray-900 dark:via-gray-900 dark:to-gray-900 z-0" />
 
       {/* FLOATING PARTICLES */}
       <div className="absolute inset-0 z-0 pointer-events-none">
@@ -72,13 +72,14 @@ const Hero = () => {
               <span className="relative z-10 bg-gradient-to-r from-indigo-600 to-cyan-500 bg-clip-text text-transparent font-bold">
                 <Typewriter
                   words={[
-                    "train AI models faster!",
-                    "scale ML workloads efficiently!",
-                    "automate model training with zero code!",
-                    "reduce training costs intelligently!",
-                    "optimize GPU usage!",
-                    "accelerate experimentation cycles!",
-                  ]}
+  "Train smarter.",
+  "Scale effortlessly.",
+  "Zero-code automation.",
+  "Cut costs fast.",
+  "Maximize GPUs.",
+  "Boost experiments."
+]
+}
                   loop
                   cursor
                   cursorStyle="|"
@@ -133,7 +134,7 @@ const Hero = () => {
           >
             <div className="relative max-w-4xl mx-auto">
               <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/20 to-cyan-500/20 rounded-2xl blur-3xl"></div>
-              <div className="relative bg-white/10 dark:bg-gray-900/10 backdrop-blur-xl border border-white/20 dark:border-gray-700/20 rounded-2xl p-8 shadow-lg">
+              <div className="relative bg-white dark:bg-gray-800 backdrop-blur-xl border border-gray-200 dark:border-gray-700 rounded-2xl p-8 shadow-lg">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                   {[
                     { label: "Engineers Accelerated", value: "500+" },
