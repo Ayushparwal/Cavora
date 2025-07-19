@@ -14,71 +14,60 @@ const Cookies = () => {
         >
           {/* Header */}
           <div className="text-center mb-12">
-            
-          <br/>
-            <div className="flex items-center justify-center space-x-2 mb-4">
-              <Cookie className="h-10 w-10 text-indigo-600 dark:text-cyan-400" />
-              <span className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-cyan-500 bg-clip-text text-transparent">
-                Cookie Policy
-              </span>
-            </div>
+            <br></br>
 
             <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-              How We Use Cookies
+              Simple Transparency
             </h1>
-            
           </div>
 
-          {/* Cookie Policy Content */}
+          {/* Content */}
           <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-8 shadow-lg border border-gray-200 dark:border-gray-700">
             <div className="prose prose-lg dark:prose-invert max-w-none">
               <p className="text-gray-700 dark:text-gray-300 mb-6">
-                Cavora uses cookies and similar tracking technologies to enhance your experience,
-                personalize content, understand usage patterns, and improve our AI platform’s
-                performance.
+                Cavora is a free and open educational platform sharing knowledge about Generative AI, LLMs, AGI, and future technologies. All information here is sourced from publicly available and open resources like research papers, GitHub projects, official documentation, and open communities.
               </p>
 
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">1. What are cookies?</h2>
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">Cookies & Tracking</h2>
               <p className="text-gray-700 dark:text-gray-300 mb-6">
-                Cookies are small text files placed on your device to store data that websites and
-                online services can read and write. They help us recognize you, remember your
-                preferences, and track how you interact with our platform.
+                We do not collect or sell your personal data. Cavora may use simple, privacy-respecting cookies to store basic preferences (such as theme or language), but no marketing, ad tracking, or profiling tools are involved.
               </p>
 
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">2. Why we use cookies</h2>
               <ul className="list-disc list-inside text-gray-700 dark:text-gray-300 space-y-2 ml-4 mb-6">
-                <li><strong>Authentication:</strong> To keep you logged in securely.</li>
-                <li><strong>Preferences:</strong> To store theme, UI settings, and preferred language.</li>
-                <li><strong>Analytics:</strong> To monitor how users interact with learning modules and features.</li>
-                <li><strong>Performance:</strong> To diagnose issues and improve speed and responsiveness.</li>
-                <li><strong>Marketing:</strong> To measure the effectiveness of our outreach campaigns.</li>
+                <li><strong>Theme Preference:</strong> Light/Dark mode toggle.</li>
+                <li><strong>Navigation Memory:</strong> Helps improve UX across sessions.</li>
+                <li><strong>Basic Analytics:</strong> Anonymous usage stats to improve learning materials (optional).</li>
               </ul>
 
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">3. Third-party cookies</h2>
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">Everything Here is Open & Free</h2>
               <p className="text-gray-700 dark:text-gray-300 mb-6">
-                We may use cookies from third-party tools such as Google Analytics, GitHub OAuth,
-                and LinkedIn Insights for better insights and authentication services.
+                Our goal is to organize the world's freely available AI learning content into a central place. We don’t charge, gatekeep, or track learners. We encourage self-paced exploration of:
               </p>
 
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">4. Managing cookies</h2>
+              <ul className="list-disc list-inside text-gray-700 dark:text-gray-300 space-y-2 ml-4 mb-6">
+                <li>Large Language Models (LLMs)</li>
+                <li>Autonomous AI Agents</li>
+                <li>Open-source AGI Research</li>
+                <li>Future Tech like Neural Interfaces, Self-learning Systems</li>
+              </ul>
+
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">Need to Manage Cookies?</h2>
               <p className="text-gray-700 dark:text-gray-300 mb-6">
-                You can control or delete cookies using your browser settings. However, please note
-                that disabling certain cookies may affect the functionality of some parts of Cavora.
+                You can turn off cookies in your browser settings anytime. Disabling them might affect theme storage or navigation, but not access to the content.
               </p>
 
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">5. Updates to this policy</h2>
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">Want to Contribute?</h2>
               <p className="text-gray-700 dark:text-gray-300 mb-6">
-                We may occasionally update this policy. When we do, we will revise the “Last
-                updated” date at the top of this page.
+                If you know a great article, GitHub repo, or AI tool that others should learn about—feel free to suggest or open a pull request! We believe in open learning and open contribution.
               </p>
 
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">6. Contact us</h2>
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">Questions?</h2>
               <p className="text-gray-700 dark:text-gray-300">
-                If you have any questions about this policy or how we use cookies, feel free to reach out:
+                For feedback or contributions, reach out:
               </p>
               <div className="p-4 mt-4 bg-indigo-50 dark:bg-indigo-900/20 rounded-lg border border-indigo-200 dark:border-indigo-800">
                 <p className="text-gray-700 dark:text-gray-300">
-                  <strong>Email:</strong> privacy@cavora.tech
+                  <strong>Email:</strong> support@cavora.tech
                 </p>
               </div>
             </div>

@@ -1,16 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Menu, X, Sun, Moon, LogOut, User as UserIcon } from 'lucide-react';
+import { Menu, X, Sun, Moon } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 import { useNavigate } from 'react-router-dom';
-import { onAuthStateChanged, signOut, User } from 'firebase/auth';
-import { auth } from '../firebase';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [user, setUser] = useState<User | null>(null);
-  const [hasInitialized, setHasInitialized] = useState(false);
   const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
 
@@ -19,20 +15,6 @@ const Navbar = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-      setHasInitialized(true);
-    });
-    return () => unsubscribe();
-  }, []);
-
-  const handleLogout = async () => {
-    await signOut(auth);
-    setUser(null);
-    navigate('/login');
-  };
 
   const scrollToSection = (id: string) => {
     if (window.location.pathname !== '/') {
@@ -61,7 +43,6 @@ const Navbar = () => {
             whileHover={{ scale: 1.05 }}
             onClick={() => navigate('/')}
           >
-            {/* Optional logo goes here */}
             <span className="text-xl font-bold text-gray-800 dark:text-white">Cavora</span>
           </motion.div>
 
@@ -72,27 +53,6 @@ const Navbar = () => {
             >
               Home
             </button>
-            
-
-            {hasInitialized && (!user ? (
-              <button
-                onClick={() => navigate('/login')}
-                className="text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-cyan-400 transition-colors"
-              >
-                Log In
-              </button>
-            ) : (
-              <div className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
-                <UserIcon size={18} />
-                {user.displayName || 'User'}
-                <button
-                  onClick={handleLogout}
-                  className="ml-3 flex items-center gap-1 text-red-500 hover:underline"
-                >
-                  <LogOut size={16} /> Logout
-                </button>
-              </div>
-            ))}
 
             <motion.button
               whileHover={{ scale: 1.05 }}
@@ -133,29 +93,6 @@ const Navbar = () => {
           >
             <button onClick={() => scrollToSection('home')} className="block text-gray-700 dark:text-gray-300">Home</button>
             <button onClick={() => navigate('/privacy')} className="block text-gray-700 dark:text-gray-300">Privacy</button>
-
-            {hasInitialized && (!user ? (
-              <button
-                onClick={() => {
-                  navigate('/login');
-                  setIsOpen(false);
-                }}
-                className="block text-gray-700 dark:text-gray-300"
-              >
-                Log In
-              </button>
-            ) : (
-              <div className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
-                <UserIcon size={18} />
-                {user.displayName || 'User'}
-                <button
-                  onClick={handleLogout}
-                  className="ml-2 text-red-500 hover:underline"
-                >
-                  <LogOut size={16} /> Logout
-                </button>
-              </div>
-            ))}
 
             <button
               onClick={() => scrollToSection('tryout')}

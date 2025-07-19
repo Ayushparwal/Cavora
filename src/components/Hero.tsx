@@ -1,13 +1,29 @@
-import React, { useState } from "react";
+import React from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
 import { Typewriter } from "react-simple-typewriter";
 
 const particleCount = 30;
 
+const topics = [
+  { title: "🧠 LLMs", path: "/llms", description: "Learn about Large Language Models" },
+  { title: "📚 NLP", path: "/nlp", description: "Master Natural Language Processing" },
+  { title: "✨ Generative AI", path: "/genai", description: "Explore tools that generate text, images, etc." },
+  { title: "🐧 Linux", path: "/linux", description: "Master Linux commands & systems" },
+  { title: "📊 Data Science", path: "/ds", description: "Learn Data Science & Analytics" },
+  
+  { title: "🤖 Machine Learning", path: "/ml", description: "Understand ML models and algorithms" },
+  { title: "🧠 AI Fundamentals", path: "/ai", description: "Foundational concepts of AI & ethics" },
+  { title: "📷 Computer Vision", path: "/cv", description: "Image classification, detection, and more" },
+  { title: "🧪 Reinforcement Learning", path: "/rl", description: "Learn how agents take actions in environments" },
+{ title: "📈 Time Series", path: "/timeseries", description: "Forecasting and analyzing sequential data" },
+{ title: "🔍 Explainable AI", path: "/xai", description: "Interpret and explain AI model decisions" },
+{ title: "🧩 Multimodal AI", path: "/multimodal", description: "Combine vision, text, and audio in one model" },
+
+];
+
+
 const Hero = () => {
-  const [search, setSearch] = useState("");
   const navigate = useNavigate();
 
   return (
@@ -46,7 +62,7 @@ const Hero = () => {
       </div>
 
       {/* MAIN CONTENT */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+      <div className="max-w-6xl mx-auto px-4 text-center relative z-10">
         <motion.div
           initial="hidden"
           animate="visible"
@@ -61,30 +77,22 @@ const Hero = () => {
               hidden: { opacity: 0, y: 30 },
               visible: { opacity: 1, y: 0 },
             }}
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight text-gray-900 dark:text-white"
+            className="text-3xl md:text-5xl lg:text-5xl font-extrabold leading-tight text-gray-900 dark:text-white"
           >
-            <br />
-            <br />
-            Cavora empowers you to
+            <br></br>
+            <br></br>
+            Start Learning Today
             <br />
             <span className="relative inline-block mt-4 animate-pulse">
               <span className="absolute inset-0 blur-md opacity-25 bg-gradient-to-r from-indigo-600 to-cyan-500 rounded-lg z-0" />
               <span className="relative z-10 bg-gradient-to-r from-indigo-600 to-cyan-500 bg-clip-text text-transparent font-bold">
                 <Typewriter
-                  words={[
-  "Train smarter.",
-  "Scale effortlessly.",
-  "Zero-code automation.",
-  "Cut costs fast.",
-  "Maximize GPUs.",
-  "Boost experiments."
-]
-}
+                  words={["LLMs", "Generative AI", "Linux", "DSA", "Open Source", "NLP"]}
                   loop
                   cursor
                   cursorStyle="|"
                   typeSpeed={80}
-                  deleteSpeed={50}
+                  deleteSpeed={40}
                   delaySpeed={1500}
                 />
               </span>
@@ -97,68 +105,30 @@ const Hero = () => {
               hidden: { opacity: 0, y: 20 },
               visible: { opacity: 1, y: 0 },
             }}
-            className="max-w-3xl mx-auto text-lg text-gray-700 dark:text-gray-300"
+            className="max-w-2xl mx-auto text-lg text-gray-700 dark:text-gray-300"
           >
-            Cavora is a next-gen platform built to accelerate AI model training
-            through optimized infrastructure, intelligent scheduling, and
-            hardware-aware fine-tuning.
+            Cavora is a modern platform for curious learners to explore foundational tech topics with zero fluff.
           </motion.p>
 
-          {/* BUTTON */}
+          {/* TOPIC GRID */}
           <motion.div
             variants={{
               hidden: { opacity: 0, y: 20 },
               visible: { opacity: 1, y: 0 },
             }}
-            className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6"
+            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-8"
           >
-            <motion.button
-              whileHover={{ scale: 1.07, boxShadow: "0px 0px 18px rgba(99, 179, 237, 0.6)" }}
-              whileTap={{ scale: 0.96 }}
-              className="group px-8 py-4 bg-gradient-to-r from-indigo-600 to-cyan-500 text-white rounded-xl hover:from-indigo-700 hover:to-cyan-600 transition-all flex items-center space-x-2 shadow-xl"
-              onClick={() => navigate("/signup")}
-            >
-              <span className="text-lg font-semibold">Get Started Free</span>
-              <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
-            </motion.button>
-          </motion.div>
-
-          {/* STATS */}
-          <motion.div
-            variants={{
-              hidden: { opacity: 0, scale: 0.9 },
-              visible: { opacity: 1, scale: 1 },
-            }}
-            transition={{ type: "spring", stiffness: 100, damping: 15, delay: 0.4 }}
-            className="mt-16"
-          >
-            <div className="relative max-w-4xl mx-auto">
-              <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/20 to-cyan-500/20 rounded-2xl blur-3xl"></div>
-              <div className="relative bg-white dark:bg-gray-800 backdrop-blur-xl border border-gray-200 dark:border-gray-700 rounded-2xl p-8 shadow-lg">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                  {[
-                    { label: "Engineers Accelerated", value: "500+" },
-                    { label: "Experiments Optimized", value: "100+" },
-                    { label: "Feedback Satisfaction", value: "98%" },
-                  ].map((item, idx) => (
-                    <motion.div
-                      key={idx}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      initial={{ opacity: 0, y: 20 }}
-                      transition={{ delay: idx * 0.2, duration: 0.6 }}
-                      className="text-center"
-                    >
-                      <div className="text-3xl font-bold text-indigo-600 dark:text-cyan-400">
-                        {item.value}
-                      </div>
-                      <div className="text-gray-600 dark:text-gray-300">
-                        {item.label}
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
-              </div>
-            </div>
+            {topics.map((topic, idx) => (
+              <motion.div
+                key={idx}
+                whileHover={{ scale: 1.05 }}
+                className="cursor-pointer bg-gray-100 dark:bg-gray-800 text-left rounded-xl p-5 border border-gray-300 dark:border-gray-700 shadow-md transition"
+                onClick={() => navigate(topic.path)}
+              >
+                <h3 className="text-xl font-semibold mb-2 text-indigo-600 dark:text-cyan-400">{topic.title}</h3>
+                <p className="text-sm text-gray-700 dark:text-gray-300">{topic.description}</p>
+              </motion.div>
+            ))}
           </motion.div>
         </motion.div>
       </div>
