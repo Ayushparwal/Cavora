@@ -12,6 +12,7 @@ import Footer from './components/Footer';
 import PrivacyPolicy from './components/PrivacyPolicy';
 import Cookies from './components/Cookie';
 import Community from "./components/Community"; 
+import LLMPage from './pages/llmpage';
 
 
 
@@ -53,7 +54,7 @@ function App() {
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/privacy" element={<PrivacyPolicy />} />
-              
+              <Route path="/llms" element={<LLMPage/>} />
               <Route path="/community" element={<Community />} />
               <Route path="/cookies" element={<Cookies />} />
               

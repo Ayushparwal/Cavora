@@ -11,7 +11,6 @@ const topics = [
   { title: "✨ Generative AI", path: "/genai", description: "Explore tools that generate text, images, etc." },
   { title: "🐧 Linux", path: "/linux", description: "Master Linux commands & systems" },
   { title: "📊 Data Science", path: "/ds", description: "Learn Data Science & Analytics" },
-  
   { title: "🤖 Machine Learning", path: "/ml", description: "Understand ML models and algorithms" },
   { title: "🧠 AI Fundamentals", path: "/ai", description: "Foundational concepts of AI & ethics" },
   { title: "📷 Computer Vision", path: "/cv", description: "Image classification, detection, and more" },
