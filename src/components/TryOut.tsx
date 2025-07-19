@@ -89,7 +89,7 @@ Your tone is expert yet approachable — you're a calm, sharp, and endlessly pat
 
               for (let char of content) {
                 setOutput((prev) => prev + char);
-                await new Promise((r) => setTimeout(r, 5));
+                await new Promise((r) => setTimeout(r, 15));
               }
 
             } catch (err) {

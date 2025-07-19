@@ -78,14 +78,19 @@ const Footer = () => {
             transition={{ duration: 0.6, delay: 0.1 }}
             viewport={{ once: true }}
           >
-            <h3 className="text-lg font-semibold text-cyan-600 dark:text-cyan-400 mb-4">Product</h3>
-            <ul className="space-y-3 text-sm text-gray-700 dark:text-gray-300">
-              <li>
-                <Link to="/integrations" className="hover:text-indigo-600 dark:hover:text-white transition">
-                  Integrations
-                </Link>
-              </li>
-            </ul>
+            <h3 className="text-lg font-semibold text-cyan-600 dark:text-cyan-400 mb-4">Contribute</h3>
+<ul className="space-y-3 text-sm text-gray-700 dark:text-gray-300">
+  <li>
+    <a
+      href="https://github.com/Ayushparwal/cavora"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="hover:text-indigo-600 dark:hover:text-white transition"
+    >
+      GitHub 
+    </a>
+  </li>
+</ul>
           </motion.div>
 
           {/* Support */}
@@ -160,9 +165,7 @@ const Footer = () => {
               <Link to="/privacy" className="hover:text-indigo-600 dark:hover:text-white">
                 Privacy Policy
               </Link>
-              <Link to="/terms" className="hover:text-indigo-600 dark:hover:text-white">
-                Terms
-              </Link>
+              
               <Link to="/cookies" className="hover:text-indigo-600 dark:hover:text-white">
                 Cookies
               </Link>
