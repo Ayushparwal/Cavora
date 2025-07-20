@@ -5,14 +5,14 @@ import { ThemeProvider } from './contexts/ThemeContext';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 
-import TryOut from './components/TryOut';
-// import Pricing from './components/Pricing';
-import Footer from './components/Footer';
 
+
+import Footer from './components/Footer';
+// import TypingTest from './components/TypingTest';
 import PrivacyPolicy from './components/PrivacyPolicy';
 import Cookies from './components/Cookie';
 import Community from "./components/Community"; 
-import LLMPage from './pages/llmpage';
+
 
 
 
@@ -37,7 +37,7 @@ const HomePage = () => {
     <>
       <section id="home"><Hero /></section>
       
-      <section id="tryout"><TryOut /></section>
+     
       {/* <section id="pricing"><Pricing /></section> */}
       <Footer />
     </>
@@ -54,7 +54,7 @@ function App() {
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/privacy" element={<PrivacyPolicy />} />
-              <Route path="/llms" element={<LLMPage/>} />
+              {/* <Route path="/test" element={<TypingTest />} /> */}
               <Route path="/community" element={<Community />} />
               <Route path="/cookies" element={<Cookies />} />
               

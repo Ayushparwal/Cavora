@@ -54,14 +54,7 @@ const Navbar = () => {
               Home
             </button>
 
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => scrollToSection('tryout')}
-              className="px-5 py-2 bg-gradient-to-r from-cyan-500 to-indigo-600 text-white rounded-lg hover:from-cyan-600 hover:to-indigo-700 transition-all"
-            >
-              Try Cavora
-            </motion.button>
+            
 
             <button
               onClick={toggleTheme}
@@ -92,14 +85,7 @@ const Navbar = () => {
             className="md:hidden bg-white/90 dark:bg-gray-900/90 backdrop-blur-md rounded-lg mt-2 p-4 space-y-4"
           >
             <button onClick={() => scrollToSection('home')} className="block text-gray-700 dark:text-gray-300">Home</button>
-            <button onClick={() => navigate('/privacy')} className="block text-gray-700 dark:text-gray-300">Privacy</button>
-
-            <button
-              onClick={() => scrollToSection('tryout')}
-              className="block text-white bg-gradient-to-r from-cyan-500 to-indigo-600 px-4 py-2 rounded-lg hover:from-cyan-600 hover:to-indigo-700"
-            >
-              Try Cavora
-            </button>
+            
 
             <button
               onClick={toggleTheme}
