@@ -21,34 +21,14 @@ const Hero = () => {
         </motion.h1>
 
         <motion.p
-          className="text-xl md:text-2xl text-gray-700 dark:text-gray-300 mb-10 max-w-2xl mx-auto"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.4, duration: 0.6 }}
-        >
-          Test your typing skills with real{" "}
-          <span className="text-indigo-600 dark:text-white font-semibold">
-            <Typewriter
-              words={["Python", "JavaScript", "C++", "HTML/CSS", "React"]}
-              loop
-              cursor
-              cursorStyle="_"
-              typeSpeed={80}
-              deleteSpeed={60}
-              delaySpeed={1500}
-            />
-          </span>{" "}
-          code snippets.
-        </motion.p>
+  className="text-xl md:text-2xl text-gray-700 dark:text-gray-300 mb-10 max-w-2xl mx-auto text-center"
+  initial={{ opacity: 0 }}
+  animate={{ opacity: 1 }}
+  transition={{ delay: 0.2, duration: 0.6 }}
+>
+  🚧 This site is currently under maintenance. Please check back soon!
+</motion.p>
 
-        <motion.button
-          className="bg-indigo-600 hover:bg-indigo-700 transition px-8 py-4 rounded-xl text-lg font-semibold shadow-xl"
-          onClick={() => navigate("/test")}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          Start Typing Test
-        </motion.button>
       </div>
     </section>
   );

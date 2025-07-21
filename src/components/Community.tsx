@@ -9,12 +9,7 @@ const team = [
     bio: "MLE Intern @Stealth AI | Ex-AI/ML Intern @PathBreakers | Ex-Research Intern @ISRO |  AutoMLs, NLP, LLM.",
   },
   
-  {
-    img: "https://randomuser.me/api/portraits/men/37.jpg",
-    name: "Muhammed Fazl Omar",
-    role: "Co-Founder & Full Stack Web Dev",
-    bio: "Full Stack Developer with a focus on performance and user experience. Passionate about building clean, maintainable, and impactful digital solutions.",
-  },
+  
   
   
 ];
