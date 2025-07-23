@@ -23,6 +23,13 @@ const TryOut = () => {
     }, 2000);
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      handleSubmit(e as any); // manually trigger submit
+    }
+  };
+
   const copyToClipboard = () => {
     navigator.clipboard.writeText(output);
     setCopied(true);
@@ -30,23 +37,25 @@ const TryOut = () => {
   };
 
   return (
-    <section id="tryout" className="py-32 bg-white dark:bg-gray-900">
-      <div className="max-w-6xl mx-auto px-6 sm:px-8 lg:px-12">
+    <section id="tryout" className="py-28 bg-white dark:bg-gray-900">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="text-center mb-20 px-4"
+          className="text-center mb-16 px-2"
         >
-          <h2 className="text-3xl md:text-6xl font-extrabold mb-4 leading-tight tracking-tight">
-            <span className="bg-gradient-to-r from-indigo-600 to-cyan-500 bg-clip-text text-transparent">
+          <h2 className="text-3xl md:text-5xl font-extrabold mb-3 leading-tight tracking-tight text-gray-800 dark:text-white">
+            <span className="text-gray-800 dark:text-gray-100">
               Welcome to{" "}
             </span>
-            <span className="text-red-600 drop-shadow-md">Cavora</span>
+            <span className="text-blue-700 dark:text-blue-400 drop-shadow-md">
+              Cavora
+            </span>
           </h2>
 
-          <p className="text-lg md:text-2xl text-gray-700 dark:text-gray-300 max-w-3xl mx-auto">
+          <p className="text-base md:text-lg text-gray-700 dark:text-gray-300 max-w-2xl mx-auto">
             Power intelligent search and deep research with{" "}
             <span className="font-semibold text-black dark:text-white">
               Cavora’s advanced AI insights
@@ -60,64 +69,50 @@ const TryOut = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
           viewport={{ once: true }}
-          className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-10 shadow-2xl border border-gray-200 dark:border-gray-700"
+          className="bg-gray-50 dark:bg-gray-800 rounded-xl p-6 shadow-xl border border-gray-200 dark:border-gray-700"
         >
-          <form onSubmit={handleSubmit} className="mb-10">
-  <div className="flex flex-col md:flex-row items-center gap-4 md:gap-6 bg-gradient-to-br from-white/80 dark:from-gray-800/80 to-gray-100 dark:to-gray-900 p-4 md:p-6 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 backdrop-blur-sm">
-    
-    <input
-      type="text"
-      value={input}
-      onChange={(e) => setInput(e.target.value)}
-      placeholder="Type your question here..."
-      className="flex-1 px-6 py-4 rounded-xl border border-gray-300 dark:border-gray-600 bg-white/90 dark:bg-gray-800/90 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all text-lg shadow-md focus:shadow-lg"
-    />
-
-    <motion.button
-      type="submit"
-      disabled={isLoading || !input.trim()}
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
-      className="flex items-center gap-2 px-6 py-4 bg-gradient-to-r from-purple-600 via-indigo-600 to-cyan-500 text-white font-semibold text-lg rounded-xl transition-all shadow-lg hover:from-purple-700 hover:to-cyan-600 disabled:opacity-50 disabled:cursor-not-allowed"
-    >
-      {isLoading ? (
-        <>
-          <Sparkles className="h-5 w-5 animate-spin" />
-          <span>Thinking...</span>
-        </>
-      ) : (
-        <>
-          <Send className="h-5 w-5" />
-          <span>Send</span>
-        </>
-      )}
-    </motion.button>
-  </div>
-</form>
-
+          <form onSubmit={handleSubmit} className="mb-6">
+            <div className="relative">
+              <textarea
+                rows={3}
+                className="w-full p-4 pr-12 text-sm rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                placeholder="Ask me anything..."
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={handleKeyDown}
+              ></textarea>
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="absolute right-3 bottom-1/2 translate-y-1/2 w-10 h-10 rounded-full bg-blue-600 hover:bg-blue-700 text-white flex items-center justify-center transition duration-300 disabled:opacity-50"
+              >
+                <Send className="w-5 h-5" />
+              </button>
+            </div>
+          </form>
 
           {output && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-white dark:bg-gray-700 rounded-xl p-8 border border-gray-200 dark:border-gray-600"
+              className="bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600"
             >
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="text-base font-semibold text-gray-900 dark:text-white">
                   AI Response
                 </h3>
                 <button
                   onClick={copyToClipboard}
-                  className="p-2 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-lg transition-colors"
+                  className="p-1 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-md transition-colors"
                 >
                   {copied ? (
-                    <Check className="h-5 w-5 text-green-500" />
+                    <Check className="h-4 w-4 text-green-500" />
                   ) : (
-                    <Copy className="h-5 w-5 text-gray-500 dark:text-gray-400" />
+                    <Copy className="h-4 w-4 text-gray-500 dark:text-gray-400" />
                   )}
                 </button>
               </div>
-              <pre className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap leading-relaxed text-base">
+              <pre className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap leading-relaxed text-sm">
                 {output}
               </pre>
             </motion.div>
