@@ -73,15 +73,11 @@ const TryOut = () => {
       if (data.choices && data.choices.length > 0) {
         setOutput(data.choices[0].message.content);
       } else {
-        setOutput(
-          "⚠️ Sorry, we're currently updating our systems. Please try again shortly."
-        );
+        setOutput("⚠️ No response from AI. Please try again.");
       }
-    } catch (error) {
-      setOutput(
-        "⚠️ Oops! Something went wrong on our end. We're working to fix it. Please try again in a few minutes."
-      );
-      console.error(error);
+    } catch (err) {
+      console.error("LLM error:", err);
+      setOutput("⚠️ Something went wrong. Please try again later.");
     }
 
     setIsLoading(false);
@@ -102,7 +98,6 @@ const TryOut = () => {
 
   useEffect(() => {
     if (!output) return;
-
     if (timerRef.current) clearInterval(timerRef.current);
     setDisplayedOutput("");
 
@@ -113,11 +108,7 @@ const TryOut = () => {
       setDisplayedOutput((prev) => {
         const nextChar = output.charAt(index);
         index++;
-
-        if (index >= output.length) {
-          clearInterval(timerRef.current!);
-        }
-
+        if (index >= output.length) clearInterval(timerRef.current!);
         return prev + nextChar;
       });
     }, interval);
@@ -138,12 +129,7 @@ const TryOut = () => {
           className="text-center mb-16 px-2"
         >
           <h2 className="text-3xl md:text-5xl font-extrabold mb-3 leading-tight tracking-tight text-gray-800 dark:text-white">
-            <span className="text-gray-800 dark:text-gray-100">
-              Welcome to{" "}
-            </span>
-            <span className="text-blue-700 dark:text-blue-400 drop-shadow-md">
-              Cavora
-            </span>
+            Welcome to <span className="text-blue-700 dark:text-blue-400">Cavora</span>
           </h2>
           <p className="text-base md:text-lg text-gray-700 dark:text-gray-300 max-w-2xl mx-auto">
             Power intelligent search and deep research with{" "}
@@ -188,9 +174,7 @@ const TryOut = () => {
               className="bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600"
             >
               <div className="flex items-center justify-between mb-3">
-                <h3 className="text-base font-semibold text-gray-900 dark:text-white">
-                  Thinking...
-                </h3>
+                <h3 className="text-base font-semibold text-gray-900 dark:text-white">Thinking...</h3>
                 <button
                   onClick={copyToClipboard}
                   className="p-1 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-md transition-colors"
