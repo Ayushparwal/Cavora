@@ -10,6 +10,36 @@ const TryOut = () => {
   const [copied, setCopied] = useState(false);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
+  const isRealTimeQuery = (query: string): boolean => {
+    const keywords = ["today", "latest", "news", "trending", "current", "update", "now", "live"];
+    return keywords.some((word) => query.toLowerCase().includes(word));
+  };
+
+  // ✅ SerpAPI integration
+  const fetchWebResults = async (query: string): Promise<string> => {
+    try {
+      const response = await fetch(
+        `https://serpapi.com/search.json?q=${encodeURIComponent(query)}&engine=google&api_key=${import.meta.env.VITE_SERPAPI_KEY}`
+      );
+      const data = await response.json();
+
+      if (data.organic_results && data.organic_results.length > 0) {
+        return data.organic_results
+          .slice(0, 5)
+          .map(
+            (item: any, idx: number) =>
+              `(${idx + 1}) ${item.title}: ${item.snippet || item.link}`
+          )
+          .join("\n");
+      } else {
+        return "No relevant Google search results found.";
+      }
+    } catch (error) {
+      console.error("SerpAPI error:", error);
+      return "⚠️ Failed to fetch search results. Proceeding with AI-only response.";
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim()) return;
@@ -19,6 +49,13 @@ const TryOut = () => {
     setDisplayedOutput("");
 
     try {
+      let finalPrompt = input;
+
+      if (isRealTimeQuery(input)) {
+        const webResults = await fetchWebResults(input);
+        finalPrompt = `You are a smart assistant. Use the following recent web search results to help answer the user's question:\n\n${webResults}\n\nUser question: ${input}`;
+      }
+
       const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
         method: "POST",
         headers: {
@@ -27,12 +64,7 @@ const TryOut = () => {
         },
         body: JSON.stringify({
           model: "llama-3.3-70b-versatile",
-          messages: [
-            {
-              role: "user",
-              content: input,
-            },
-          ],
+          messages: [{ role: "user", content: finalPrompt }],
         }),
       });
 
@@ -41,10 +73,14 @@ const TryOut = () => {
       if (data.choices && data.choices.length > 0) {
         setOutput(data.choices[0].message.content);
       } else {
-        setOutput("⚠️ Sorry, I couldn't fetch a response.");
+        setOutput(
+          "⚠️ Sorry, we're currently updating our systems. Please try again shortly."
+        );
       }
     } catch (error) {
-      setOutput("⚠️ Error connecting to Groq API. Please try again later.");
+      setOutput(
+        "⚠️ Oops! Something went wrong on our end. We're working to fix it. Please try again in a few minutes."
+      );
       console.error(error);
     }
 
@@ -102,12 +138,19 @@ const TryOut = () => {
           className="text-center mb-16 px-2"
         >
           <h2 className="text-3xl md:text-5xl font-extrabold mb-3 leading-tight tracking-tight text-gray-800 dark:text-white">
-            <span className="text-gray-800 dark:text-gray-100">Welcome to </span>
-            <span className="text-blue-700 dark:text-blue-400 drop-shadow-md">Cavora</span>
+            <span className="text-gray-800 dark:text-gray-100">
+              Welcome to{" "}
+            </span>
+            <span className="text-blue-700 dark:text-blue-400 drop-shadow-md">
+              Cavora
+            </span>
           </h2>
           <p className="text-base md:text-lg text-gray-700 dark:text-gray-300 max-w-2xl mx-auto">
             Power intelligent search and deep research with{" "}
-            <span className="font-semibold text-black dark:text-white">Cavora’s advanced AI insights</span>.
+            <span className="font-semibold text-black dark:text-white">
+              Cavora’s advanced AI insights
+            </span>
+            .
           </p>
         </motion.div>
 
@@ -145,7 +188,9 @@ const TryOut = () => {
               className="bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600"
             >
               <div className="flex items-center justify-between mb-3">
-                <h3 className="text-base font-semibold text-gray-900 dark:text-white">AI Response</h3>
+                <h3 className="text-base font-semibold text-gray-900 dark:text-white">
+                  Thinking...
+                </h3>
                 <button
                   onClick={copyToClipboard}
                   className="p-1 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-md transition-colors"
