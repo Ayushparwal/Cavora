@@ -8,10 +8,6 @@ const team = [
     role: "Founder & AI Engineer",
     bio: "MLE Intern @Stealth AI | Ex-AI/ML Intern @PathBreakers | Ex-Research Intern @ISRO |  AutoMLs, NLP, LLM.",
   },
-  
-  
-  
-  
 ];
 
 const Community = () => {
