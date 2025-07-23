@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { Send, Copy, Check } from "lucide-react";
+import axios from "axios";
+import ReactMarkdown from "react-markdown";
+
 
 const TryOut = () => {
   const [input, setInput] = useState("");
@@ -11,35 +14,13 @@ const TryOut = () => {
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   const isRealTimeQuery = (query: string): boolean => {
-    const keywords = ["today", "latest", "news", "trending", "current", "update", "now", "live"];
+    const keywords = ["latest", "today", "now", "current", "recent"];
     return keywords.some((word) => query.toLowerCase().includes(word));
   };
 
   const fetchWebResults = async (query: string): Promise<string> => {
-    try {
-      const response = await fetch("https://google.serper.dev/search", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-API-KEY": import.meta.env.VITE_SERPER_API_KEY,
-        },
-        body: JSON.stringify({ q: query }),
-      });
-
-      const data = await response.json();
-
-      if (data.organic && data.organic.length > 0) {
-        return data.organic
-          .slice(0, 5)
-          .map((item: any, idx: number) => `(${idx + 1}) ${item.title}: ${item.snippet}`)
-          .join("\n");
-      } else {
-        return "No relevant Google search results found.";
-      }
-    } catch (error) {
-      console.error("Serper API error:", error);
-      return "⚠️ Failed to fetch search results. Proceeding with AI-only response.";
-    }
+    // Stub function — replace this with actual Brave Search API or similar.
+    return `Search results for "${query}"...\n\n1. Example result A\n2. Example result B\n3. Example result C`;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -58,19 +39,21 @@ const TryOut = () => {
         finalPrompt = `You are a smart assistant. Use the following recent web search results to help answer the user's question:\n\n${webResults}\n\nUser question: ${input}`;
       }
 
-      const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${import.meta.env.VITE_GROQ_API}`,
-        },
-        body: JSON.stringify({
+      const response = await axios.post(
+        "https://api.groq.com/openai/v1/chat/completions",
+        {
           model: "llama-3.3-70b-versatile",
           messages: [{ role: "user", content: finalPrompt }],
-        }),
-      });
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${import.meta.env.VITE_GROQ_API}`,
+          },
+        }
+      );
 
-      const data = await response.json();
+      const data = response.data;
 
       if (data.choices && data.choices.length > 0) {
         setOutput(data.choices[0].message.content);
@@ -88,7 +71,7 @@ const TryOut = () => {
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
-      handleSubmit(e as any);
+      handleSubmit(e);
     }
   };
 
@@ -110,7 +93,9 @@ const TryOut = () => {
       setDisplayedOutput((prev) => {
         const nextChar = output.charAt(index);
         index++;
-        if (index >= output.length) clearInterval(timerRef.current!);
+        if (index >= output.length && timerRef.current) {
+          clearInterval(timerRef.current);
+        }
         return prev + nextChar;
       });
     }, interval);
@@ -134,7 +119,8 @@ const TryOut = () => {
             Welcome to <span className="text-blue-700 dark:text-blue-400">Cavora</span>
           </h2>
           <p className="text-base md:text-lg text-gray-700 dark:text-gray-300 max-w-2xl mx-auto">
-            Power intelligent search and deep research with <span className="font-semibold text-black dark:text-white">Cavora’s advanced AI insights</span>.
+            Power intelligent search and deep research with{" "}
+            <span className="font-semibold text-black dark:text-white">Cavora’s advanced AI insights</span>.
           </p>
         </motion.div>
 
@@ -172,7 +158,9 @@ const TryOut = () => {
               className="bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600"
             >
               <div className="flex items-center justify-between mb-3">
-                <h3 className="text-base font-semibold text-gray-900 dark:text-white">Thinking...</h3>
+                <h3 className="text-base font-semibold text-gray-900 dark:text-white">
+                  Response:
+                </h3>
                 <button
                   onClick={copyToClipboard}
                   className="p-1 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-md transition-colors"
@@ -184,9 +172,16 @@ const TryOut = () => {
                   )}
                 </button>
               </div>
-              <div className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap leading-relaxed text-sm">
-                <p>{displayedOutput}</p>
-              </div>
+              <div
+  className="whitespace-pre-wrap text-left text-gray-800 dark:text-gray-100 leading-relaxed text-sm font-normal space-y-2"
+  dangerouslySetInnerHTML={{
+    __html: displayedOutput
+      .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")           // handles **bold**
+      .replace(/\*(?!\*)(.*?)\*/g, "<strong>$1</strong>")         // handles *bold*
+      .replace(/`(.*?)`/g, "<code class='bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded text-xs'>$1</code>") // inline code
+      .replace(/\n/g, "<br/>")                                    // line breaks
+  }}
+></div>
             </motion.div>
           )}
         </motion.div>
