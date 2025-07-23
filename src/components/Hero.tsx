@@ -15,27 +15,29 @@ const TryOut = () => {
     return keywords.some((word) => query.toLowerCase().includes(word));
   };
 
-  // ✅ SerpAPI integration
   const fetchWebResults = async (query: string): Promise<string> => {
     try {
-      const response = await fetch(
-        `https://serpapi.com/search.json?q=${encodeURIComponent(query)}&engine=google&api_key=${import.meta.env.VITE_SERPAPI_KEY}`
-      );
+      const response = await fetch("https://google.serper.dev/search", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-API-KEY": import.meta.env.VITE_SERPER_API_KEY,
+        },
+        body: JSON.stringify({ q: query }),
+      });
+
       const data = await response.json();
 
-      if (data.organic_results && data.organic_results.length > 0) {
-        return data.organic_results
+      if (data.organic && data.organic.length > 0) {
+        return data.organic
           .slice(0, 5)
-          .map(
-            (item: any, idx: number) =>
-              `(${idx + 1}) ${item.title}: ${item.snippet || item.link}`
-          )
+          .map((item: any, idx: number) => `(${idx + 1}) ${item.title}: ${item.snippet}`)
           .join("\n");
       } else {
         return "No relevant Google search results found.";
       }
     } catch (error) {
-      console.error("SerpAPI error:", error);
+      console.error("Serper API error:", error);
       return "⚠️ Failed to fetch search results. Proceeding with AI-only response.";
     }
   };
@@ -132,11 +134,7 @@ const TryOut = () => {
             Welcome to <span className="text-blue-700 dark:text-blue-400">Cavora</span>
           </h2>
           <p className="text-base md:text-lg text-gray-700 dark:text-gray-300 max-w-2xl mx-auto">
-            Power intelligent search and deep research with{" "}
-            <span className="font-semibold text-black dark:text-white">
-              Cavora’s advanced AI insights
-            </span>
-            .
+            Power intelligent search and deep research with <span className="font-semibold text-black dark:text-white">Cavora’s advanced AI insights</span>.
           </p>
         </motion.div>
 
