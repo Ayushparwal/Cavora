@@ -1,32 +1,60 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
-import { Send, Sparkles, Copy, Check } from "lucide-react";
+import { Send, Copy, Check } from "lucide-react";
 
 const TryOut = () => {
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
+  const [displayedOutput, setDisplayedOutput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [copied, setCopied] = useState(false);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim()) return;
 
     setIsLoading(true);
+    setOutput("");
+    setDisplayedOutput("");
 
-    // Simulate AI response
-    setTimeout(() => {
-      setOutput(
-        `⚠️ The server is currently under maintenance.\n\nWe're working hard to bring everything back online shortly. Please check back again in a few minutes. Thank you for your patience!`
-      );
-      setIsLoading(false);
-    }, 2000);
+    try {
+      const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${import.meta.env.VITE_GROQ_API}`,
+        },
+        body: JSON.stringify({
+          model: "llama-3.3-70b-versatile",
+          messages: [
+            {
+              role: "user",
+              content: input,
+            },
+          ],
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.choices && data.choices.length > 0) {
+        setOutput(data.choices[0].message.content);
+      } else {
+        setOutput("⚠️ Sorry, I couldn't fetch a response.");
+      }
+    } catch (error) {
+      setOutput("⚠️ Error connecting to Groq API. Please try again later.");
+      console.error(error);
+    }
+
+    setIsLoading(false);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
-      handleSubmit(e as any); // manually trigger submit
+      handleSubmit(e as any);
     }
   };
 
@@ -35,6 +63,33 @@ const TryOut = () => {
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
+
+  useEffect(() => {
+    if (!output) return;
+
+    if (timerRef.current) clearInterval(timerRef.current);
+    setDisplayedOutput("");
+
+    let index = 0;
+    const interval = 15;
+
+    timerRef.current = setInterval(() => {
+      setDisplayedOutput((prev) => {
+        const nextChar = output.charAt(index);
+        index++;
+
+        if (index >= output.length) {
+          clearInterval(timerRef.current!);
+        }
+
+        return prev + nextChar;
+      });
+    }, interval);
+
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
+  }, [output]);
 
   return (
     <section id="tryout" className="py-28 bg-white dark:bg-gray-900">
@@ -47,20 +102,12 @@ const TryOut = () => {
           className="text-center mb-16 px-2"
         >
           <h2 className="text-3xl md:text-5xl font-extrabold mb-3 leading-tight tracking-tight text-gray-800 dark:text-white">
-            <span className="text-gray-800 dark:text-gray-100">
-              Welcome to{" "}
-            </span>
-            <span className="text-blue-700 dark:text-blue-400 drop-shadow-md">
-              Cavora
-            </span>
+            <span className="text-gray-800 dark:text-gray-100">Welcome to </span>
+            <span className="text-blue-700 dark:text-blue-400 drop-shadow-md">Cavora</span>
           </h2>
-
           <p className="text-base md:text-lg text-gray-700 dark:text-gray-300 max-w-2xl mx-auto">
             Power intelligent search and deep research with{" "}
-            <span className="font-semibold text-black dark:text-white">
-              Cavora’s advanced AI insights
-            </span>
-            .
+            <span className="font-semibold text-black dark:text-white">Cavora’s advanced AI insights</span>.
           </p>
         </motion.div>
 
@@ -91,16 +138,14 @@ const TryOut = () => {
             </div>
           </form>
 
-          {output && (
+          {displayedOutput && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               className="bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600"
             >
               <div className="flex items-center justify-between mb-3">
-                <h3 className="text-base font-semibold text-gray-900 dark:text-white">
-                  AI Response
-                </h3>
+                <h3 className="text-base font-semibold text-gray-900 dark:text-white">AI Response</h3>
                 <button
                   onClick={copyToClipboard}
                   className="p-1 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-md transition-colors"
@@ -112,9 +157,9 @@ const TryOut = () => {
                   )}
                 </button>
               </div>
-              <pre className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap leading-relaxed text-sm">
-                {output}
-              </pre>
+              <div className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap leading-relaxed text-sm">
+                <p>{displayedOutput}</p>
+              </div>
             </motion.div>
           )}
         </motion.div>
