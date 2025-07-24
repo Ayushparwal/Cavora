@@ -81,29 +81,29 @@ const TryOut = () => {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  useEffect(() => {
-    if (!output) return;
+ useEffect(() => {
+  if (!output) return;
+  if (timerRef.current) clearInterval(timerRef.current);
+  setDisplayedOutput("");
+
+  const words = output.split(" ");
+  let index = 0;
+
+  timerRef.current = setInterval(() => {
+    setDisplayedOutput((prev) => {
+      const nextChunk = words.slice(index, index + 10).join(" ");
+      index += 10;
+      if (index >= words.length && timerRef.current) {
+        clearInterval(timerRef.current);
+      }
+      return prev + (prev ? " " : "") + nextChunk;
+    });
+  }, 200); 
+
+  return () => {
     if (timerRef.current) clearInterval(timerRef.current);
-    setDisplayedOutput("");
-
-    let index = 0;
-    const interval = 15;
-
-    timerRef.current = setInterval(() => {
-      setDisplayedOutput((prev) => {
-        const nextChar = output.charAt(index);
-        index++;
-        if (index >= output.length && timerRef.current) {
-          clearInterval(timerRef.current);
-        }
-        return prev + nextChar;
-      });
-    }, interval);
-
-    return () => {
-      if (timerRef.current) clearInterval(timerRef.current);
-    };
-  }, [output]);
+  };
+}, [output]);
 
   return (
     <section id="tryout" className="py-28 bg-white dark:bg-gray-900">
