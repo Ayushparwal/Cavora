@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { Send, Copy, Check } from "lucide-react";
 import axios from "axios";
+import { useAuth } from "../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const TryOut = () => {
   const [input, setInput] = useState("");
@@ -11,6 +13,9 @@ const TryOut = () => {
   const [copied, setCopied] = useState(false);
   const [messages, setMessages] = useState<{ role: string; content: string }[]>([]);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
+
+  const { user } = useAuth();
+  const navigate = useNavigate();
 
   const isRealTimeQuery = (query: string): boolean => {
     const keywords = ["latest", "today", "now", "current", "recent"];
@@ -132,68 +137,86 @@ const TryOut = () => {
           </p>
         </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          viewport={{ once: true }}
-          className="bg-gray-50 dark:bg-gray-800 rounded-xl p-6 shadow-xl border border-gray-200 dark:border-gray-700"
-        >
-          <form onSubmit={handleSubmit} className="mb-6">
-            <div className="relative">
-              <textarea
-                rows={3}
-                className="w-full p-4 pr-12 text-sm rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
-                placeholder="Ask me anything..."
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyDown={handleKeyDown}
-              ></textarea>
-              <button
-                type="submit"
-                disabled={isLoading}
-                className="absolute right-3 bottom-1/2 translate-y-1/2 w-10 h-10 rounded-full bg-blue-600 hover:bg-blue-700 text-white flex items-center justify-center transition duration-300 disabled:opacity-50"
-              >
-                <Send className="w-5 h-5" />
-              </button>
-            </div>
-          </form>
-
-          {/* Only show the latest response */}
-          {displayedOutput && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600"
+        {/* If user is NOT logged in */}
+        {!user && (
+          <div className="text-center bg-gray-100 dark:bg-gray-800 p-6 rounded-lg shadow-md">
+            <p className="text-gray-700 dark:text-gray-300 mb-4">
+              You must be logged in to use this feature.
+            </p>
+            <button
+              onClick={() => navigate("/login")}
+              className="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition"
             >
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="text-base font-semibold text-gray-900 dark:text-white">
-                  Response:
-                </h3>
+              Login Now
+            </button>
+          </div>
+        )}
+
+        {/* If user IS logged in */}
+        {user && (
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            viewport={{ once: true }}
+            className="bg-gray-50 dark:bg-gray-800 rounded-xl p-6 shadow-xl border border-gray-200 dark:border-gray-700 mt-6"
+          >
+            <form onSubmit={handleSubmit} className="mb-6">
+              <div className="relative">
+                <textarea
+                  rows={3}
+                  className="w-full p-4 pr-12 text-sm rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                  placeholder="Ask me anything..."
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  disabled={!user} // disable typing when not logged in
+                ></textarea>
                 <button
-                  onClick={copyToClipboard}
-                  className="p-1 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-md transition-colors"
+                  type="submit"
+                  disabled={isLoading || !input.trim()}
+                  className="absolute right-3 bottom-1/2 translate-y-1/2 w-10 h-10 rounded-full bg-blue-600 hover:bg-blue-700 text-white flex items-center justify-center transition duration-300 disabled:opacity-50"
                 >
-                  {copied ? (
-                    <Check className="h-4 w-4 text-green-500" />
-                  ) : (
-                    <Copy className="h-4 w-4 text-gray-500 dark:text-gray-400" />
-                  )}
+                  <Send className="w-5 h-5" />
                 </button>
               </div>
-              <div
-                className="whitespace-pre-wrap text-left text-gray-800 dark:text-gray-100 leading-relaxed text-sm font-normal space-y-2"
-                dangerouslySetInnerHTML={{
-                  __html: displayedOutput
-                    .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
-                    .replace(/\*(?!\*)(.*?)\*/g, "<strong>$1</strong>")
-                    .replace(/`(.*?)`/g, "<code class='bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded text-xs'>$1</code>")
-                    .replace(/\n/g, "<br/>"),
-                }}
-              ></div>
-            </motion.div>
-          )}
-        </motion.div>
+            </form>
+
+            {displayedOutput && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600"
+              >
+                <div className="flex items-center justify-between mb-3">
+                  <h3 className="text-base font-semibold text-gray-900 dark:text-white">
+                    Response:
+                  </h3>
+                  <button
+                    onClick={copyToClipboard}
+                    className="p-1 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-md transition-colors"
+                  >
+                    {copied ? (
+                      <Check className="h-4 w-4 text-green-500" />
+                    ) : (
+                      <Copy className="h-4 w-4 text-gray-500 dark:text-gray-400" />
+                    )}
+                  </button>
+                </div>
+                <div
+                  className="whitespace-pre-wrap text-left text-gray-800 dark:text-gray-100 leading-relaxed text-sm font-normal space-y-2"
+                  dangerouslySetInnerHTML={{
+                    __html: displayedOutput
+                      .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+                      .replace(/\*(?!\*)(.*?)\*/g, "<strong>$1</strong>")
+                      .replace(/`(.*?)`/g, "<code class='bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded text-xs'>$1</code>")
+                      .replace(/\n/g, "<br/>"),
+                  }}
+                ></div>
+              </motion.div>
+            )}
+          </motion.div>
+        )}
       </div>
     </section>
   );

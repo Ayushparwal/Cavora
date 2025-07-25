@@ -1,20 +1,15 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import { ThemeProvider } from './contexts/ThemeContext';
 
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
-
-
-
+import Login from './pages/Login';
+import Signup from './pages/Signup';
 import Footer from './components/Footer';
-// import TypingTest from './components/TypingTest';
 import PrivacyPolicy from './components/PrivacyPolicy';
 import Cookies from './components/Cookie';
-import Community from "./components/Community"; 
-
-
-
+import Community from './components/Community';
 
 // Scroll handler inside HomePage
 const HomePage = () => {
@@ -36,9 +31,6 @@ const HomePage = () => {
   return (
     <>
       <section id="home"><Hero /></section>
-      
-     
-      {/* <section id="pricing"><Pricing /></section> */}
       <Footer />
     </>
   );
@@ -47,21 +39,17 @@ const HomePage = () => {
 function App() {
   return (
     <ThemeProvider>
-      
-        <Router>
-          <Navbar />
-          <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors">
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/privacy" element={<PrivacyPolicy />} />
-              {/* <Route path="/test" element={<TypingTest />} /> */}
-              <Route path="/community" element={<Community />} />
-              <Route path="/cookies" element={<Cookies />} />
-              
-            </Routes>
-          </div>
-        </Router>
-      
+      <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors">
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/privacy" element={<PrivacyPolicy />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/community" element={<Community />} />
+          <Route path="/cookies" element={<Cookies />} />
+        </Routes>
+      </div>
     </ThemeProvider>
   );
 }
