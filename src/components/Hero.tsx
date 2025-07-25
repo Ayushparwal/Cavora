@@ -2,6 +2,9 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { Send, Copy, Check } from "lucide-react";
 import axios from "axios";
+import { auth } from "../firebase"; // ✅ Import Firebase Auth
+import { onAuthStateChanged } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 
 const TryOut = () => {
   const [input, setInput] = useState("");
@@ -10,7 +13,22 @@ const TryOut = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [copied, setCopied] = useState(false);
   const [messages, setMessages] = useState<{ role: string; content: string }[]>([]);
+  const [isAuthenticated, setIsAuthenticated] = useState(false); // ✅ Track auth
   const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const navigate = useNavigate();
+
+  // ✅ Check Auth State
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setIsAuthenticated(true);
+      } else {
+        setIsAuthenticated(false);
+        navigate("/login"); // Redirect if not logged in
+      }
+    });
+    return () => unsubscribe();
+  }, [navigate]);
 
   const isRealTimeQuery = (query: string): boolean => {
     const keywords = ["latest", "today", "now", "current", "recent"];
@@ -33,7 +51,6 @@ const TryOut = () => {
       const userMessage = { role: "user", content: input };
       const updatedMessages = [...messages, userMessage];
 
-      // Keep last 10 messages for context
       let contextMessages = updatedMessages.slice(-10);
 
       if (isRealTimeQuery(input)) {
@@ -113,6 +130,14 @@ const TryOut = () => {
     };
   }, [output]);
 
+  if (!isAuthenticated) {
+    return (
+      <div className="flex items-center justify-center h-screen text-xl font-semibold">
+        Redirecting to Login...
+      </div>
+    );
+  }
+
   return (
     <section id="tryout" className="py-28 bg-white dark:bg-gray-900">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -159,7 +184,6 @@ const TryOut = () => {
             </div>
           </form>
 
-          {/* Only show the latest response */}
           {displayedOutput && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}

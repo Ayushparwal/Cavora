@@ -2,19 +2,38 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Menu, X, Sun, Moon } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { auth } from '../firebase';
+import { onAuthStateChanged, signOut } from 'firebase/auth';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
+  const location = useLocation();
+  const [user, setUser] = useState<any>(null);
 
+  // ✅ Track scroll for background effect
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // ✅ Track Auth State
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+    return () => unsubscribe();
+  }, []);
+
+  // ✅ Logout
+  const handleLogout = async () => {
+    await signOut(auth);
+    navigate('/login');
+  };
 
   const scrollToSection = (id: string) => {
     if (window.location.pathname !== '/') {
@@ -25,6 +44,9 @@ const Navbar = () => {
     }
     setIsOpen(false);
   };
+
+  // ✅ Hide Navbar on Chat page
+  if (location.pathname === '/chat') return null;
 
   return (
     <motion.nav
@@ -38,6 +60,7 @@ const Navbar = () => {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
+          {/* ✅ Logo */}
           <motion.div
             className="flex items-center space-x-2 cursor-pointer"
             whileHover={{ scale: 1.05 }}
@@ -46,6 +69,7 @@ const Navbar = () => {
             <span className="text-xl font-bold text-gray-800 dark:text-white">Cavora</span>
           </motion.div>
 
+          {/* ✅ Desktop Menu */}
           <div className="hidden md:flex items-center space-x-6">
             <button
               onClick={() => scrollToSection('home')}
@@ -54,8 +78,34 @@ const Navbar = () => {
               Home
             </button>
 
-            
+            {!user ? (
+              <>
+                <button
+                  onClick={() => navigate('/login')}
+                  className="px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-cyan-400 transition-colors"
+                >
+                  Login
+                </button>
+                <button
+                  onClick={() => navigate('/signup')}
+                  className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition"
+                >
+                  Sign Up
+                </button>
+              </>
+            ) : (
+              <>
+                <span className="text-gray-700 dark:text-gray-300">{user.email}</span>
+                <button
+                  onClick={handleLogout}
+                  className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
+                >
+                  Logout
+                </button>
+              </>
+            )}
 
+            {/* ✅ Theme Toggle */}
             <button
               onClick={toggleTheme}
               className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
@@ -68,6 +118,7 @@ const Navbar = () => {
             </button>
           </div>
 
+          {/* ✅ Mobile Menu Toggle */}
           <div className="md:hidden">
             <button
               onClick={() => setIsOpen(!isOpen)}
@@ -78,14 +129,52 @@ const Navbar = () => {
           </div>
         </div>
 
+        {/* ✅ Mobile Dropdown */}
         {isOpen && (
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             className="md:hidden bg-white/90 dark:bg-gray-900/90 backdrop-blur-md rounded-lg mt-2 p-4 space-y-4"
           >
-            <button onClick={() => scrollToSection('home')} className="block text-gray-700 dark:text-gray-300">Home</button>
-            
+            <button
+              onClick={() => scrollToSection('home')}
+              className="block text-gray-700 dark:text-gray-300"
+            >
+              Home
+            </button>
+
+            {!user ? (
+              <>
+                <button
+                  onClick={() => {
+                    navigate('/login');
+                    setIsOpen(false);
+                  }}
+                  className="block text-gray-700 dark:text-gray-300"
+                >
+                  Login
+                </button>
+                <button
+                  onClick={() => {
+                    navigate('/signup');
+                    setIsOpen(false);
+                  }}
+                  className="block text-white bg-indigo-600 px-4 py-2 rounded hover:bg-indigo-700 transition"
+                >
+                  Sign Up
+                </button>
+              </>
+            ) : (
+              <>
+                <p className="text-gray-700 dark:text-gray-300">{user.email}</p>
+                <button
+                  onClick={handleLogout}
+                  className="block text-white bg-red-500 px-4 py-2 rounded hover:bg-red-600 transition"
+                >
+                  Logout
+                </button>
+              </>
+            )}
 
             <button
               onClick={toggleTheme}
