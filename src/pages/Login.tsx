@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Mail, Eye, EyeOff, Lock } from "lucide-react";
+import { useNavigate } from "react-router-dom"; // ✅ Added
 
 // ✅ Firebase imports
 import { auth, googleProvider } from "../firebase";
@@ -10,6 +11,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate(); // ✅ Hook for navigation
 
   // ✅ Email/Password Login
   const handleLogin = async () => {
@@ -17,10 +19,10 @@ const Login = () => {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       console.log("Logged in:", userCredential.user);
-      alert(`Welcome back, ${userCredential.user}`);
+      alert(`Welcome back, ${userCredential.user.email}`);
 
-      // ✅ Redirect to cavora.tech/chat
-      window.location.href = "https://cavora.tech/";
+      // ✅ Redirect to internal route
+      navigate("https://cavora.tech"); 
     } catch (error: any) {
       console.error("Login error:", error.message);
       alert(error.message);
@@ -34,8 +36,8 @@ const Login = () => {
       console.log("Google user:", result.user);
       alert(`Welcome, ${result.user.displayName}`);
 
-      // ✅ Redirect to cavora.tech/chat
-      window.location.href = "https://cavora.tech/";
+      // ✅ Redirect internally
+      navigate("https://cavora.tech");
     } catch (error: any) {
       console.error("Google login error:", error.message);
       alert(error.message);
@@ -138,7 +140,7 @@ const Login = () => {
           Don’t have an account?{" "}
           <span
             className="text-indigo-600 dark:text-cyan-400 font-medium cursor-pointer hover:underline"
-            onClick={() => (window.location.href = "https://cavora.tech/signup")}
+            onClick={() => navigate("/signup")} // ✅ Internal navigation
           >
             Sign up
           </span>

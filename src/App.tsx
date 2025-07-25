@@ -58,7 +58,6 @@ function App() {
               <Route path="/privacy" element={<PrivacyPolicy />} />
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
-              
               <Route path="/community" element={<Community />} />
               <Route path="/cookies" element={<Cookies />} />
               

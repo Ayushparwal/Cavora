@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Mail, Lock, User, Eye, EyeOff } from "lucide-react";
+import { useNavigate } from "react-router-dom"; // ✅ Added
+
 import { auth, googleProvider } from "../firebase";
 import { signInWithPopup, createUserWithEmailAndPassword } from "firebase/auth";
 
@@ -9,30 +11,30 @@ const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate(); // ✅ Hook for navigation
 
-  // ✅ Signup and redirect to cavora.tech/chat
+  // ✅ Signup and redirect
   const handleSignup = async () => {
     if (!name || !email || !password) return alert("Please fill all fields");
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       console.log("User created:", userCredential.user);
 
-      // ✅ Redirect to external URL (keeps user logged in)
       alert(`Welcome, ${name}!`);
-      window.location.href = "https://cavora.tech/";
+      navigate("https://cavora.tech"); // ✅ Redirect internally
     } catch (error: any) {
       console.error("Signup error:", error.message);
       alert(error.message);
     }
   };
 
-  // ✅ Google Signup and redirect
+  // ✅ Google Signup
   const handleGoogleSignup = async () => {
     try {
       const result = await signInWithPopup(auth, googleProvider);
       console.log("Google user:", result.user);
       alert(`Welcome, ${result.user.displayName}`);
-      window.location.href = "https://cavora.tech/";
+      navigate("https://cavora.tech"); // ✅ Redirect internally
     } catch (error: any) {
       console.error("Google signup error:", error.message);
       alert(error.message);
@@ -136,6 +138,17 @@ const Signup = () => {
             <span className="font-medium">Google</span>
           </button>
         </div>
+
+        {/* Login Redirect */}
+        <p className="text-center text-sm mt-6 text-gray-600 dark:text-gray-400">
+          Already have an account?{" "}
+          <span
+            className="text-indigo-600 dark:text-cyan-400 font-medium cursor-pointer hover:underline"
+            onClick={() => navigate("/login")} // ✅ Internal redirect
+          >
+            Log in
+          </span>
+        </p>
       </motion.div>
     </div>
   );
