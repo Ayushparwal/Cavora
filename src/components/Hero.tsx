@@ -11,7 +11,9 @@ const TryOut = () => {
   const [displayedOutput, setDisplayedOutput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [copied, setCopied] = useState(false);
-  const [messages, setMessages] = useState<{ role: string; content: string }[]>([]);
+  const [messages, setMessages] = useState<{ role: string; content: string }[]>(
+    []
+  );
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   const { user } = useAuth();
@@ -23,7 +25,29 @@ const TryOut = () => {
   };
 
   const fetchWebResults = async (query: string): Promise<string> => {
-    return `Search results for "${query}"...\n\n1. Example result A\n2. Example result B\n3. Example result C`;
+    try {
+      const response = await axios.get("https://serpapi.com/search.json", {
+        params: {
+          q: query,
+          hl: "en",
+          gl: "us",
+          api_key: import.meta.env.VITE_SERP_API_KEY,
+        },
+      });
+
+      const results = response.data.organic_results.slice(0, 5); // top 5 results
+      let formattedResults = results
+        .map(
+          (res: any, index: number) =>
+            `${index + 1}. ${res.title} - ${res.link}`
+        )
+        .join("\n");
+
+      return `Search results for "${query}":\n${formattedResults}`;
+    } catch (error) {
+      console.error("SerpAPI error:", error);
+      return "⚠️ Unable to fetch real-time results.";
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -42,12 +66,15 @@ const TryOut = () => {
       let contextMessages = updatedMessages.slice(-10);
 
       if (isRealTimeQuery(input)) {
-        const webResults = await fetchWebResults(input);
-        contextMessages = [
-          { role: "system", content: `You are a smart assistant. Use these recent web search results:\n${webResults}` },
-          ...contextMessages,
-        ];
-      }
+  const webResults = await fetchWebResults(input);
+  contextMessages = [
+    {
+      role: "system",
+      content: `You are a real-time AI assistant. Use ONLY the information from the following search results to answer the user query. If the question is about a real-time fact (like prices, news, weather), do NOT say you don't know. Summarize and present the most accurate answer based on this data:\n\n${webResults}\n\nReturn the final answer clearly with sources if possible.`
+    },
+    ...contextMessages,
+  ];
+}
 
       const response = await axios.post(
         "https://api.groq.com/openai/v1/chat/completions",
@@ -70,7 +97,9 @@ const TryOut = () => {
         aiResponse = data.choices[0].message.content;
       }
 
-      setMessages(updatedMessages.concat({ role: "assistant", content: aiResponse }));
+      setMessages(
+        updatedMessages.concat({ role: "assistant", content: aiResponse })
+      );
       setOutput(aiResponse);
     } catch (err) {
       console.error("LLM error:", err);
@@ -129,11 +158,15 @@ const TryOut = () => {
           className="text-center mb-16 px-2"
         >
           <h2 className="text-3xl md:text-5xl font-extrabold mb-3 leading-tight tracking-tight text-gray-800 dark:text-white">
-            Welcome to <span className="text-blue-700 dark:text-blue-400">Cavora</span>
+            Welcome to{" "}
+            <span className="text-blue-700 dark:text-blue-400">Cavora</span>
           </h2>
           <p className="text-base md:text-lg text-gray-700 dark:text-gray-300 max-w-2xl mx-auto">
             Power intelligent search and deep research with{" "}
-            <span className="font-semibold text-black dark:text-white">Cavora’s advanced AI insights</span>.
+            <span className="font-semibold text-black dark:text-white">
+              Cavora’s advanced AI insights
+            </span>
+            .
           </p>
         </motion.div>
 
@@ -209,7 +242,10 @@ const TryOut = () => {
                     __html: displayedOutput
                       .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
                       .replace(/\*(?!\*)(.*?)\*/g, "<strong>$1</strong>")
-                      .replace(/`(.*?)`/g, "<code class='bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded text-xs'>$1</code>")
+                      .replace(
+                        /`(.*?)`/g,
+                        "<code class='bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded text-xs'>$1</code>"
+                      )
                       .replace(/\n/g, "<br/>"),
                   }}
                 ></div>
