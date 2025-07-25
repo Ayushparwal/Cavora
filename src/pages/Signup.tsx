@@ -32,7 +32,7 @@ const Signup = () => {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       await updateProfile(userCredential.user, { displayName: name });
 
-      navigate("/"); // ✅ Redirect to home/dashboard
+      navigate("/"); 
     } catch (err: any) {
       console.error("Signup error:", err.message);
       setError(getFriendlyError(err.message));
