@@ -6,11 +6,9 @@ import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 
 
-import Login from './pages/Login';
-import Signup from './pages/Signup';
-
 
 import Footer from './components/Footer';
+// import TypingTest from './components/TypingTest';
 import PrivacyPolicy from './components/PrivacyPolicy';
 import Cookies from './components/Cookie';
 import Community from "./components/Community"; 
@@ -56,8 +54,7 @@ function App() {
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/privacy" element={<PrivacyPolicy />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<Signup />} />
+              {/* <Route path="/test" element={<TypingTest />} /> */}
               <Route path="/community" element={<Community />} />
               <Route path="/cookies" element={<Cookies />} />
               
