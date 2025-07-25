@@ -2,8 +2,6 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { Send, Copy, Check } from "lucide-react";
 import axios from "axios";
-import ReactMarkdown from "react-markdown";
-
 
 const TryOut = () => {
   const [input, setInput] = useState("");
@@ -11,6 +9,7 @@ const TryOut = () => {
   const [displayedOutput, setDisplayedOutput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [messages, setMessages] = useState<{ role: string; content: string }[]>([]);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   const isRealTimeQuery = (query: string): boolean => {
@@ -19,7 +18,6 @@ const TryOut = () => {
   };
 
   const fetchWebResults = async (query: string): Promise<string> => {
-    // Stub function — replace this with actual Brave Search API or similar.
     return `Search results for "${query}"...\n\n1. Example result A\n2. Example result B\n3. Example result C`;
   };
 
@@ -32,18 +30,25 @@ const TryOut = () => {
     setDisplayedOutput("");
 
     try {
-      let finalPrompt = input;
+      const userMessage = { role: "user", content: input };
+      const updatedMessages = [...messages, userMessage];
+
+      // Keep last 10 messages for context
+      let contextMessages = updatedMessages.slice(-10);
 
       if (isRealTimeQuery(input)) {
         const webResults = await fetchWebResults(input);
-        finalPrompt = `You are a smart assistant. Use the following recent web search results to help answer the user's question:\n\n${webResults}\n\nUser question: ${input}`;
+        contextMessages = [
+          { role: "system", content: `You are a smart assistant. Use these recent web search results:\n${webResults}` },
+          ...contextMessages,
+        ];
       }
 
       const response = await axios.post(
         "https://api.groq.com/openai/v1/chat/completions",
         {
           model: "llama-3.3-70b-versatile",
-          messages: [{ role: "user", content: finalPrompt }],
+          messages: contextMessages,
         },
         {
           headers: {
@@ -54,17 +59,20 @@ const TryOut = () => {
       );
 
       const data = response.data;
+      let aiResponse = "⚠️ No response from AI. Please try again.";
 
       if (data.choices && data.choices.length > 0) {
-        setOutput(data.choices[0].message.content);
-      } else {
-        setOutput("⚠️ No response from AI. Please try again.");
+        aiResponse = data.choices[0].message.content;
       }
+
+      setMessages(updatedMessages.concat({ role: "assistant", content: aiResponse }));
+      setOutput(aiResponse);
     } catch (err) {
       console.error("LLM error:", err);
       setOutput("⚠️ Something went wrong. Please try again later.");
     }
 
+    setInput("");
     setIsLoading(false);
   };
 
@@ -81,29 +89,29 @@ const TryOut = () => {
     setTimeout(() => setCopied(false), 2000);
   };
 
- useEffect(() => {
-  if (!output) return;
-  if (timerRef.current) clearInterval(timerRef.current);
-  setDisplayedOutput("");
-
-  const words = output.split(" ");
-  let index = 0;
-
-  timerRef.current = setInterval(() => {
-    setDisplayedOutput((prev) => {
-      const nextChunk = words.slice(index, index + 10).join(" ");
-      index += 10;
-      if (index >= words.length && timerRef.current) {
-        clearInterval(timerRef.current);
-      }
-      return prev + (prev ? " " : "") + nextChunk;
-    });
-  }, 200); 
-
-  return () => {
+  useEffect(() => {
+    if (!output) return;
     if (timerRef.current) clearInterval(timerRef.current);
-  };
-}, [output]);
+    setDisplayedOutput("");
+
+    const words = output.split(" ");
+    let index = 0;
+
+    timerRef.current = setInterval(() => {
+      setDisplayedOutput((prev) => {
+        const nextChunk = words.slice(index, index + 10).join(" ");
+        index += 10;
+        if (index >= words.length && timerRef.current) {
+          clearInterval(timerRef.current);
+        }
+        return prev + (prev ? " " : "") + nextChunk;
+      });
+    }, 200);
+
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
+  }, [output]);
 
   return (
     <section id="tryout" className="py-28 bg-white dark:bg-gray-900">
@@ -151,6 +159,7 @@ const TryOut = () => {
             </div>
           </form>
 
+          {/* Only show the latest response */}
           {displayedOutput && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -173,15 +182,15 @@ const TryOut = () => {
                 </button>
               </div>
               <div
-  className="whitespace-pre-wrap text-left text-gray-800 dark:text-gray-100 leading-relaxed text-sm font-normal space-y-2"
-  dangerouslySetInnerHTML={{
-    __html: displayedOutput
-      .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")           // handles **bold**
-      .replace(/\*(?!\*)(.*?)\*/g, "<strong>$1</strong>")         // handles *bold*
-      .replace(/`(.*?)`/g, "<code class='bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded text-xs'>$1</code>") // inline code
-      .replace(/\n/g, "<br/>")                                    // line breaks
-  }}
-></div>
+                className="whitespace-pre-wrap text-left text-gray-800 dark:text-gray-100 leading-relaxed text-sm font-normal space-y-2"
+                dangerouslySetInnerHTML={{
+                  __html: displayedOutput
+                    .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+                    .replace(/\*(?!\*)(.*?)\*/g, "<strong>$1</strong>")
+                    .replace(/`(.*?)`/g, "<code class='bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded text-xs'>$1</code>")
+                    .replace(/\n/g, "<br/>"),
+                }}
+              ></div>
             </motion.div>
           )}
         </motion.div>
