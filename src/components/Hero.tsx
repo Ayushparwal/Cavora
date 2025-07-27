@@ -228,19 +228,40 @@ const TryOut = () => {
                 }`}
               >
                 <div className="flex items-start justify-between">
-                  <div
-                    className="prose prose-sm sm:prose-base max-w-none text-gray-800 dark:text-gray-100 leading-relaxed"
-                    dangerouslySetInnerHTML={{
-                      __html: msg.content
-                        .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
-                        .replace(/\*(?!\*)(.*?)\*/g, "<em>$1</em>")
-                        .replace(
-                          /`(.*?)`/g,
-                          "<code class='bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded text-xs font-mono text-red-600 dark:text-red-400'>$1</code>"
-                        )
-                        .replace(/\n/g, "<br/>"),
-                    }}
-                  ></div>
+                  <div className="flex items-start justify-between w-full">
+  <div
+    className="prose prose-sm sm:prose-base max-w-none leading-relaxed text-gray-900 dark:text-gray-100 
+               prose-strong:text-gray-900 dark:prose-strong:text-white 
+               prose-em:text-gray-800 dark:prose-em:text-gray-200 
+               prose-code:text-red-600 dark:prose-code:text-red-400 
+               prose-pre:bg-gray-100 dark:prose-pre:bg-gray-800 
+               prose-pre:rounded-md prose-pre:p-4 prose-pre:text-sm prose-pre:overflow-auto 
+               prose-ul:pl-5 prose-ul:list-disc"
+    dangerouslySetInnerHTML={{
+      __html: msg.content
+        // Multiline code block (```bash)
+        .replace(/```(?:shell|bash)?\n([\s\S]*?)```/g, (_, code) => {
+          return `<pre><code>${code
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/\n/g, "<br/>")}</code></pre>`;
+        })
+        // Bullet points (basic)
+        .replace(/^- (.*?)(\n|$)/gm, "<li>$1</li>")
+        .replace(/(<li>.*<\/li>)/gs, "<ul>$1</ul>")
+        // Bold **text**
+        .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+        // Italic *text*
+        .replace(/\*(?!\*)(.*?)\*/g, "<em>$1</em>")
+        // Inline code `code`
+        .replace(/`([^`]+)`/g, `<code>$1</code>`)
+        // Line breaks (not inside <pre>)
+        .replace(/(?<!<\/pre>)\n/g, "<br/>"),
+    }}
+  ></div>
+</div>
+
+        
                   {msg.role === "assistant" && (
                     <button
                       onClick={() => copyToClipboard(msg.content, idx)}
