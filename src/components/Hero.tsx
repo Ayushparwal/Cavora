@@ -229,15 +229,18 @@ const TryOut = () => {
               >
                 <div className="flex items-start justify-between">
                   <div
-  className="whitespace-pre-wrap text-sm text-gray-800 dark:text-gray-100"
-  dangerouslySetInnerHTML={{
-    __html: msg.content
-      .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
-      .replace(/\*(?!\*)(.*?)\*/g, "<em>$1</em>")
-      .replace(/`(.*?)`/g, "<code class='bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded text-xs'>$1</code>")
-      .replace(/\n/g, "<br/>"),
-  }}
-></div>
+                    className="prose prose-sm sm:prose-base max-w-none text-gray-800 dark:text-gray-100 leading-relaxed"
+                    dangerouslySetInnerHTML={{
+                      __html: msg.content
+                        .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+                        .replace(/\*(?!\*)(.*?)\*/g, "<em>$1</em>")
+                        .replace(
+                          /`(.*?)`/g,
+                          "<code class='bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded text-xs font-mono text-red-600 dark:text-red-400'>$1</code>"
+                        )
+                        .replace(/\n/g, "<br/>"),
+                    }}
+                  ></div>
                   {msg.role === "assistant" && (
                     <button
                       onClick={() => copyToClipboard(msg.content, idx)}
