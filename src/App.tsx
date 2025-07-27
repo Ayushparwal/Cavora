@@ -6,10 +6,7 @@ import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
-import Footer from './components/Footer';
-import PrivacyPolicy from './components/PrivacyPolicy';
-import Cookies from './components/Cookie';
-import Community from './components/Community';
+
 
 // Scroll handler inside HomePage
 const HomePage = () => {
@@ -29,26 +26,30 @@ const HomePage = () => {
   }, [location]);
 
   return (
-    <>
-      <section id="home"><Hero /></section>
-      <Footer />
-    </>
+    <section id="home">
+      <Hero />
+    </section>
   );
 };
 
 function App() {
   return (
     <ThemeProvider>
-      <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors">
+      <div className="min-h-screen flex flex-col bg-white dark:bg-gray-900 transition-colors">
+        {/* Top Navigation Bar */}
         <Navbar />
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/privacy" element={<PrivacyPolicy />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/community" element={<Community />} />
-          <Route path="/cookies" element={<Cookies />} />
-        </Routes>
+
+        {/* Main content grows to push footer to the bottom */}
+        <div className="flex-1">
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+          </Routes>
+        </div>
+
+        {/* Sticky Footer */}
+        
       </div>
     </ThemeProvider>
   );

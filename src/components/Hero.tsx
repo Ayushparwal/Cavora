@@ -1,20 +1,25 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
-import { Send, Copy, Check } from "lucide-react";
+import { Send, Copy, Check, Square, ArrowDown } from "lucide-react";
 import axios from "axios";
 import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 
+interface Message {
+  role: "user" | "assistant" | "system";
+  content: string;
+}
+
 const TryOut = () => {
   const [input, setInput] = useState("");
-  const [output, setOutput] = useState("");
-  const [displayedOutput, setDisplayedOutput] = useState("");
+  const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [copied, setCopied] = useState(false);
-  const [messages, setMessages] = useState<{ role: string; content: string }[]>(
-    []
-  );
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
+  const [controller, setController] = useState<AbortController | null>(null);
+  const [streamedContent, setStreamedContent] = useState("");
+  const [showScrollToBottom, setShowScrollToBottom] = useState(false);
+  const streamedContentRef = useRef("");
+  const contentEndRef = useRef<HTMLDivElement>(null);
 
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -35,15 +40,13 @@ const TryOut = () => {
         },
       });
 
-      const results = response.data.organic_results.slice(0, 5); // top 5 results
-      let formattedResults = results
+      const results = response.data.organic_results.slice(0, 5);
+      return results
         .map(
           (res: any, index: number) =>
             `${index + 1}. ${res.title} - ${res.link}`
         )
         .join("\n");
-
-      return `Search results for "${query}":\n${formattedResults}`;
     } catch (error) {
       console.error("SerpAPI error:", error);
       return "⚠️ Unable to fetch real-time results.";
@@ -54,60 +57,107 @@ const TryOut = () => {
     e.preventDefault();
     if (!input.trim()) return;
 
+    const userMessage: Message = { role: "user", content: input };
+    const updatedMessages = [...messages, userMessage];
+    setMessages(updatedMessages);
     setIsLoading(true);
-    setOutput("");
-    setDisplayedOutput("");
+    setStreamedContent("");
+    streamedContentRef.current = "";
+
+    let contextMessages: Message[] = updatedMessages.slice(-10);
+
+    if (isRealTimeQuery(input)) {
+      const webResults = await fetchWebResults(input);
+      contextMessages = [
+        {
+          role: "system",
+          content: `You are a real-time AI assistant. Use ONLY the following search results:\n\n${webResults}\n\nSummarize the best answer.`,
+        },
+        ...contextMessages,
+      ];
+    }
+
+    const abortController = new AbortController();
+    setController(abortController);
 
     try {
-      const userMessage = { role: "user", content: input };
-      const updatedMessages = [...messages, userMessage];
-
-      // Keep last 10 messages for context
-      let contextMessages = updatedMessages.slice(-10);
-
-      if (isRealTimeQuery(input)) {
-  const webResults = await fetchWebResults(input);
-  contextMessages = [
-    {
-      role: "system",
-      content: `You are a real-time AI assistant. Use ONLY the information from the following search results to answer the user query. If the question is about a real-time fact (like prices, news, weather), do NOT say you don't know. Summarize and present the most accurate answer based on this data:\n\n${webResults}\n\nReturn the final answer clearly with sources if possible.`
-    },
-    ...contextMessages,
-  ];
-}
-
-      const response = await axios.post(
+      const response = await fetch(
         "https://api.groq.com/openai/v1/chat/completions",
         {
-          model: "llama-3.3-70b-versatile",
-          messages: contextMessages,
-        },
-        {
+          method: "POST",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${import.meta.env.VITE_GROQ_API}`,
           },
+          body: JSON.stringify({
+            model: "llama-3.3-70b-versatile",
+            messages: contextMessages,
+            stream: true,
+          }),
+          signal: abortController.signal,
         }
       );
 
-      const data = response.data;
-      let aiResponse = "⚠️ No response from AI. Please try again.";
+      if (!response.ok || !response.body) throw new Error("Stream error");
 
-      if (data.choices && data.choices.length > 0) {
-        aiResponse = data.choices[0].message.content;
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder("utf-8");
+      let fullText = "";
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        const chunk = decoder.decode(value, { stream: true });
+        const lines = chunk.split("\n");
+
+        for (let line of lines) {
+          if (line.startsWith("data: ")) {
+            line = line.replace("data: ", "").trim();
+            if (line === "[DONE]") break;
+            try {
+              const json = JSON.parse(line);
+              const word = json.choices?.[0]?.delta?.content || "";
+              fullText += word;
+              streamedContentRef.current = fullText;
+              setStreamedContent(fullText);
+              await new Promise((res) => setTimeout(res, 20));
+            } catch (err) {
+              console.error("Stream parse error:", err);
+            }
+          }
+        }
       }
 
-      setMessages(
-        updatedMessages.concat({ role: "assistant", content: aiResponse })
-      );
-      setOutput(aiResponse);
+      setMessages((prev) => [
+        ...prev,
+        { role: "assistant", content: streamedContentRef.current },
+      ]);
+      setStreamedContent("");
     } catch (err) {
-      console.error("LLM error:", err);
-      setOutput("⚠️ Something went wrong. Please try again later.");
+      if ((err as any).name === "AbortError") {
+        setMessages((prev) => [
+          ...prev,
+          { role: "assistant", content: "Stopping please wait!." },
+        ]);
+      } else {
+        console.error("LLM error:", err);
+        setMessages((prev) => [
+          ...prev,
+          { role: "assistant", content: "⚠️ Something went wrong." },
+        ]);
+      }
     }
 
-    setInput("");
     setIsLoading(false);
+    setController(null);
+    setInput("");
+  };
+
+  const handleStop = () => {
+    if (controller) {
+      controller.abort();
+      setIsLoading(false);
+    }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -117,61 +167,46 @@ const TryOut = () => {
     }
   };
 
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(output);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+  const copyToClipboard = (text: string, index: number) => {
+    navigator.clipboard.writeText(text);
+    setCopiedIndex(index);
+    setTimeout(() => setCopiedIndex(null), 2000);
   };
 
   useEffect(() => {
-    if (!output) return;
-    if (timerRef.current) clearInterval(timerRef.current);
-    setDisplayedOutput("");
+    contentEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages, streamedContent]);
 
-    const words = output.split(" ");
-    let index = 0;
-
-    timerRef.current = setInterval(() => {
-      setDisplayedOutput((prev) => {
-        const nextChunk = words.slice(index, index + 10).join(" ");
-        index += 10;
-        if (index >= words.length && timerRef.current) {
-          clearInterval(timerRef.current);
-        }
-        return prev + (prev ? " " : "") + nextChunk;
-      });
-    }, 200);
-
-    return () => {
-      if (timerRef.current) clearInterval(timerRef.current);
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrolledToBottom =
+        window.innerHeight + window.scrollY >=
+        document.documentElement.scrollHeight - 100;
+      setShowScrollToBottom(!scrolledToBottom);
     };
-  }, [output]);
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const scrollToBottom = () => {
+    contentEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
 
   return (
-    <section id="tryout" className="py-28 bg-white dark:bg-gray-900">
+    <section id="tryout" className="py-20 bg-white dark:bg-gray-900">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="text-center mb-16 px-2"
-        >
-          <h2 className="text-3xl md:text-5xl font-extrabold mb-3 leading-tight tracking-tight text-gray-800 dark:text-white">
+        <div className="text-center mb-8">
+          <h1 className="text-5xl font-bold text-gray-900 dark:text-white mb-2">
             Welcome to{" "}
-            <span className="text-blue-700 dark:text-blue-400">Cavora</span>
-          </h2>
-          <p className="text-base md:text-lg text-gray-700 dark:text-gray-300 max-w-2xl mx-auto">
-            Power intelligent search and deep research with{" "}
-            <span className="font-semibold text-black dark:text-white">
-              Cavora’s advanced AI insights
-            </span>
-            .
+            <span className="text-indigo-600 dark:text-blue-400">Cavora</span>
+          </h1>
+          <p className="text-lg text-gray-600 dark:text-gray-300">
+            Powerful Intelligent Search and Deep Research
           </p>
-        </motion.div>
+        </div>
 
-        {/* If user is NOT logged in */}
-        {!user && (
+        {!user ? (
           <div className="text-center bg-gray-100 dark:bg-gray-800 p-6 rounded-lg shadow-md">
             <p className="text-gray-700 dark:text-gray-300 mb-4">
               You must be logged in to use this feature.
@@ -183,75 +218,86 @@ const TryOut = () => {
               Login Now
             </button>
           </div>
-        )}
+        ) : (
+          <div className="px-4 py-4 space-y-8">
+            {messages.map((msg, idx) => (
+              <div
+                key={idx}
+                className={`p-4 w-full rounded-2xl shadow-md transition-colors duration-300 ease-in-out text-black bg-white dark:bg-gray-800 dark:text-white ${
+                  msg.role === "user" ? "text-right" : "text-left"
+                }`}
+              >
+                <div className="flex items-start justify-between">
+                  <div
+  className="whitespace-pre-wrap text-sm text-gray-800 dark:text-gray-100"
+  dangerouslySetInnerHTML={{
+    __html: msg.content
+      .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+      .replace(/\*(?!\*)(.*?)\*/g, "<em>$1</em>")
+      .replace(/`(.*?)`/g, "<code class='bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded text-xs'>$1</code>")
+      .replace(/\n/g, "<br/>"),
+  }}
+></div>
+                  {msg.role === "assistant" && (
+                    <button
+                      onClick={() => copyToClipboard(msg.content, idx)}
+                      className="ml-2 p-1 hover:bg-gray-200 dark:hover:bg-gray-600 rounded"
+                    >
+                      {copiedIndex === idx ? (
+                        <Check className="h-4 w-4 text-green-500" />
+                      ) : (
+                        <Copy className="h-4 w-4 text-gray-500 dark:text-gray-400" />
+                      )}
+                    </button>
+                  )}
+                </div>
+              </div>
+            ))}
 
-        {/* If user IS logged in */}
-        {user && (
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            viewport={{ once: true }}
-            className="bg-gray-50 dark:bg-gray-800 rounded-xl p-6 shadow-xl border border-gray-200 dark:border-gray-700 mt-6"
-          >
-            <form onSubmit={handleSubmit} className="mb-6">
+            {streamedContent && (
+              <div className="p-4 rounded-lg bg-gray-100 dark:bg-gray-700 text-left">
+                <div className="whitespace-pre-wrap text-sm text-gray-800 dark:text-gray-100">
+                  {streamedContent}
+                </div>
+              </div>
+            )}
+
+            <div ref={contentEndRef} />
+
+            {showScrollToBottom && (
+              <button
+                onClick={scrollToBottom}
+                className="fixed bottom-20 right-5 z-50 bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full shadow-lg transition"
+              >
+                <ArrowDown className="w-5 h-5" />
+              </button>
+            )}
+
+            <form onSubmit={handleSubmit}>
               <div className="relative">
                 <textarea
                   rows={3}
                   className="w-full p-4 pr-12 text-sm rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
-                  placeholder="Ask me anything..."
+                  placeholder="What do you want to know?"
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={handleKeyDown}
-                  disabled={!user} // disable typing when not logged in
                 ></textarea>
                 <button
-                  type="submit"
-                  disabled={isLoading || !input.trim()}
+                  type={isLoading ? "button" : "submit"}
+                  onClick={isLoading ? handleStop : undefined}
+                  disabled={!input.trim() && !isLoading}
                   className="absolute right-3 bottom-1/2 translate-y-1/2 w-10 h-10 rounded-full bg-blue-600 hover:bg-blue-700 text-white flex items-center justify-center transition duration-300 disabled:opacity-50"
                 >
-                  <Send className="w-5 h-5" />
+                  {isLoading ? (
+                    <Square className="w-5 h-5" />
+                  ) : (
+                    <Send className="w-5 h-5" />
+                  )}
                 </button>
               </div>
             </form>
-
-            {displayedOutput && (
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="bg-white dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600"
-              >
-                <div className="flex items-center justify-between mb-3">
-                  <h3 className="text-base font-semibold text-gray-900 dark:text-white">
-                    Response:
-                  </h3>
-                  <button
-                    onClick={copyToClipboard}
-                    className="p-1 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-md transition-colors"
-                  >
-                    {copied ? (
-                      <Check className="h-4 w-4 text-green-500" />
-                    ) : (
-                      <Copy className="h-4 w-4 text-gray-500 dark:text-gray-400" />
-                    )}
-                  </button>
-                </div>
-                <div
-                  className="whitespace-pre-wrap text-left text-gray-800 dark:text-gray-100 leading-relaxed text-sm font-normal space-y-2"
-                  dangerouslySetInnerHTML={{
-                    __html: displayedOutput
-                      .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
-                      .replace(/\*(?!\*)(.*?)\*/g, "<strong>$1</strong>")
-                      .replace(
-                        /`(.*?)`/g,
-                        "<code class='bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded text-xs'>$1</code>"
-                      )
-                      .replace(/\n/g, "<br/>"),
-                  }}
-                ></div>
-              </motion.div>
-            )}
-          </motion.div>
+          </div>
         )}
       </div>
     </section>
