@@ -1,9 +1,19 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
-import { Send, Copy, Check, Square, ArrowDown } from "lucide-react";
-import axios from "axios";
+import {
+  Send,
+  Copy,
+  Check,
+  Square,
+  ArrowDown,
+  Plus,
+  SlidersHorizontal,
+  Mic,
+  AudioLines,
+} from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
+import FormattedMessage from "./Chat/formattedMessage";
 
 interface Message {
   role: "user" | "assistant" | "system";
@@ -17,41 +27,12 @@ const TryOut = () => {
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
   const [controller, setController] = useState<AbortController | null>(null);
   const [streamedContent, setStreamedContent] = useState("");
-  const [showScrollToBottom, setShowScrollToBottom] = useState(false);
   const streamedContentRef = useRef("");
   const contentEndRef = useRef<HTMLDivElement>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   const { user } = useAuth();
   const navigate = useNavigate();
-
-  const isRealTimeQuery = (query: string): boolean => {
-    const keywords = ["latest", "today", "now", "current", "recent"];
-    return keywords.some((word) => query.toLowerCase().includes(word));
-  };
-
-  const fetchWebResults = async (query: string): Promise<string> => {
-    try {
-      const response = await axios.get("https://serpapi.com/search.json", {
-        params: {
-          q: query,
-          hl: "en",
-          gl: "us",
-          api_key: import.meta.env.VITE_SERP_API_KEY,
-        },
-      });
-
-      const results = response.data.organic_results.slice(0, 5);
-      return results
-        .map(
-          (res: any, index: number) =>
-            `${index + 1}. ${res.title} - ${res.link}`
-        )
-        .join("\n");
-    } catch (error) {
-      console.error("SerpAPI error:", error);
-      return "⚠️ Unable to fetch real-time results.";
-    }
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -63,19 +44,9 @@ const TryOut = () => {
     setIsLoading(true);
     setStreamedContent("");
     streamedContentRef.current = "";
+    setInput("");
 
-    let contextMessages: Message[] = updatedMessages.slice(-10);
-
-    if (isRealTimeQuery(input)) {
-      const webResults = await fetchWebResults(input);
-      contextMessages = [
-        {
-          role: "system",
-          content: `You are a real-time AI assistant. Use ONLY the following search results:\n\n${webResults}\n\nSummarize the best answer.`,
-        },
-        ...contextMessages,
-      ];
-    }
+    const contextMessages = updatedMessages.slice(-10);
 
     const abortController = new AbortController();
     setController(abortController);
@@ -137,20 +108,19 @@ const TryOut = () => {
       if ((err as any).name === "AbortError") {
         setMessages((prev) => [
           ...prev,
-          { role: "assistant", content: "Stopping please wait!." },
+          { role: "assistant", content: "🛑 Stopped by user." },
         ]);
       } else {
         console.error("LLM error:", err);
         setMessages((prev) => [
           ...prev,
-          { role: "assistant", content: "⚠️ Something went wrong." },
+          { role: "assistant", content: "⚠️ Server Under Maintenance." },
         ]);
       }
     }
 
     setIsLoading(false);
     setController(null);
-    setInput("");
   };
 
   const handleStop = () => {
@@ -175,19 +145,7 @@ const TryOut = () => {
 
   useEffect(() => {
     contentEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages, streamedContent]);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrolledToBottom =
-        window.innerHeight + window.scrollY >=
-        document.documentElement.scrollHeight - 100;
-      setShowScrollToBottom(!scrolledToBottom);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [messages]);
 
   const scrollToBottom = () => {
     contentEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -195,15 +153,19 @@ const TryOut = () => {
 
   return (
     <section id="tryout" className="py-20 bg-white dark:bg-gray-900">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div
+        ref={scrollContainerRef}
+        className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 overflow-y-auto"
+        style={{ maxHeight: "calc(100vh - 200px)" }}
+      >
         <div className="text-center mb-8">
           <h1 className="text-5xl font-bold text-gray-900 dark:text-white mb-2">
-            Welcome to{" "}
-            <span className="text-indigo-600 dark:text-blue-400">Cavora</span>
+            Welcome to <span className="text-indigo-600 dark:text-blue-400">Cavora</span>
           </h1>
           <p className="text-lg text-gray-600 dark:text-gray-300">
             Powerful Intelligent Search and Deep Research
           </p>
+          
         </div>
 
         {!user ? (
@@ -229,39 +191,9 @@ const TryOut = () => {
               >
                 <div className="flex items-start justify-between">
                   <div className="flex items-start justify-between w-full">
-  <div
-    className="prose prose-sm sm:prose-base max-w-none leading-relaxed text-gray-900 dark:text-gray-100 
-               prose-strong:text-gray-900 dark:prose-strong:text-white 
-               prose-em:text-gray-800 dark:prose-em:text-gray-200 
-               prose-code:text-red-600 dark:prose-code:text-red-400 
-               prose-pre:bg-gray-100 dark:prose-pre:bg-gray-800 
-               prose-pre:rounded-md prose-pre:p-4 prose-pre:text-sm prose-pre:overflow-auto 
-               prose-ul:pl-5 prose-ul:list-disc"
-    dangerouslySetInnerHTML={{
-      __html: msg.content
-        // Multiline code block (```bash)
-        .replace(/```(?:shell|bash)?\n([\s\S]*?)```/g, (_, code) => {
-          return `<pre><code>${code
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/\n/g, "<br/>")}</code></pre>`;
-        })
-        // Bullet points (basic)
-        .replace(/^- (.*?)(\n|$)/gm, "<li>$1</li>")
-        .replace(/(<li>.*<\/li>)/gs, "<ul>$1</ul>")
-        // Bold **text**
-        .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
-        // Italic *text*
-        .replace(/\*(?!\*)(.*?)\*/g, "<em>$1</em>")
-        // Inline code `code`
-        .replace(/`([^`]+)`/g, `<code>$1</code>`)
-        // Line breaks (not inside <pre>)
-        .replace(/(?<!<\/pre>)\n/g, "<br/>"),
-    }}
-  ></div>
-</div>
+                    <FormattedMessage content={msg.content} />
+                  </div>
 
-        
                   {msg.role === "assistant" && (
                     <button
                       onClick={() => copyToClipboard(msg.content, idx)}
@@ -280,43 +212,38 @@ const TryOut = () => {
 
             {streamedContent && (
               <div className="p-4 rounded-lg bg-gray-100 dark:bg-gray-700 text-left">
-                <div className="whitespace-pre-wrap text-sm text-gray-800 dark:text-gray-100">
-                  {streamedContent}
-                </div>
+                <FormattedMessage content={streamedContent} />
               </div>
             )}
 
             <div ref={contentEndRef} />
 
-            {showScrollToBottom && (
-              <button
-                onClick={scrollToBottom}
-                className="fixed bottom-20 right-5 z-50 bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full shadow-lg transition"
-              >
-                <ArrowDown className="w-5 h-5" />
-              </button>
-            )}
-
             <form onSubmit={handleSubmit}>
-              <div className="relative">
+              <div className="relative rounded-3xl bg-gray-100 dark:bg-gray-800 p-2 flex items-center gap-2 border border-gray-300 dark:border-gray-600">
+                <Plus className="text-gray-600 dark:text-gray-300 ml-2 w-5 h-5 cursor-pointer" />
+                <div className="flex items-center gap-1 cursor-pointer text-sm text-gray-700 dark:text-gray-300">
+                  <SlidersHorizontal className="w-4 h-4" />
+                  <span>Tools</span>
+                </div>
                 <textarea
-                  rows={3}
-                  className="w-full p-4 pr-12 text-sm rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
-                  placeholder="What do you want to know?"
+                  rows={1}
+                  className="flex-1 px-3 py-2 text-sm bg-transparent focus:outline-none text-gray-800 dark:text-gray-100 resize-none"
+                  placeholder="Ask anything"
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={handleKeyDown}
                 ></textarea>
+                <Mic className="w-5 h-5 text-gray-600 dark:text-gray-300 cursor-pointer" />
                 <button
                   type={isLoading ? "button" : "submit"}
                   onClick={isLoading ? handleStop : undefined}
                   disabled={!input.trim() && !isLoading}
-                  className="absolute right-3 bottom-1/2 translate-y-1/2 w-10 h-10 rounded-full bg-blue-600 hover:bg-blue-700 text-white flex items-center justify-center transition duration-300 disabled:opacity-50"
+                  className="w-8 h-8 rounded-full bg-gray-300 dark:bg-gray-600 hover:bg-blue-600 hover:text-white dark:hover:bg-blue-600 flex items-center justify-center transition duration-300 disabled:opacity-50"
                 >
                   {isLoading ? (
-                    <Square className="w-5 h-5" />
+                    <Square className="w-4 h-4" />
                   ) : (
-                    <Send className="w-5 h-5" />
+                    <AudioLines className="w-4 h-4" />
                   )}
                 </button>
               </div>
