@@ -7,7 +7,6 @@ import Hero from './components/Hero';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 
-
 // Scroll handler inside HomePage
 const HomePage = () => {
   const location = useLocation();
@@ -35,11 +34,9 @@ const HomePage = () => {
 function App() {
   return (
     <ThemeProvider>
-      <div className="min-h-screen flex flex-col bg-white dark:bg-gray-900 transition-colors">
-        {/* Top Navigation Bar */}
+      <div className="min-h-screen w-full flex flex-col bg-skin dark:bg-gray-900 text-white transition-colors duration-500">
         <Navbar />
 
-        {/* Main content grows to push footer to the bottom */}
         <div className="flex-1">
           <Routes>
             <Route path="/" element={<HomePage />} />
@@ -47,9 +44,6 @@ function App() {
             <Route path="/signup" element={<Signup />} />
           </Routes>
         </div>
-
-        {/* Sticky Footer */}
-        
       </div>
     </ThemeProvider>
   );

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
+
 import {
   Send,
   Copy,
@@ -10,17 +11,28 @@ import {
   SlidersHorizontal,
   Mic,
   AudioLines,
+  Sparkles,
 } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import FormattedMessage from "./Chat/formattedMessage";
+import { db } from "../firebase";
+import {
+  collection,
+  addDoc,
+  Timestamp,
+  query,
+  where,
+  orderBy,
+  getDocs,
+} from "firebase/firestore";
 
 interface Message {
   role: "user" | "assistant" | "system";
   content: string;
 }
 
-const TryOut = () => {
+const Hero = () => {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -30,9 +42,44 @@ const TryOut = () => {
   const streamedContentRef = useRef("");
   const contentEndRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const autoScroll = useRef(true);
 
   const { user } = useAuth();
   const navigate = useNavigate();
+
+  const saveMessage = async (role: "user" | "assistant", content: string) => {
+    if (!user?.uid) return;
+    try {
+      await addDoc(collection(db, "chats"), {
+        userId: user.uid,
+        role,
+        content,
+        timestamp: Timestamp.now(),
+      });
+    } catch (err) {
+      console.error("Failed to save message:", err);
+    }
+  };
+
+  useEffect(() => {
+    const fetchHistory = async () => {
+      if (!user?.uid) return;
+      try {
+        const q = query(
+          collection(db, "chats"),
+          where("userId", "==", user.uid),
+          orderBy("timestamp", "asc")
+        );
+        const snapshot = await getDocs(q);
+        const history = snapshot.docs.map((doc) => doc.data()) as Message[];
+        setMessages(history);
+      } catch (err) {
+        console.error("Failed to load history:", err);
+      }
+    };
+    fetchHistory();
+  }, [user]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -46,8 +93,9 @@ const TryOut = () => {
     streamedContentRef.current = "";
     setInput("");
 
-    const contextMessages = updatedMessages.slice(-10);
+    await saveMessage("user", input.trim());
 
+    const contextMessages = updatedMessages.slice(-10);
     const abortController = new AbortController();
     setController(abortController);
 
@@ -99,17 +147,17 @@ const TryOut = () => {
         }
       }
 
-      setMessages((prev) => [
-        ...prev,
-        { role: "assistant", content: streamedContentRef.current },
-      ]);
+      const assistantMessage = {
+        role: "assistant" as const,
+        content: streamedContentRef.current,
+      };
+
+      setMessages((prev) => [...prev, assistantMessage]);
       setStreamedContent("");
+      await saveMessage("assistant", assistantMessage.content);
     } catch (err) {
       if ((err as any).name === "AbortError") {
-        setMessages((prev) => [
-          ...prev,
-          { role: "assistant", content: "🛑 Stopped by user." },
-        ]);
+        setStreamedContent(""); // don't show anything if stopped
       } else {
         console.error("LLM error:", err);
         setMessages((prev) => [
@@ -133,7 +181,20 @@ const TryOut = () => {
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
-      handleSubmit(e);
+      handleSubmit(e as any);
+    }
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setInput(e.target.value);
+    autoResizeTextarea();
+  };
+
+  const autoResizeTextarea = () => {
+    const el = textareaRef.current;
+    if (el) {
+      el.style.height = "auto";
+      el.style.height = `${Math.min(el.scrollHeight, 200)}px`;
     }
   };
 
@@ -144,28 +205,36 @@ const TryOut = () => {
   };
 
   useEffect(() => {
-    contentEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+    if (autoScroll.current) {
+      contentEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages, streamedContent]);
 
-  const scrollToBottom = () => {
-    contentEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  const handleScroll = () => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+    const atBottom =
+      container.scrollHeight - container.scrollTop - container.clientHeight <
+      100;
+    autoScroll.current = atBottom;
   };
 
   return (
     <section id="tryout" className="py-20 bg-white dark:bg-gray-900">
       <div
         ref={scrollContainerRef}
+        onScroll={handleScroll}
         className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 overflow-y-auto"
         style={{ maxHeight: "calc(100vh - 200px)" }}
       >
         <div className="text-center mb-8">
           <h1 className="text-5xl font-bold text-gray-900 dark:text-white mb-2">
-            Welcome to <span className="text-indigo-600 dark:text-blue-400">Cavora</span>
+            Welcome to{" "}
+            <span className="text-indigo-600 dark:text-blue-400">Cavora</span>
           </h1>
           <p className="text-lg text-gray-600 dark:text-gray-300">
             Powerful Intelligent Search and Deep Research
           </p>
-          
         </div>
 
         {!user ? (
@@ -185,7 +254,7 @@ const TryOut = () => {
             {messages.map((msg, idx) => (
               <div
                 key={idx}
-                className={`p-4 w-full rounded-2xl shadow-md transition-colors duration-300 ease-in-out text-black bg-white dark:bg-gray-800 dark:text-white ${
+                className={`p-4 w-full rounded-2xl shadow-md text-black bg-white dark:bg-gray-800 dark:text-white ${
                   msg.role === "user" ? "text-right" : "text-left"
                 }`}
               >
@@ -193,7 +262,6 @@ const TryOut = () => {
                   <div className="flex items-start justify-between w-full">
                     <FormattedMessage content={msg.content} />
                   </div>
-
                   {msg.role === "assistant" && (
                     <button
                       onClick={() => copyToClipboard(msg.content, idx)}
@@ -211,10 +279,21 @@ const TryOut = () => {
             ))}
 
             {streamedContent && (
-              <div className="p-4 rounded-lg bg-gray-100 dark:bg-gray-700 text-left">
-                <FormattedMessage content={streamedContent} />
-              </div>
-            )}
+  <motion.div
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    transition={{ duration: 0.3 }}
+    className="p-4 rounded-lg bg-gray-100 dark:bg-gray-700 text-left flex gap-2 items-center"
+  >
+    <motion.div
+      animate={{ x: [-5, 5, -5] }}
+      transition={{ duration: 1, repeat: Infinity, ease: "easeInOut" }}
+      className="text-blue-500 text-sm font-medium"
+    >
+      Thinking… Searching the internet…
+    </motion.div>
+  </motion.div>
+)}
 
             <div ref={contentEndRef} />
 
@@ -226,11 +305,12 @@ const TryOut = () => {
                   <span>Tools</span>
                 </div>
                 <textarea
+                  ref={textareaRef}
                   rows={1}
-                  className="flex-1 px-3 py-2 text-sm bg-transparent focus:outline-none text-gray-800 dark:text-gray-100 resize-none"
+                  className="flex-1 max-h-[200px] overflow-y-auto px-3 py-2 text-sm bg-transparent focus:outline-none text-gray-800 dark:text-gray-100 resize-none"
                   placeholder="Ask anything"
                   value={input}
-                  onChange={(e) => setInput(e.target.value)}
+                  onChange={handleInputChange}
                   onKeyDown={handleKeyDown}
                 ></textarea>
                 <Mic className="w-5 h-5 text-gray-600 dark:text-gray-300 cursor-pointer" />
@@ -255,4 +335,4 @@ const TryOut = () => {
   );
 };
 
-export default TryOut;
+export default Hero;
