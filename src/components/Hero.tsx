@@ -1,17 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
-
 import {
   Send,
   Copy,
   Check,
   Square,
-  ArrowDown,
   Plus,
   SlidersHorizontal,
   Mic,
   AudioLines,
-  Sparkles,
 } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -41,9 +38,7 @@ const Hero = () => {
   const [streamedContent, setStreamedContent] = useState("");
   const streamedContentRef = useRef("");
   const contentEndRef = useRef<HTMLDivElement>(null);
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const autoScroll = useRef(true);
 
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -136,10 +131,12 @@ const Hero = () => {
             try {
               const json = JSON.parse(line);
               const word = json.choices?.[0]?.delta?.content || "";
-              fullText += word;
-              streamedContentRef.current = fullText;
-              setStreamedContent(fullText);
-              await new Promise((res) => setTimeout(res, 20));
+              if (word) {
+                fullText += word;
+                streamedContentRef.current = fullText;
+                setStreamedContent((prev) => prev + word); // word-by-word
+                await new Promise((res) => setTimeout(res, 20));
+              }
             } catch (err) {
               console.error("Stream parse error:", err);
             }
@@ -157,7 +154,7 @@ const Hero = () => {
       await saveMessage("assistant", assistantMessage.content);
     } catch (err) {
       if ((err as any).name === "AbortError") {
-        setStreamedContent(""); // don't show anything if stopped
+        setStreamedContent("");
       } else {
         console.error("LLM error:", err);
         setMessages((prev) => [
@@ -205,28 +202,12 @@ const Hero = () => {
   };
 
   useEffect(() => {
-    if (autoScroll.current) {
-      contentEndRef.current?.scrollIntoView({ behavior: "smooth" });
-    }
+    contentEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, streamedContent]);
-
-  const handleScroll = () => {
-    const container = scrollContainerRef.current;
-    if (!container) return;
-    const atBottom =
-      container.scrollHeight - container.scrollTop - container.clientHeight <
-      100;
-    autoScroll.current = atBottom;
-  };
 
   return (
     <section id="tryout" className="py-20 bg-white dark:bg-gray-900">
-      <div
-        ref={scrollContainerRef}
-        onScroll={handleScroll}
-        className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 overflow-y-auto"
-        style={{ maxHeight: "calc(100vh - 200px)" }}
-      >
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-8">
           <h1 className="text-5xl font-bold text-gray-900 dark:text-white mb-2">
             Welcome to{" "}
@@ -279,21 +260,15 @@ const Hero = () => {
             ))}
 
             {streamedContent && (
-  <motion.div
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    transition={{ duration: 0.3 }}
-    className="p-4 rounded-lg bg-gray-100 dark:bg-gray-700 text-left flex gap-2 items-center"
-  >
-    <motion.div
-      animate={{ x: [-5, 5, -5] }}
-      transition={{ duration: 1, repeat: Infinity, ease: "easeInOut" }}
-      className="text-blue-500 text-sm font-medium"
-    >
-      Thinking… Searching the internet…
-    </motion.div>
-  </motion.div>
-)}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.3 }}
+                className="p-4 rounded-lg bg-gray-100 dark:bg-gray-700 text-left"
+              >
+                <FormattedMessage content={streamedContent} />
+              </motion.div>
+            )}
 
             <div ref={contentEndRef} />
 

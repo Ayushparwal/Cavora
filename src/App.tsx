@@ -7,6 +7,7 @@ import Hero from './components/Hero';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 
+
 // Scroll handler inside HomePage
 const HomePage = () => {
   const location = useLocation();

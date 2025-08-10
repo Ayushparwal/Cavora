@@ -1,4 +1,32 @@
 @tailwind base;
 @tailwind components;
-
 @tailwind utilities;
+
+/* Prism.js syntax highlighting theme */
+@import "prismjs/themes/prism-tomorrow.css";
+
+pre::-webkit-scrollbar {
+  height: 8px;
+}
+pre::-webkit-scrollbar-track {
+  background: #2e2e2e;
+}
+pre::-webkit-scrollbar-thumb {
+  background: #555;
+  border-radius: 4px;
+}
+
+
+pre {
+  white-space: pre-wrap; /* allow wrap */
+  word-wrap: break-word; /* break long words */
+}
+
+pre code {
+  display: block;
+  overflow-x: auto;
+}
+
+.copy-button {
+  cursor: pointer;
+}
